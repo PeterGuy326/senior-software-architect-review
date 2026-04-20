@@ -37,31 +37,8 @@
 | 🎯 **案例分析**（5 选 3） | [`past-papers/case-types/`](./past-papers/case-types/) |
 | ✍️ **论文**（4 选 1） | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
 
-## 学习路径建议（60 天通关版）
+## 按知识点索引例题（强烈推荐）
 
-| 阶段 | 周期 | 目标 | 主用资料 |
-|---|---|---|---|
-| 1. 建立地图 | Day 1–3 | 通读教材目录 + 本仓库 README | notes/README.md |
-| 2. 综合知识 | Day 4–25 | 教材上篇 11 章精读 + cheatsheet 速记 | notes/ + cheatsheets/ |
-| 3. 案例分析 | Day 26–40 | 教材下篇 8 类架构 + 历年案例真题 | past-papers/ |
-| 4. 论文专项 | Day 41–50 | 4 类论文模板 × 至少 2 遍手写 | cheatsheets/paper-writing-templates.md |
-| 5. 冲刺 | Day 51–60 | 近 3 年真题 3 套全真模考 + 错题复盘 | past-papers/ |
+> 考前复习最短路径：**知识点 → 例题**，一个点吃透一组题。
 
-## 论文必备的 4 篇通用模板（根据通过者经验总结）
-
-1. 系统建模（UML / DSSA）
-2. 软件架构设计（质量驱动、风格选择）
-3. 系统可靠性分析与设计
-4. 系统安全性与保密性设计
-
-> 有余力再加：系统分布式设计、云原生改造、微服务拆分
-
-## 使用建议
-
-- 笔记均为**学习地图**，不是教材替代品。请对照官方教材精读。
-- 具体真题题干 / 答案请以 [xxlllq/system_architect](https://github.com/xxlllq/system_architect) 等官方真题库为准。
-- 发现笔记与教材有出入，以教材为准，欢迎提交 PR 修正。
-
-## 外部资源
-
-见 [`resources.md`](./resources.md)。
+入口：[`knowledge-index/`](./knowledge-index/)
