@@ -73,10 +73,10 @@ quadrantChart
     title 考点优先级矩阵
     x-axis "易" --> "难"
     y-axis "低频" --> "高频"
-    quadrant-1 重点攻克
-    quadrant-2 优先拿分
-    quadrant-3 战略放弃
-    quadrant-4 理解即可
+    quadrant-1 "重点攻克"
+    quadrant-2 "优先拿分"
+    quadrant-3 "战略放弃"
+    quadrant-4 "理解即可"
     "架构风格": [0.3, 0.9]
     "质量属性 ATAM": [0.6, 0.95]
     "数据库范式": [0.4, 0.85]

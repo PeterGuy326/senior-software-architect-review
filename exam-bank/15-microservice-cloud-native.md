@@ -54,7 +54,10 @@ D. 一个虚拟机
 
 ### 5. **服务网格（Service Mesh）**的典型代表是：
 
-A. Spring Cloud  B. Dubbo  C. Istio  D. Kafka
+A. Spring Cloud
+B. Dubbo
+C. Istio
+D. Kafka
 
 **答案**：C
 **解析**：Istio + Envoy 是主流 Service Mesh 方案；Spring Cloud / Dubbo 是**应用层微服务框架**。
@@ -75,7 +78,10 @@ D. 只能用于前端
 
 ### 7. 下列 K8s 资源中用于**无状态服务**的是：
 
-A. Deployment  B. StatefulSet  C. DaemonSet  D. Job
+A. Deployment
+B. StatefulSet
+C. DaemonSet
+D. Job
 
 **答案**：A
 **解析**：Deployment 管理无状态副本；StatefulSet 有序/持久存储；DaemonSet 每节点一个；Job 单次任务。
@@ -144,7 +150,10 @@ D. 本地开发
 
 ### 13. **DDD** 中的"战略设计"**不包括**：
 
-A. 限界上下文  B. 上下文映射  C. 领域事件  D. 枚举类型
+A. 限界上下文
+B. 上下文映射
+C. 领域事件
+D. 枚举类型
 
 **答案**：D
 **解析**：战略设计 = 限界上下文 + 上下文映射 + 通用语言 + 领域事件；枚举是战术级实现细节。
