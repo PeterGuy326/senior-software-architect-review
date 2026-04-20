@@ -16,7 +16,17 @@
 past-papers/
 ├── README.md                 # 本文件
 ├── analysis-template.md      # 真题解析模板
-├── 2024-05/                  # 按年份组织
+├── paper-topics/             # ⭐ 论文 13 大主题（按题型分类）
+│   ├── README.md             #   索引 + 选题策略 + 评分权重
+│   ├── 01-architecture-design.md
+│   ├── 02-architecture-evaluation.md
+│   └── ... (13 个主题)
+├── case-types/               # ⭐ 案例 9 大题型（按题型分类）
+│   ├── README.md             #   索引 + 答题铁律 + 时间分配
+│   ├── 01-architecture-evaluation.md
+│   ├── 02-database-design.md
+│   └── ... (9 个题型)
+├── 2024-05/                  # 按年份组织（原题解析）
 │   ├── comprehensive.md      # 综合知识解析
 │   ├── case-analysis.md      # 案例分析解析
 │   └── paper.md              # 论文复盘
@@ -24,6 +34,11 @@ past-papers/
 ├── 2025-05/
 └── wrong-questions.md        # 错题本（跨年份汇总）
 ```
+
+## ⭐ 按题型复习（推荐）
+
+- **论文复习** → [paper-topics/README.md](./paper-topics/README.md)（13 大主题 + 万能提纲）
+- **案例复习** → [case-types/README.md](./case-types/README.md)（9 大题型 + 答题模板）
 
 ## 近年考试节奏（核对用）
 

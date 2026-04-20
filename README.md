@@ -18,12 +18,24 @@
 ## 目录结构
 
 ```
-├── notes/         # 按教材 20 章 + 新技术的知识笔记
-├── mind-maps/     # 核心知识域 Mermaid 脑图
-├── past-papers/   # 历年真题索引与解析模板
-├── cheatsheets/   # 高频考点速查表（质量属性/架构风格/UML 等）
-└── resources.md   # 外部权威资源索引
+├── notes/                      # 按教材 20 章 + 新技术的知识笔记
+├── mind-maps/                  # 核心知识域 Mermaid 脑图
+├── past-papers/
+│   ├── paper-topics/           # ⭐ 论文 13 大主题分类（万能提纲+素材）
+│   ├── case-types/             # ⭐ 案例 9 大题型分类（答题模板）
+│   ├── analysis-template.md    # 历年真题解析模板
+│   └── wrong-questions.md      # 错题本
+├── cheatsheets/                # 高频考点速查表（质量属性/UML/模式等）
+└── resources.md                # 外部权威资源索引
 ```
+
+### 三科对应速查入口
+
+| 科目 | 主用目录 |
+|---|---|
+| 📚 **综合知识**（75 选 1） | [`cheatsheets/`](./cheatsheets/) + [`notes/`](./notes/) |
+| 🎯 **案例分析**（5 选 3） | [`past-papers/case-types/`](./past-papers/case-types/) |
+| ✍️ **论文**（4 选 1） | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
 
 ## 学习路径建议（60 天通关版）
 
