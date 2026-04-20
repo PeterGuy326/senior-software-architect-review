@@ -22,9 +22,12 @@
 ├── mind-maps/                  # 核心知识域 Mermaid 脑图
 ├── past-papers/
 │   ├── paper-topics/           # ⭐ 论文 13 大主题分类（万能提纲+素材）
+│   ├── paper-samples/          # ⭐ 5 篇真实项目改编范文（2500+ 字）
 │   ├── case-types/             # ⭐ 案例 9 大题型分类（答题模板）
 │   ├── analysis-template.md    # 历年真题解析模板
 │   └── wrong-questions.md      # 错题本
+├── exam-bank/                  # ⭐ 综合选择题题库（自主命题 200+ 题，TOP10 高频章节）
+├── knowledge-index/            # ⭐ 22 个知识点 → 对应例题索引
 ├── cheatsheets/                # 高频考点速查表（质量属性/UML/模式等）
 └── resources.md                # 外部权威资源索引
 ```
@@ -33,7 +36,7 @@
 
 | 科目 | 主用目录 |
 |---|---|
-| 📚 **综合知识**（75 选 1） | [`cheatsheets/`](./cheatsheets/) + [`notes/`](./notes/) |
+| 📚 **综合知识**（75 选 1） | [`exam-bank/`](./exam-bank/)（选择题题库）+ [`cheatsheets/`](./cheatsheets/) + [`notes/`](./notes/) |
 | 🎯 **案例分析**（5 选 3） | [`past-papers/case-types/`](./past-papers/case-types/) |
 | ✍️ **论文**（4 选 1） | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
 
