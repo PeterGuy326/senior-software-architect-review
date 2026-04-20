@@ -37,8 +37,9 @@ past-papers/
 
 ## ⭐ 按题型复习（推荐）
 
-- **论文复习** → [paper-topics/README.md](./paper-topics/README.md)（13 大主题 + 万能提纲）
-- **案例复习** → [case-types/README.md](./case-types/README.md)（9 大题型 + 答题模板）
+- **论文提纲** → [paper-topics/README.md](./paper-topics/README.md)（13 大主题 + 万能提纲）
+- **论文范文** → [paper-samples/README.md](./paper-samples/README.md)（**真实案例改编 · 2800 字完整范文**）
+- **案例题型** → [case-types/README.md](./case-types/README.md)（9 大题型 + 答题模板）
 
 ## 近年考试节奏（核对用）
 
