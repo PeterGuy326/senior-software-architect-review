@@ -18,19 +18,28 @@
 ## 目录结构
 
 ```
-├── notes/                      # 按教材 20 章 + 新技术的知识笔记
+├── notes/                      # 按教材 20 章 + 新技术的知识笔记（含 11-18 案例章节完整笔记）
 ├── mind-maps/                  # 核心知识域 Mermaid 脑图
 ├── past-papers/
-│   ├── paper-topics/           # ⭐ 论文 13 大主题分类（万能提纲+素材）
+│   ├── paper-topics/           # ⭐ 论文 13 大主题分类（万能提纲 + 21 道仿真模拟题）
 │   ├── paper-samples/          # ⭐ 5 篇真实项目改编范文（2500+ 字）
-│   ├── case-types/             # ⭐ 案例 9 大题型分类（答题模板）
+│   ├── case-types/             # ⭐ 案例 9 大题型分类（答题套路 + 24 道完整模拟题）
 │   ├── analysis-template.md    # 历年真题解析模板
 │   └── wrong-questions.md      # 错题本
-├── exam-bank/                  # ⭐ 综合选择题题库（自主命题 200+ 题，TOP10 高频章节）
+├── exam-bank/                  # ⭐ 综合选择题题库（自主命题 195+ 题，TOP10 高频章节）
 ├── knowledge-index/            # ⭐ 22 个知识点 → 对应例题索引
 ├── cheatsheets/                # 高频考点速查表（质量属性/UML/模式等）
 └── resources.md                # 外部权威资源索引
 ```
+
+### 📊 题库规模一览
+
+| 科目 | 题型 | 题数 | 位置 |
+|---|---|---|---|
+| 综合知识 | 选择题（含答案+解析） | **195+** | [`exam-bank/`](./exam-bank/) |
+| 案例分析 | 完整模拟题（题干+答案+评分） | **24** | [`past-papers/case-types/`](./past-papers/case-types/) |
+| 论文 | 仿真模拟论文题（题目+提纲答案） | **21** | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
+| 论文 | 完整范文（2500-2800 字/篇） | **5** | [`past-papers/paper-samples/`](./past-papers/paper-samples/) |
 
 ### 三科对应速查入口
 
