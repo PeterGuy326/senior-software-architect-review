@@ -2,6 +2,8 @@
 
 > 数据来源：[希赛网历年论文汇总](https://www.educity.cn/rk/5328329.html) + [CSDN 2009-2024 论文真题分析](https://blog.csdn.net/pccaiqq/article/details/134097142) + [xxlllq 真题库](https://github.com/xxlllq/system_architect)
 >
+> 📌 **完整 2009-2024 历年真题清单（按年份倒序 + 主题映射 + 选题决策树）** → [`../essay-questions-by-year.md`](../essay-questions-by-year.md)
+>
 > ⚠️ 下方"历年出现"是基于公开资料整理，具体年份请对照权威真题库核准。
 
 ## 论文考试套路（铁律）
@@ -14,7 +16,10 @@
 
 ## ⭐ 完整范文（直接参考背诵）
 
-高频 TOP5 主题的**真实案例改编范文（2800 字/篇）** → [../paper-samples/](../paper-samples/)
+13 主题全覆盖的**真实案例改编范文（3000+ 字/篇）+ 5 篇高频主题变体** → [../paper-samples/](../paper-samples/)
+
+- **13 篇主范文**：覆盖 13 大论文主题，每篇对标 1-3 道历年真题
+- **5 篇高频变体**：主题 01-05 各 +1，从子主题 / 行业场景两个维度区分
 
 ## 🎯 模拟论文题（自主命题，仿真考题）
 
