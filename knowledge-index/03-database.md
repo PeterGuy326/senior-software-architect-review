@@ -10,12 +10,13 @@
 - **隔离级别**：读未提交 → 读已提交 → 可重复读 → 串行化，对应问题：脏读 / 不可重复读 / 幻读
 - **分布式事务**：2PC / 3PC / TCC / Saga / 本地消息表
 - **索引**：B+ 树（范围查询好）/ Hash（等值查询好）
+- **关系库 + 缓存/NoSQL 混合**（近年高频综合题型）：Cache Aside（先更 DB 再删缓存）、穿透/击穿/雪崩、读写分离与主从延迟（读己之写一致性）、反规范化（用空间+一致性维护成本换查询性能）、多类型存储选型（Redis/MongoDB/ES/Neo4j/HBase 的适用边界）
 
 ## 二、关联资源
 
 - 笔记：[notes/03-database-systems/](../notes/03-database-systems/)
-- 速查：[cheatsheets/database-normalization.md](../cheatsheets/database-normalization.md) · [distributed-transactions.md](../cheatsheets/distributed-transactions.md)
-- 案例题型：[past-papers/case-types/02-database-design.md](../past-papers/case-types/02-database-design.md)
+- 速查：[cheatsheets/database-normalization.md](../cheatsheets/database-normalization.md) · [distributed-transactions.md](../cheatsheets/distributed-transactions.md) · [cache-patterns.md](../cheatsheets/cache-patterns.md)
+- 案例题型：[past-papers/case-types/02-database-design.md](../past-papers/case-types/02-database-design.md)（5 道模拟题：ER+3NF · HIS 弱实体 · 跨境分库分表 · **MySQL+Redis+读写分离综合** · **多类型存储选型**）· [06-messaging-caching.md](../past-papers/case-types/06-messaging-caching.md)（缓存三大问题）
 
 ## 三、典型例题
 

@@ -23,7 +23,7 @@
 ├── past-papers/
 │   ├── paper-topics/           # ⭐ 论文 13 大主题分类（万能提纲 + 21 道仿真模拟题）
 │   ├── paper-samples/          # ⭐ 18 篇真实项目改编范文（13 主题全覆盖 + 5 篇高频变体，3000+ 字）
-│   ├── case-types/             # ⭐ 案例 9 大题型分类（答题套路 + 24 道完整模拟题）
+│   ├── case-types/             # ⭐ 案例 9 大题型分类（答题套路 + 26 道完整模拟题）
 │   ├── essay-questions-by-year.md  # ⭐ 2009-2024 历年论文真题清单 + 主题映射 + 选题决策树
 │   ├── analysis-template.md    # 历年真题解析模板
 │   └── wrong-questions.md      # 错题本
@@ -38,7 +38,7 @@
 | 科目 | 题型 | 题数 | 位置 |
 |---|---|---|---|
 | 综合知识 | 选择题（含答案+解析） | **195+** | [`exam-bank/`](./exam-bank/) |
-| 案例分析 | 完整模拟题（题干+答案+评分） | **24** | [`past-papers/case-types/`](./past-papers/case-types/) |
+| 案例分析 | 完整模拟题（题干+答案+评分） | **26** | [`past-papers/case-types/`](./past-papers/case-types/) |
 | 论文 | 仿真模拟论文题（题目+提纲答案） | **21** | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
 | 论文 | 完整范文（3000+ 字/篇，13 主题全覆盖 + 5 高频变体） | **18** | [`past-papers/paper-samples/`](./past-papers/paper-samples/) |
 | 论文 | 历年真题清单（2009-2024，64+ 题）+ 主题映射 + 选题决策树 | **1 份** | [`past-papers/essay-questions-by-year.md`](./past-papers/essay-questions-by-year.md) |

@@ -18,7 +18,7 @@
 | # | 题型 | 出现频次 | 必考度 | 模拟题数 | 文件 |
 |---|---|---|---|---|---|
 | 01 | 架构评估（效用树 + 四类点） | ⭐⭐⭐⭐⭐ | **必考** | 3 | [01-architecture-evaluation.md](./01-architecture-evaluation.md) |
-| 02 | 数据库设计（ER + 规范化） | ⭐⭐⭐⭐⭐ | **必考** | 3 | [02-database-design.md](./02-database-design.md) |
+| 02 | 数据库设计（ER + 规范化 + 缓存/NoSQL 混合） | ⭐⭐⭐⭐⭐ | **必考** | 5 | [02-database-design.md](./02-database-design.md) |
 | 03 | 架构风格对比与选型 | ⭐⭐⭐⭐ | 高频 | 2 | [03-style-comparison.md](./03-style-comparison.md) |
 | 04 | UML 建模与分析 | ⭐⭐⭐⭐ | 高频 | 3 | [04-uml-modeling.md](./04-uml-modeling.md) |
 | 05 | 微服务拆分与重构 | ⭐⭐⭐⭐ | 高频 | 3 | [05-microservice-refactor.md](./05-microservice-refactor.md) |
@@ -26,7 +26,7 @@
 | 07 | 安全架构分析 | ⭐⭐⭐ | 中频 | 2 | [07-security-architecture.md](./07-security-architecture.md) |
 | 08 | 嵌入式 / 构件组装 | ⭐⭐⭐ | 中频 | 2 | [08-embedded-components.md](./08-embedded-components.md) |
 | 09 | 大数据 / Web 架构 | ⭐⭐⭐ | 中频（新增） | 3 | [09-big-data-architecture.md](./09-big-data-architecture.md) |
-| | **合计** | | | **24 道** | 全部含 4 要素：题干 + 小问 + 参考答案 + 评分要点 |
+| | **合计** | | | **26 道** | 全部含 4 要素：题干 + 小问 + 参考答案 + 评分要点 |
 
 ## 答题铁律
 
