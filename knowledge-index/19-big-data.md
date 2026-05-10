@@ -45,6 +45,7 @@
 
 ## 二、关联资源
 
+- 选择题库：[exam-bank/19-big-data.md](../exam-bank/19-big-data.md)（20 题，带解析）
 - 论文主题：[past-papers/paper-topics/06-big-data-nosql.md](../past-papers/paper-topics/06-big-data-nosql.md)
 - 案例题型：[past-papers/case-types/09-big-data-architecture.md](../past-papers/case-types/09-big-data-architecture.md)
 

@@ -56,9 +56,16 @@
 | 06 | 知识产权 + 标准化 | 25 | [06-ip-and-standards.md](./06-ip-and-standards.md) |
 | 15 | 微服务 + 云原生 | 15 | [15-microservice-cloud-native.md](./15-microservice-cloud-native.md) |
 
-### 🌟 进阶专题（后续扩展）
+### 🌟 已扩展专题
 
-网络 / 软件工程 / 项目管理 / 度量 / ABSD / 中间件 / 分布式事务 / 缓存 / 大数据 / 可靠性 / 嵌入式 — 可参照上方格式自行扩展或使用外部真题库。
+| # | 知识点 | 题数 | 文件 |
+|---|---|---|---|
+| 19 | 大数据架构（Hadoop / Lambda·Kappa / 数仓·数据湖 / NoSQL） | 20 | [19-big-data.md](./19-big-data.md) |
+| 20 | 软件可靠性与容灾（MTBF / 串并联可靠性计算 / 限流·熔断·降级 / RTO·RPO） | 22 | [20-reliability.md](./20-reliability.md) |
+
+### 🌟 待扩展专题
+
+网络 / 软件工程 / 项目管理 / 度量 / ABSD / 中间件 / 分布式事务 / 缓存 / 嵌入式 — 可参照上方格式自行扩展或使用外部真题库。
 
 ## 答题套路（每题用 3 秒判断）
 

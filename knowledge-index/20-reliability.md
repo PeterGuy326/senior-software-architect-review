@@ -45,7 +45,8 @@
 
 ## 二、关联资源
 
-- 速查：[cheatsheets/quality-attributes.md](../cheatsheets/quality-attributes.md)
+- 速查：[cheatsheets/quality-attributes.md](../cheatsheets/quality-attributes.md) · [cheatsheets/computer-systems-formulas.md](../cheatsheets/computer-systems-formulas.md)（含串并联可靠性公式）
+- 选择题库：[exam-bank/20-reliability.md](../exam-bank/20-reliability.md)（22 题，含可靠性计算题，带解析）
 - 论文主题：[past-papers/paper-topics/03-reliability-design.md](../past-papers/paper-topics/03-reliability-design.md)
 
 ## 三、典型例题
