@@ -62,10 +62,14 @@
 |---|---|---|---|
 | 19 | 大数据架构（Hadoop / Lambda·Kappa / 数仓·数据湖 / NoSQL） | 20 | [19-big-data.md](./19-big-data.md) |
 | 20 | 软件可靠性与容灾（MTBF / 串并联可靠性计算 / 限流·熔断·降级 / RTO·RPO） | 22 | [20-reliability.md](./20-reliability.md) |
+| 22 | 嵌入式系统架构（实时调度 RMS/EDF / 优先级反转 / CBSD 构件组装） | 18 | [22-embedded.md](./22-embedded.md) |
+| 24 | DevOps 与 Serverless（CI/CD / 蓝绿·金丝雀 / IaC·GitOps / FaaS / DORA） | 19 | [24-devops-serverless.md](./24-devops-serverless.md) |
+| 25 | 企业应用集成（EAI 四层次 / ESB / 中间件分类 / 集成模式 EIP / 遗留系统演化） | 18 | [25-enterprise-integration.md](./25-enterprise-integration.md) |
+| 26 | SOA 与架构演化（SOA 八原则 / 编排·编制 / SOA·微服务·单体对比 / 绞杀者·上云 6R） | 20 | [26-soa-evolution.md](./26-soa-evolution.md) |
 
 ### 🌟 待扩展专题
 
-网络 / 软件工程 / 项目管理 / 度量 / ABSD / 中间件 / 分布式事务 / 缓存 / 嵌入式 — 可参照上方格式自行扩展或使用外部真题库。
+网络 / 软件工程 / 项目管理 / 度量 / ABSD / 分布式事务 / 缓存 — 可参照上方格式自行扩展或使用外部真题库。
 
 ## 答题套路（每题用 3 秒判断）
 

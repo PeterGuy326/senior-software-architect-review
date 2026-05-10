@@ -43,7 +43,9 @@ HAL（硬件抽象层）
 
 ## 二、关联资源
 
+- 选择题库：[exam-bank/22-embedded.md](../exam-bank/22-embedded.md)（18 题，含 RMS/EDF 可调度性判定计算题，带解析）
 - 案例题型：[past-papers/case-types/08-embedded-components.md](../past-papers/case-types/08-embedded-components.md)
+- 速查：[cheatsheets/os-concepts.md](../cheatsheets/os-concepts.md)（含调度算法）
 
 ## 三、典型例题
 
