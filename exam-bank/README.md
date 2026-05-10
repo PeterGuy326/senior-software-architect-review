@@ -53,7 +53,7 @@
 | 02 | 操作系统 | 15 | [02-os-concepts.md](./02-os-concepts.md) |
 | 05 | UML 建模 | 15 | [05-uml.md](./05-uml.md) |
 | 11 | 质量属性 + 战术 | 15 | [11-quality-attributes.md](./11-quality-attributes.md) |
-| 06 | 知识产权 + 标准化 | 15 | [06-ip-and-standards.md](./06-ip-and-standards.md) |
+| 06 | 知识产权 + 标准化 | 25 | [06-ip-and-standards.md](./06-ip-and-standards.md) |
 | 15 | 微服务 + 云原生 | 15 | [15-microservice-cloud-native.md](./15-microservice-cloud-native.md) |
 
 ### 🌟 进阶专题（后续扩展）
