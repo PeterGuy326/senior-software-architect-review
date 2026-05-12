@@ -11,22 +11,25 @@
 - **必考题 2**：数据库 / 建模（ER / 关系模式 / 规范化）
 - **3–5 题**：从微服务、缓存、消息、安全、嵌入式、大数据中选 3 题
 
-## 9 大题型索引（按考频排序）
+## 13 大题型索引（按考频排序）
 
-> ⭐ 每个文件均包含**答题套路 + 高分句 + 完整模拟题（含题干 / 标准答案 / 评分要点）**。
+> ⭐ 01-09 含**完整模拟题**；10-13 为**答题套路精华版**（核心考点 + 模板 + 高分句 + 陷阱）。
 
-| # | 题型 | 出现频次 | 必考度 | 模拟题数 | 文件 |
-|---|---|---|---|---|---|
-| 01 | 架构评估（效用树 + 四类点） | ⭐⭐⭐⭐⭐ | **必考** | 3 | [01-architecture-evaluation.md](./01-architecture-evaluation.md) |
-| 02 | 数据库设计（ER + 规范化 + 缓存/NoSQL 混合） | ⭐⭐⭐⭐⭐ | **必考** | 5 | [02-database-design.md](./02-database-design.md) |
-| 03 | 架构风格对比与选型 | ⭐⭐⭐⭐ | 高频 | 2 | [03-style-comparison.md](./03-style-comparison.md) |
-| 04 | UML 建模与分析 | ⭐⭐⭐⭐ | 高频 | 3 | [04-uml-modeling.md](./04-uml-modeling.md) |
-| 05 | 微服务拆分与重构 | ⭐⭐⭐⭐ | 高频 | 3 | [05-microservice-refactor.md](./05-microservice-refactor.md) |
-| 06 | 消息中间件 / 缓存应用 | ⭐⭐⭐⭐ | 高频 | 3 | [06-messaging-caching.md](./06-messaging-caching.md) |
-| 07 | 安全架构分析 | ⭐⭐⭐ | 中频 | 2 | [07-security-architecture.md](./07-security-architecture.md) |
-| 08 | 嵌入式 / 构件组装 | ⭐⭐⭐ | 中频 | 2 | [08-embedded-components.md](./08-embedded-components.md) |
-| 09 | 大数据 / Web 架构 | ⭐⭐⭐ | 中频（新增） | 3 | [09-big-data-architecture.md](./09-big-data-architecture.md) |
-| | **合计** | | | **26 道** | 全部含 4 要素：题干 + 小问 + 参考答案 + 评分要点 |
+| # | 题型 | 出现频次 | 必考度 | 文件 |
+|---|---|---|---|---|
+| 01 | 架构评估（效用树 + 四类点） | ⭐⭐⭐⭐⭐ | **必考** | [01-architecture-evaluation.md](./01-architecture-evaluation.md) |
+| 02 | 数据库设计（ER + 规范化 + 缓存/NoSQL 混合） | ⭐⭐⭐⭐⭐ | **必考** | [02-database-design.md](./02-database-design.md) |
+| 03 | 架构风格对比与选型 | ⭐⭐⭐⭐ | 高频 | [03-style-comparison.md](./03-style-comparison.md) |
+| 04 | UML 建模与分析 | ⭐⭐⭐⭐ | 高频 | [04-uml-modeling.md](./04-uml-modeling.md) |
+| 05 | 微服务拆分与重构 | ⭐⭐⭐⭐ | 高频 | [05-microservice-refactor.md](./05-microservice-refactor.md) |
+| 06 | 消息中间件 / 缓存应用 | ⭐⭐⭐⭐ | 高频 | [06-messaging-caching.md](./06-messaging-caching.md) |
+| 07 | 安全架构分析 | ⭐⭐⭐ | 中频 | [07-security-architecture.md](./07-security-architecture.md) |
+| 08 | 嵌入式 / 构件组装 | ⭐⭐⭐ | 中频 | [08-embedded-components.md](./08-embedded-components.md) |
+| 09 | 大数据 / Web 架构 | ⭐⭐⭐ | 中频（新增） | [09-big-data-architecture.md](./09-big-data-architecture.md) |
+| **10** | **SOA 与企业应用集成** | ⭐⭐⭐ | 中频 | **[10-soa-integration.md](./10-soa-integration.md)** |
+| **11** | **架构演化与系统改造** | ⭐⭐⭐ | 中高频（2024 高频） | **[11-architecture-evolution.md](./11-architecture-evolution.md)** |
+| **12** | **DevOps 部署与 CI/CD** | ⭐⭐⭐ | 中频（云原生新增） | **[12-devops-deployment.md](./12-devops-deployment.md)** |
+| **13** | **可靠性与容灾设计** | ⭐⭐⭐⭐ | 高频（金融/医疗） | **[13-reliability-design.md](./13-reliability-design.md)** |
 
 ## 答题铁律
 
