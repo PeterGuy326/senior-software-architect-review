@@ -45,16 +45,25 @@
 | 21 | 安全（STRIDE / CIA / 国密） | 20 | [21-security.md](./21-security.md) |
 | 12 | ATAM 四类点 | 15 | [12-atam-evaluation.md](./12-atam-evaluation.md) |
 
-### ⭐ 必刷重点（合计 80+ 题）
+### ⭐ 必刷重点（合计 219+ 题）
 
 | # | 知识点 | 题数 | 文件 |
 |---|---|---|---|
 | 01 | 计算机系统基础 | 15 | [01-computer-systems.md](./01-computer-systems.md) |
 | 02 | 操作系统 | 15 | [02-os-concepts.md](./02-os-concepts.md) |
+| 04 | 计算机网络（OSI / 协议 / 端口） | 15 | [04-networking.md](./04-networking.md) |
 | 05 | UML 建模 | 15 | [05-uml.md](./05-uml.md) |
-| 11 | 质量属性 + 战术 | 15 | [11-quality-attributes.md](./11-quality-attributes.md) |
 | 06 | 知识产权 + 标准化 | 25 | [06-ip-and-standards.md](./06-ip-and-standards.md) |
+| 07 | 软件工程（生命周期 / CMMI / 需求 / 测试 / 维护） | 18 | [07-software-engineering.md](./07-software-engineering.md) |
+| 08 | 项目管理（CPM / PERT / EVM / 风险） | 18 | [08-project-management.md](./08-project-management.md) |
+| 09 | **软件度量（FP / McCabe / Halstead / 耦合内聚）** | **12** | **[09-software-metrics.md](./09-software-metrics.md)** |
+| 11 | 质量属性 + 战术 | 15 | [11-quality-attributes.md](./11-quality-attributes.md) |
+| 14 | **ABSD + 4+1 视图 + ADL** | **12** | **[14-absd-views.md](./14-absd-views.md)** |
 | 15 | 微服务 + 云原生 | 15 | [15-microservice-cloud-native.md](./15-microservice-cloud-native.md) |
+| 16 | **中间件（MQ / RPC / ESB / JMS / AMQP）** | **12** | **[16-middleware.md](./16-middleware.md)** |
+| 17 | **分布式事务（2PC / TCC / Saga / CAP / BASE）** | **15** | **[17-distributed-transactions.md](./17-distributed-transactions.md)** |
+| 18 | **缓存（穿透 / 击穿 / 雪崩 / Redis）** | **12** | **[18-cache.md](./18-cache.md)** |
+| 23 | 英语阅读（固定 5 题、占 7%） | 25（5 套） | [23-english-reading.md](./23-english-reading.md) |
 
 ### 🌟 已扩展专题
 
@@ -67,9 +76,9 @@
 | 25 | 企业应用集成（EAI 四层次 / ESB / 中间件分类 / 集成模式 EIP / 遗留系统演化） | 18 | [25-enterprise-integration.md](./25-enterprise-integration.md) |
 | 26 | SOA 与架构演化（SOA 八原则 / 编排·编制 / SOA·微服务·单体对比 / 绞杀者·上云 6R） | 20 | [26-soa-evolution.md](./26-soa-evolution.md) |
 
-### 🌟 待扩展专题
+### ✅ 题库覆盖完成度
 
-网络 / 软件工程 / 项目管理 / 度量 / ABSD / 分布式事务 / 缓存 — 可参照上方格式自行扩展或使用外部真题库。
+**22 章考纲已覆盖 22 章**（仅缺 03 数据库部分细分专题，已包含在 25 题主章节中）。如需进一步扩展，可参照上方格式补充外部真题库。
 
 ## 答题套路（每题用 3 秒判断）
 
