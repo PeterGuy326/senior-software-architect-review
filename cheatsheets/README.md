@@ -20,6 +20,10 @@
 | [project-management-calculations.md](./project-management-calculations.md) | 软件工程 | 2–3 题 |
 | [software-metrics.md](./software-metrics.md) | 软件工程 | 1–2 题 |
 | [absd-and-adl.md](./absd-and-adl.md) | 第 7 章 | 2–3 题 |
+| [software-engineering-cmmi.md](./software-engineering-cmmi.md) | 软件工程 / CMMI | 3–4 题 |
+| [devops-cicd.md](./devops-cicd.md) | DevOps / CI/CD / Serverless | 2–3 题 |
+| [big-data-patterns.md](./big-data-patterns.md) | 大数据架构 / Lambda·Kappa / 数仓 | 2–3 题 |
+| [embedded-realtime.md](./embedded-realtime.md) | 嵌入式 / 实时调度 / CBSD | 2–3 题 |
 | [english-reading.md](./english-reading.md) | 英语阅读 | **固定 5 题** |
 
 ## 🎯 案例分析
