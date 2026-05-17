@@ -76,3 +76,20 @@
 | 技术细节 / 量化 | 30% |
 | 权衡与理由 | 20% |
 | 表达与条理 | 10% |
+
+---
+
+## 2024 真题归位索引
+
+> 真题原题与参考答案已按主题归位到下述文件末尾。考前**先做模拟题再对真题**效果最佳。
+
+| 真题年份 + 题号 | 主题 | 归位文件 |
+|---|---|---|
+| **2024 下半年 T1** | AI 智能平台质量属性 + Ping/Echo + 心跳 | [01-architecture-evaluation.md](./01-architecture-evaluation.md) |
+| **2024 下半年 T2** | Cache-Aside 缓存一致性 | [06-messaging-caching.md](./06-messaging-caching.md) |
+| **2024 下半年 T3** | ROS 机器人操作系统升级 | [08-embedded-components.md](./08-embedded-components.md) |
+| **2024 上半年 T3** | 系统可靠性 + 恢复块 vs N 版本 | [13-reliability-design.md](./13-reliability-design.md) |
+| **2024 上半年 T4** | 3NF 分解 + 读写锁并发控制 | [02-database-design.md](./02-database-design.md) |
+| **2024 上半年 T5** | Web 综合（缓存雪崩 + 读写分离） | [06-messaging-caching.md](./06-messaging-caching.md) |
+
+来源：公开真题回忆版（CSDN、博客园等），仅供学习参考。
