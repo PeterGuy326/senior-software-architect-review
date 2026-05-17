@@ -93,3 +93,17 @@
 | **2024 上半年 T5** | Web 综合（缓存雪崩 + 读写分离） | [06-messaging-caching.md](./06-messaging-caching.md) |
 
 来源：公开真题回忆版（CSDN、博客园等），仅供学习参考。
+
+---
+
+## 2022 下半年真题归位索引
+
+| 真题年份 + 题号 | 主题 | 归位文件 |
+|---|---|---|
+| **2022 下半年 T1** | 电商质量属性效用树 + OO vs 解释器风格 | [01-architecture-evaluation.md](./01-architecture-evaluation.md) |
+| **2022 下半年 T2** | 煤矿安全预警 DFD + ER + 数据字典 | [04-uml-modeling.md](./04-uml-modeling.md) |
+| **2022 下半年 T3** | 宇航嵌入式心跳 vs 超时探测 + 数据驱动 | [08-embedded-components.md](./08-embedded-components.md) |
+| **2022 下半年 T4** | 仓储缓存同步 + 一致性哈希 + 布隆过滤器 | [06-messaging-caching.md](./06-messaging-caching.md) |
+| **2022 下半年 T5** | 边缘计算门禁 + MQTT 协议选型 | [06-messaging-caching.md](./06-messaging-caching.md) |
+
+来源：公开真题回忆版（CSDN、博客园等），仅供学习参考。
