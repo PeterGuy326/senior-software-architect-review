@@ -58,13 +58,19 @@
 
 ### 🎯 只求过线？直接走最短路径
 
-**综合科目 45/75 保命三件套**（按顺序读）：
+**三科 45 分保命卡**（三科各一份，考前 3 天翻这三份就够）：
 
-1. [`past-papers/HIGH_FREQ.md`](./past-papers/HIGH_FREQ.md) — 431 道真题实测的高频统计，告诉你时间该花在哪
-2. [`past-papers/SURVIVAL_CARD.md`](./past-papers/SURVIVAL_CARD.md) — 272 条核心考点保命卡，考前 3 天翻这一份
-3. [`past-papers/comprehensive-by-year/`](./past-papers/comprehensive-by-year/) — 逐年真题 md，对着 HIGH_FREQ 的 Top 20 直接搜真题练手
+| 科目 | 保命卡 | 支撑资料 |
+|---|---|---|
+| 📚 综合知识（45/75） | [`SURVIVAL_CARD.md`](./past-papers/SURVIVAL_CARD.md) 272 条核心考点 + [`HIGH_FREQ.md`](./past-papers/HIGH_FREQ.md) 高频统计 | [`comprehensive-by-year/`](./past-papers/comprehensive-by-year/) 7 年 431 题 |
+| 🎯 案例分析（45/75） | [`CASE_SURVIVAL.md`](./past-papers/CASE_SURVIVAL.md) 90 分钟战术 + 高频题型套路 | [`case-types/`](./past-papers/case-types/) 13 题型完整答题套路 |
+| ✍️ 论文（45/75） | [`PAPER_SURVIVAL.md`](./past-papers/PAPER_SURVIVAL.md) 万能项目 + 5 主题万能段落 | [`paper-samples/`](./past-papers/paper-samples/) 18 篇范文 + [`paper-topics/`](./past-papers/paper-topics/) 13 主题提纲 |
 
-**过线策略**（数据来自 7 年真题）：只抓 §4 软件工程（21.8%）+ §6 系统架构（17.6%）+ §1 计算机系统（13.7%）+ §7 质量属性（10.0%）= **63% ≈ 47 题**。这 4 板块打到 85% 正确 = 40 题稳过，其他 28 题蒙对 7 题即可达到 47/75 保过。
+**综合过线策略**（数据来自 7 年真题）：只抓 §4 软件工程（21.8%）+ §6 系统架构（17.6%）+ §1 计算机系统（13.7%）+ §7 质量属性（10.0%）= **63% ≈ 47 题**。这 4 板块打到 85% 正确 = 40 题稳过，其他 28 题蒙对 7 题即可达到 47/75 保过。
+
+**案例过线策略**：第 1 题必做（几乎都是 ATAM 送分题）+ 后 4 题选自己擅长的 2 题（推荐：数据库设计 / 微服务改造 / 消息缓存三选二）。每题拿 15 分共 45 分。
+
+**论文过线策略**：**准备 1 个万能项目**（推荐"某商业银行手机银行 3.0"），能套软件架构 / 架构评估 / 可靠性 / 安全 / 微服务 / 大数据 6 大高频主题 → 摘要背黄金 5 句 → 正文 5 段套路 → 结论用数字化效果。
 
 ### 三科对应速查入口
 
