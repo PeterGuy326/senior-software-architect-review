@@ -47,17 +47,30 @@
 
 | 科目 | 题型 | 题数 | 位置 |
 |---|---|---|---|
-| 综合知识 | 选择题（含答案+解析） | **320+** | [`exam-bank/`](./exam-bank/) |
+| 综合知识 | **历年真题结构化 md**（431 题带 §N.M 知识点标签） | **7 年 × 75 题** | [`past-papers/comprehensive-by-year/`](./past-papers/comprehensive-by-year/) |
+| 综合知识 | 选择题题库（自主命题 + 解析） | **320+** | [`exam-bank/`](./exam-bank/) |
 | 案例分析 | 完整模拟题（题干+答案+评分） | **26** | [`past-papers/case-types/`](./past-papers/case-types/) |
 | 论文 | 仿真模拟论文题（题目+提纲答案） | **21** | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
 | 论文 | 完整范文（3000+ 字/篇，13 主题全覆盖 + 5 高频变体） | **18** | [`past-papers/paper-samples/`](./past-papers/paper-samples/) |
 | 论文 | 历年真题清单（2009-2024，64+ 题）+ 主题映射 + 选题决策树 | **1 份** | [`past-papers/essay-questions-by-year.md`](./past-papers/essay-questions-by-year.md) |
 
+> 需要历年真题原卷 PDF？从公开源 [xiaomabenten/system_architect](https://github.com/xiaomabenten/system_architect/tree/main/03、历年真题(2009年-2025年)%2B答案解析) 自行下载（含 2018-2025 完整卷 + 答案详解）。本仓库不重复存放大 PDF 二进制文件。
+
+### 🎯 只求过线？直接走最短路径
+
+**综合科目 45/75 保命三件套**（按顺序读）：
+
+1. [`past-papers/HIGH_FREQ.md`](./past-papers/HIGH_FREQ.md) — 431 道真题实测的高频统计，告诉你时间该花在哪
+2. [`past-papers/SURVIVAL_CARD.md`](./past-papers/SURVIVAL_CARD.md) — 272 条核心考点保命卡，考前 3 天翻这一份
+3. [`past-papers/comprehensive-by-year/`](./past-papers/comprehensive-by-year/) — 逐年真题 md，对着 HIGH_FREQ 的 Top 20 直接搜真题练手
+
+**过线策略**（数据来自 7 年真题）：只抓 §4 软件工程（21.8%）+ §6 系统架构（17.6%）+ §1 计算机系统（13.7%）+ §7 质量属性（10.0%）= **63% ≈ 47 题**。这 4 板块打到 85% 正确 = 40 题稳过，其他 28 题蒙对 7 题即可达到 47/75 保过。
+
 ### 三科对应速查入口
 
 | 科目 | 主用目录 |
 |---|---|
-| 📚 **综合知识**（75 选 1） | [`exam-bank/`](./exam-bank/)（选择题题库）+ [`cheatsheets/`](./cheatsheets/) + [`notes/`](./notes/) |
+| 📚 **综合知识**（75 选 1） | [`past-papers/comprehensive-by-year/`](./past-papers/comprehensive-by-year/) 历年真题 + [`past-papers/SURVIVAL_CARD.md`](./past-papers/SURVIVAL_CARD.md) 保命卡 + [`cheatsheets/`](./cheatsheets/) 速查表 |
 | 🎯 **案例分析**（5 选 3） | [`past-papers/case-types/`](./past-papers/case-types/) |
 | ✍️ **论文**（4 选 1） | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
 
