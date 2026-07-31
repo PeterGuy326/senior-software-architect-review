@@ -47,13 +47,14 @@
 
 | 科目 | 题型 | 题数 | 位置 |
 |---|---|---|---|
-| 综合知识 | **历年真题原卷 PDF**（2018-2025，含答案） | **16 份 PDF** | [`past-papers/real-exams/`](./past-papers/real-exams/) |
 | 综合知识 | **历年真题结构化 md**（431 题带 §N.M 知识点标签） | **7 年 × 75 题** | [`past-papers/comprehensive-by-year/`](./past-papers/comprehensive-by-year/) |
 | 综合知识 | 选择题题库（自主命题 + 解析） | **320+** | [`exam-bank/`](./exam-bank/) |
 | 案例分析 | 完整模拟题（题干+答案+评分） | **26** | [`past-papers/case-types/`](./past-papers/case-types/) |
 | 论文 | 仿真模拟论文题（题目+提纲答案） | **21** | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
 | 论文 | 完整范文（3000+ 字/篇，13 主题全覆盖 + 5 高频变体） | **18** | [`past-papers/paper-samples/`](./past-papers/paper-samples/) |
 | 论文 | 历年真题清单（2009-2024，64+ 题）+ 主题映射 + 选题决策树 | **1 份** | [`past-papers/essay-questions-by-year.md`](./past-papers/essay-questions-by-year.md) |
+
+> 需要历年真题原卷 PDF？从公开源 [xiaomabenten/system_architect](https://github.com/xiaomabenten/system_architect/tree/main/03、历年真题(2009年-2025年)%2B答案解析) 自行下载（含 2018-2025 完整卷 + 答案详解）。本仓库不重复存放大 PDF 二进制文件。
 
 ### 🎯 只求过线？直接走最短路径
 
