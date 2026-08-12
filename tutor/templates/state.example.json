@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "strategy": {
+    "pass_line": 45,
+    "safe_target": 52,
+    "case_tracks": ["C01.CASE_ATAM"],
+    "essay_themes": [],
+    "case_tracks_configured": false,
+    "essay_themes_configured": false,
+    "strategic_skips": {}
+  },
+  "subjects": {
+    "comprehensive": {
+      "mock_scores": [],
+      "latest_mock_score": null,
+      "predicted_score": null,
+      "lower_bound_score": null,
+      "evidence_level": "cold_start",
+      "last_practiced_at": null,
+      "evidence_count": 0
+    },
+    "case": {
+      "mock_scores": [],
+      "latest_mock_score": null,
+      "predicted_score": null,
+      "lower_bound_score": null,
+      "evidence_level": "cold_start",
+      "last_practiced_at": null,
+      "evidence_count": 0
+    },
+    "essay": {
+      "mock_scores": [],
+      "latest_mock_score": null,
+      "predicted_score": null,
+      "lower_bound_score": null,
+      "evidence_level": "cold_start",
+      "last_practiced_at": null,
+      "evidence_count": 0
+    }
+  },
+  "topics": {},
+  "applied_attempt_ids": [],
+  "created_at": "2026-08-10T00:00:00+08:00",
+  "last_session_at": null
+}
