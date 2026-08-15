@@ -2,9 +2,10 @@
 
 ## ⚠️ 原则声明
 
-本目录**只存放自己的真题整理 / 错题本 / 解析**。
+本目录以自有真题整理、错题本和解析为主。
 
-- **不存储**原始试卷（版权归软考办）
+- 不存储商业教材或未经说明的官方扫描卷
+- 经贡献者明确要求提交的**非官方回忆版来源文件**统一放在 [`source-pdfs/`](./source-pdfs/)，必须同时记录来源类型、完整性和校验值
 - 原题请从权威开源库获取：
   - [xxlllq/system_architect](https://github.com/xxlllq/system_architect) — 2009–2025 全套
   - [xiaomabenten/system_architect](https://github.com/xiaomabenten/system_architect)
@@ -17,6 +18,7 @@ past-papers/
 ├── README.md                 # 本文件
 ├── analysis-template.md      # 真题解析模板
 ├── SOURCE_COVERAGE.md        # 真题来源类型与结构化覆盖状态
+├── source-pdfs/              # 明确标记的非官方回忆版来源文件
 ├── paper-topics/             # ⭐ 论文 13 大主题（按题型分类）
 │   ├── README.md             #   索引 + 选题策略 + 评分权重
 │   ├── 01-architecture-design.md
@@ -40,6 +42,7 @@ past-papers/
 
 - [真题来源与结构化覆盖](./SOURCE_COVERAGE.md) — 区分正式真题、回忆版、模拟题和待结构化资料。
 - [2026 上半年回忆版考情信号](./2026上-recall-signals.md) — 只保留原创归类、完整性边界和教学修正。
+- [回忆版 PDF 来源文件](./source-pdfs/README.md) — 原始来源、完整性、校验值与移除说明。
 
 ## ⭐ 按题型复习（推荐）
 

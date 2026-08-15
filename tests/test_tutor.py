@@ -1708,6 +1708,13 @@ class TutorAcceptanceTest(unittest.TestCase):
 
 class RepositoryContractTest(unittest.TestCase):
     def test_2026_recall_source_stays_incomplete_and_non_official(self) -> None:
+        source_pdf = (
+            REPO_ROOT
+            / "past-papers"
+            / "source-pdfs"
+            / "2026上"
+            / "2026年上半年系统架构设计师真题（回忆版·题目与答案）.pdf"
+        )
         summary = (REPO_ROOT / "past-papers" / "2026上-recall-signals.md").read_text(
             encoding="utf-8"
         )
@@ -1718,7 +1725,10 @@ class RepositoryContractTest(unittest.TestCase):
             encoding="utf-8"
         )
 
+        self.assertTrue(source_pdf.is_file())
+        self.assertGreater(source_pdf.stat().st_size, 0)
         self.assertIn("source_type = recalled_real", summary)
+        self.assertIn("source-pdfs/2026上/", summary)
         self.assertIn("第 71–75 题英语缺失", summary)
         self.assertIn("不能登记为完整模考证据", summary)
         self.assertIn("2026 上", coverage)
