@@ -296,6 +296,29 @@ class TutorAcceptanceTest(unittest.TestCase):
 
         self.assertEqual(len(ids), len(set(ids)), "curriculum topic IDs must be unique")
 
+    def test_high_value_gap_topics_are_in_cold_start_diagnostics(self) -> None:
+        expected = {
+            "K23.PROJECT_MANAGEMENT_METRICS",
+            "K24.INFORMATION_SYSTEMS",
+            "K25.RELIABILITY_ENGINEERING",
+            "K26.ARCH_EVOLUTION",
+            "K27.EMERGING_TECH",
+            "K28.MATH_OPERATIONS",
+        }
+        topics = {topic["id"]: topic for topic in self.topics}
+        grouped = {
+            topic_id
+            for group in self.curriculum["strategy"]["comprehensive_cold_start_groups"]
+            for topic_id in group
+        }
+
+        self.assertTrue(expected.issubset(topics))
+        self.assertTrue(expected.issubset(grouped))
+        for topic_id in expected:
+            with self.subTest(topic=topic_id):
+                self.assertIn("comprehensive", topics[topic_id]["subjects"])
+                self.assertIn("recognition", topics[topic_id]["skills"])
+
     def test_init_persists_profile_and_status_is_readable(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             data_dir = Path(temporary) / "private-study"
@@ -1213,8 +1236,7 @@ class TutorAcceptanceTest(unittest.TestCase):
             data_dir = Path(temporary)
             self._init(data_dir)
             for topic, suffix in ((high, "high"), (low, "low")):
-                _run_cli(
-                    data_dir,
+                record_arguments = [
                     "record",
                     "--topic",
                     topic["id"],
@@ -1230,6 +1252,12 @@ class TutorAcceptanceTest(unittest.TestCase):
                     "2026-08-10T11:00:00+08:00",
                     "--wrong-reason",
                     "knowledge_gap",
+                ]
+                if topic.get("facets"):
+                    record_arguments.extend(["--facet", topic["facets"][0]])
+                _run_cli(
+                    data_dir,
+                    *record_arguments,
                 )
 
             arguments = (

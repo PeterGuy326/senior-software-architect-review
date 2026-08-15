@@ -75,10 +75,13 @@
 | 24 | DevOps 与 Serverless（CI/CD / 蓝绿·金丝雀 / IaC·GitOps / FaaS / DORA） | 19 | [24-devops-serverless.md](./24-devops-serverless.md) |
 | 25 | 企业应用集成（EAI 四层次 / ESB / 中间件分类 / 集成模式 EIP / 遗留系统演化） | 18 | [25-enterprise-integration.md](./25-enterprise-integration.md) |
 | 26 | SOA 与架构演化（SOA 八原则 / 编排·编制 / SOA·微服务·单体对比 / 绞杀者·上云 6R） | 20 | [26-soa-evolution.md](./26-soa-evolution.md) |
+| 27 | 信息系统（TPS / MIS / DSS / ES / ERP / 电子政务） | 12 | [27-information-systems.md](./27-information-systems.md) |
+| 28 | 未来信息综合技术（CPS / AI / 边缘计算 / 数字孪生） | 12 | [28-emerging-tech.md](./28-emerging-tech.md) |
+| 29 | 应用数学与运筹学（图论 / 关键路径 / 线性规划 / 决策） | 12 | [29-applied-math.md](./29-applied-math.md) |
 
 ### ✅ 题库覆盖完成度
 
-**22 章考纲已覆盖 22 章**（仅缺 03 数据库部分细分专题，已包含在 25 题主章节中）。如需进一步扩展，可参照上方格式补充外部真题库。
+官方 13 大综合知识域均有自编题或专项题库；信息系统、未来信息综合技术、应用数学已补为独立入口。后续扩展应优先补真实薄弱证据，而不是继续平均增加题量。
 
 ## 答题套路（每题用 3 秒判断）
 

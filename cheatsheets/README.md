@@ -25,6 +25,7 @@
 | [big-data-patterns.md](./big-data-patterns.md) | 大数据架构 / Lambda·Kappa / 数仓 | 2–3 题 |
 | [embedded-realtime.md](./embedded-realtime.md) | 嵌入式 / 实时调度 / CBSD | 2–3 题 |
 | [english-reading.md](./english-reading.md) | 英语阅读 | **固定 5 题** |
+| [machine-exam-survival.md](./machine-exam-survival.md) | 机考操作 | 考前至少 2 次全流程演练 |
 
 ## 🎯 案例分析
 

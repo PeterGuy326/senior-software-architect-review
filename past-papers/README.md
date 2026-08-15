@@ -16,6 +16,7 @@
 past-papers/
 ├── README.md                 # 本文件
 ├── analysis-template.md      # 真题解析模板
+├── SOURCE_COVERAGE.md        # 真题来源类型与结构化覆盖状态
 ├── paper-topics/             # ⭐ 论文 13 大主题（按题型分类）
 │   ├── README.md             #   索引 + 选题策略 + 评分权重
 │   ├── 01-architecture-design.md
@@ -34,6 +35,10 @@ past-papers/
 ├── 2025-05/
 └── wrong-questions.md        # 错题本（跨年份汇总）
 ```
+
+## 覆盖状态
+
+- [真题来源与结构化覆盖](./SOURCE_COVERAGE.md) — 区分正式真题、回忆版、模拟题和待结构化资料。
 
 ## ⭐ 按题型复习（推荐）
 
