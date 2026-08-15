@@ -1707,6 +1707,23 @@ class TutorAcceptanceTest(unittest.TestCase):
 
 
 class RepositoryContractTest(unittest.TestCase):
+    def test_2026_recall_source_stays_incomplete_and_non_official(self) -> None:
+        summary = (REPO_ROOT / "past-papers" / "2026上-recall-signals.md").read_text(
+            encoding="utf-8"
+        )
+        coverage = (REPO_ROOT / "past-papers" / "SOURCE_COVERAGE.md").read_text(
+            encoding="utf-8"
+        )
+        survival = (REPO_ROOT / "past-papers" / "CASE_SURVIVAL.md").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("source_type = recalled_real", summary)
+        self.assertIn("第 71–75 题英语缺失", summary)
+        self.assertIn("不能登记为完整模考证据", summary)
+        self.assertIn("2026 上", coverage)
+        self.assertIn("题型不固定", survival)
+
     def test_init_refuses_an_unignored_directory_inside_the_repository(self) -> None:
         with tempfile.TemporaryDirectory(dir=REPO_ROOT) as temporary:
             data_dir = Path(temporary)

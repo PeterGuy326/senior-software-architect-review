@@ -1,6 +1,6 @@
-# 系统架构设计师 · 论文历年真题汇总（2009-2024）
+# 系统架构设计师 · 论文历年真题汇总（2009-2026，部分考期缺失）
 
-> **数据来源**：[CSDN pccaiqq 134097142](https://blog.csdn.net/pccaiqq/article/details/134097142) + [掘金 7144645783126540324](https://juejin.cn/post/7144645783126540324) + [xxlllq/system_architect](https://github.com/xxlllq/system_architect)（两个独立来源交叉验证）
+> **数据来源**：[CSDN pccaiqq 134097142](https://blog.csdn.net/pccaiqq/article/details/134097142) + [掘金 7144645783126540324](https://juejin.cn/post/7144645783126540324) + [xxlllq/system_architect](https://github.com/xxlllq/system_architect)。2026 上半年由用户提供的考生回忆版 PDF 补充，未提交原文件，且未与官方原卷交叉验证。
 >
 > ⚠️ 题目仅作主题映射使用，**不含答案**，避免版权风险。
 
@@ -30,9 +30,20 @@
 | 测试质量 | [12-testing-qa.md](paper-samples/12-testing-qa.md) |
 | DevOps Serverless | [13-devops-serverless.md](paper-samples/13-devops-serverless.md) |
 
-## 2. 历年真题全表（2009-2024，按年份倒序）
+## 2. 历年真题全表（已整理考期，按年份倒序）
 
-> 列表中的"主题"列对应 [paper-topics/](paper-topics/) 编号。"-"表示该题不属于本仓库 13 大主题（多为需求工程、信息系统建模、综合管理类题目，可作了解，命中概率低）。
+> 列表中的"主题"列对应 [paper-topics/](paper-topics/) 编号。"-"表示该题不属于本仓库 13 大主题。回忆版只用于主题映射，题名和小问可能与官方原卷存在差异。
+
+### 2026 年上半年（回忆版）
+
+| # | 题目方向 | 主题 | 配套资料 |
+|---|---|---|---|
+| 1 | 向量数据库在项目中的应用 | 06 / 新兴 AI | [06-big-data-nosql.md](paper-topics/06-big-data-nosql.md) / [前沿技术](../notes/23-frontier-tech/README.md) |
+| 2 | 高并发系统设计与实践 | 05 | [05-microservice-cloud-native.md](paper-topics/05-microservice-cloud-native.md) |
+| 3 | 六边形架构设计与应用 | 10 / 01 | [10-design-patterns.md](paper-topics/10-design-patterns.md) |
+| 4 | 多模态大模型在移动智能测试中的应用 | 12 / 新兴 AI | [12-testing-qa.md](paper-topics/12-testing-qa.md) / [前沿技术](../notes/23-frontier-tech/README.md) |
+
+完整性和教学结论见 [`2026上-recall-signals.md`](./2026上-recall-signals.md)。
 
 ### 2024 年（上半年）
 
@@ -178,7 +189,9 @@
 | 3 | 论基于 REST 服务的 Web 应用系统设计 | 05 | [05-microservice-cloud-native.md](paper-samples/05-microservice-cloud-native.md) |
 | 4 | 论软件可靠性设计与应用 | 03 | [03-reliability-design.md](paper-samples/03-reliability-design.md) |
 
-## 3. 主题分布热力图（16 年统计）
+## 3. 主题分布热力图（统计截点：2024）
+
+> 2025 考期尚未补齐，2026 上半年又是不完整回忆版，因此下表暂不强行重算精确频次。
 
 | 主题 | 出现次数 | 占比 | 频度 | 推荐准备度 |
 |---|---|---|---|---|
@@ -246,14 +259,18 @@
 | 2024 | Lambda 架构 | 大数据 | 套主题 06（已涵盖） |
 | 2024 | 云原生 DevOps 运维 | DevOps | 套主题 13 |
 | 2024 | 模型驱动开发 MDD | 架构设计 | 套主题 01（MDA 延伸） |
+| 2026 | 向量数据库 | 大数据 / AI 工程化 | 套主题 06，补 embedding、向量索引和召回权衡 |
+| 2026 | 高并发系统 | 微服务 / 性能 / 可靠性 | 套主题 05，仍是最安全的项目复用方向 |
+| 2026 | 六边形架构 | 架构设计 / 设计模式 | 套主题 10/01，重点写端口与适配器及可测试性 |
+| 2026 | 多模态大模型移动测试 | 测试质量 / AI 工程化 | 套主题 12，补模型误判、路径规划和执行闭环 |
 
 **趋势总结**：
 1. **大数据相关题目持续高频**（2018-2024 几乎每年都有）
 2. **云原生 / DevOps 上升**（2017 Serverless → 2020 云原生 → 2024 云原生 DevOps）
-3. **新兴技术零星出现**（区块链 2022、边缘计算 2023、AI 暂未直接出题但概率上升）
+3. **AI 工程化已直接进入题面**（2026 回忆版出现向量数据库和多模态大模型），但仍需等待更多来源确认稳定性
 4. **基础架构题目稳定出现**（架构设计、SOA、可靠性、设计模式 16 年间反复）
 
-**预测 2025+ 可能高频方向**：AI 系统架构 / 大模型应用集成 / 数据中台 / 多云架构 / 零信任安全 / FinOps 成本优化。
+**后续重点观察方向**：AI 系统架构 / 大模型应用集成 / 数据中台 / 多云架构 / 零信任安全 / FinOps 成本优化。
 
 ## 6. 备考建议（基于真题统计）
 

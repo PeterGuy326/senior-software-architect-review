@@ -2,7 +2,7 @@
 
 > 数据来源：[希赛网历年论文汇总](https://www.educity.cn/rk/5328329.html) + [CSDN 2009-2024 论文真题分析](https://blog.csdn.net/pccaiqq/article/details/134097142) + [xxlllq 真题库](https://github.com/xxlllq/system_architect)
 >
-> 📌 **完整 2009-2024 历年真题清单（按年份倒序 + 主题映射 + 选题决策树）** → [`../essay-questions-by-year.md`](../essay-questions-by-year.md)
+> 📌 **已整理的 2009-2026 历年题目方向（部分考期缺失，回忆版单独标记）** → [`../essay-questions-by-year.md`](../essay-questions-by-year.md)
 >
 > ⚠️ 下方"历年出现"是基于公开资料整理，具体年份请对照权威真题库核准。
 
