@@ -1035,6 +1035,9 @@ def events_conflict(existing: dict[str, Any], candidate: dict[str, Any], *, comp
         "wrong_reasons",
         "source_type",
         "source",
+        "question_id",
+        "selected_answer",
+        "correct_answer",
     )
     return any(existing.get(key) != candidate.get(key) for key in keys) or (
         compare_at and existing.get("at") != candidate.get("at")

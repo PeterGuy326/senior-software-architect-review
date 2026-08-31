@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>系统架构设计师 · 本地模拟考试</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --ink: #182536; --muted: #68778a; --line: #d7dee8; --paper: #fff; --canvas: #e9edf3;
+      --blue: #0d4f8b; --blue-deep: #07365f; --blue-soft: #eaf3fb; --red: #b52a35;
+      --red-soft: #fff0f1; --gold: #bd7b12; --green: #176b50; --green-soft: #eaf7f1;
+      --shadow: 0 14px 35px rgba(26, 46, 69, .12);
+    }
+    html, body { margin: 0; min-height: 100%; background: var(--canvas); color: var(--ink); }
+    body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.62; }
+    button, select { font: inherit; } button { cursor: pointer; } button:disabled { cursor: not-allowed; opacity: .52; }
+    button:focus-visible, select:focus-visible { outline: 3px solid #f2b94b; outline-offset: 2px; }
+    .loading { min-height: 100vh; display: grid; place-items: center; color: var(--muted); }
+    .exam-header { height: 72px; padding: 0 26px; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: linear-gradient(110deg, var(--blue-deep), var(--blue) 64%, #1767a8); border-bottom: 4px solid #d8a339; box-shadow: 0 3px 18px rgba(1, 28, 53, .25); }
+    .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .brand-mark { width: 39px; height: 39px; border: 2px solid rgba(255,255,255,.82); border-radius: 50%; display: grid; place-items: center; font-family: Georgia, serif; font-size: 20px; font-weight: 700; box-shadow: inset 0 0 0 4px rgba(255,255,255,.12); }
+    .brand-title { font-family: "Songti SC", STSong, serif; font-size: 18px; letter-spacing: .06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand-subtitle { color: #c9dcef; font-size: 12px; letter-spacing: .05em; }
+    .local-seal { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #dceaf6; white-space: nowrap; }
+    .local-seal::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #65d7a5; box-shadow: 0 0 0 4px rgba(101,215,165,.15); }
+    .intro-page { min-height: calc(100vh - 72px); padding: 42px 24px; background: radial-gradient(circle at 76% 10%, rgba(13,79,139,.11), transparent 26%), var(--canvas); }
+    .admission-card { max-width: 980px; margin: 0 auto; background: var(--paper); border: 1px solid #cbd5e1; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .admission-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: linear-gradient(var(--blue), #2b78b6); }
+    .admission-title { padding: 30px 38px 22px; border-bottom: 1px solid var(--line); background: linear-gradient(90deg, #f8fbfe, #fff); }
+    .eyebrow { color: var(--blue); font-weight: 700; letter-spacing: .14em; font-size: 12px; text-transform: uppercase; }
+    .admission-title h1 { margin: 7px 0 5px; font-family: "Songti SC", STSong, serif; font-size: clamp(25px, 4vw, 38px); font-weight: 650; letter-spacing: .03em; }
+    .admission-title p { margin: 0; color: var(--muted); }
+    .candidate-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
+    .candidate-cell { padding: 18px 24px; border-right: 1px solid var(--line); } .candidate-cell:last-child { border-right: 0; }
+    .field-label { color: var(--muted); font-size: 12px; margin-bottom: 5px; } .field-value { font-weight: 700; }
+    .instruction-wrap { display: grid; grid-template-columns: 1.35fr .65fr; gap: 28px; padding: 30px 38px 36px; }
+    .instruction-wrap h2 { margin: 0 0 12px; font-family: "Songti SC", STSong, serif; font-size: 21px; color: var(--blue-deep); }
+    .instructions { margin: 0; padding-left: 20px; color: #3c4b5e; } .instructions li { margin: 9px 0; }
+    .privacy-box { align-self: stretch; padding: 22px; background: #f2f7fb; border: 1px solid #cfe0ee; border-top: 4px solid var(--green); }
+    .privacy-box strong { display: block; color: var(--green); margin-bottom: 8px; } .privacy-box p { margin: 0 0 15px; color: var(--muted); font-size: 13px; }
+    .primary-btn, .secondary-btn, .danger-btn, .plain-btn { border-radius: 4px; padding: 10px 20px; border: 1px solid transparent; font-weight: 700; transition: transform .12s, box-shadow .12s, background .12s; }
+    .primary-btn { background: var(--blue); color: #fff; box-shadow: 0 5px 14px rgba(13,79,139,.18); } .primary-btn:hover { background: #0a4377; transform: translateY(-1px); }
+    .secondary-btn { background: #fff; color: var(--blue); border-color: #9fb9d0; } .secondary-btn:hover { background: var(--blue-soft); }
+    .danger-btn { background: var(--red); color: #fff; } .plain-btn { background: #f7f9fb; color: var(--ink); border-color: var(--line); }
+    .workstation { min-height: 100vh; display: grid; grid-template-rows: 72px 46px 1fr; }
+    .exam-toolbar { background: #fff; border-bottom: 1px solid #cbd5e1; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 2px 8px rgba(36,54,75,.06); }
+    .exam-meta { display: flex; gap: 22px; color: #526174; font-size: 13px; } .exam-meta strong { color: var(--ink); }
+    .timer { font-family: "SFMono-Regular", Consolas, monospace; font-size: 18px; font-weight: 800; color: var(--red); letter-spacing: .04em; } .timer.warning { animation: pulse 1.1s infinite; }
+    @keyframes pulse { 50% { opacity: .48; } }
+    .workspace { min-height: 0; display: grid; grid-template-columns: 326px minmax(0, 1fr); gap: 14px; padding: 14px; }
+    .question-panel, .navigator { background: #fff; border: 1px solid #cbd5e1; box-shadow: 0 6px 20px rgba(34,52,74,.07); }
+    .question-panel { grid-column: 2; min-height: calc(100vh - 146px); display: grid; grid-template-rows: auto 1fr auto; }
+    .question-head { min-height: 58px; padding: 12px 24px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; background: #f7fafc; }
+    .question-index { font-family: "Songti SC", STSong, serif; font-size: 19px; font-weight: 700; color: var(--blue-deep); }
+    .question-type { color: var(--muted); font-size: 12px; }
+    .question-scroll { padding: 26px 34px; overflow: auto; }
+    .passage { margin-bottom: 24px; padding: 20px 23px; border: 1px solid #d7c8a8; border-left: 5px solid var(--gold); background: #fffdf8; font-family: Georgia, "Times New Roman", serif; line-height: 1.85; color: #2c3541; }
+    .passage p { margin: 0 0 12px; } .passage p:last-child { margin-bottom: 0; }
+    .question-stem { font-size: 17px; line-height: 1.85; margin-bottom: 20px; }
+    .option { width: 100%; display: grid; grid-template-columns: 34px 1fr; align-items: start; gap: 11px; margin: 10px 0; padding: 13px 16px; text-align: left; color: var(--ink); background: #fff; border: 1px solid #cbd5e1; border-radius: 3px; transition: border .12s, background .12s, box-shadow .12s; }
+    .option:hover { border-color: #6997bd; background: #f8fbfe; } .option.selected { border-color: var(--blue); background: var(--blue-soft); box-shadow: inset 4px 0 0 var(--blue); }
+    .option-key { width: 25px; height: 25px; display: grid; place-items: center; border: 1px solid #aab6c5; border-radius: 50%; color: #435268; font-weight: 800; font-family: Georgia, serif; }
+    .option.selected .option-key { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .question-actions { min-height: 62px; padding: 10px 22px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #fafbfd; }
+    .action-cluster { display: flex; gap: 8px; align-items: center; }
+    .flag-btn, .guess-btn { padding: 8px 12px; border-radius: 3px; border: 1px solid #b9c4d1; background: #fff; color: #435268; }
+    .flag-btn.active { border-color: var(--gold); color: #855b0c; background: #fff8e6; } .guess-btn.active { border-color: var(--red); color: var(--red); background: var(--red-soft); }
+    .navigator { grid-column: 1; grid-row: 1; min-height: calc(100vh - 146px); padding: 0 16px 16px; overflow: auto; }
+    .navigator h2 { margin: 0 -16px 13px; padding: 13px 16px; font-family: "Songti SC", STSong, serif; font-size: 17px; background: #f3f6f9; border-bottom: 1px solid var(--line); }
+    .progress-line { height: 7px; background: #e4e9ef; overflow: hidden; margin-bottom: 9px; } .progress-line span { display: block; height: 100%; background: var(--blue); transition: width .25s; }
+    .progress-copy { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 13px; }
+    .answer-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px; }
+    .answer-cell { position: relative; min-width: 0; height: 30px; border: 1px solid #b9c4d1; background: #fff; color: #425166; border-radius: 2px; font-size: 12px; }
+    .answer-cell:hover { border-color: var(--blue); } .answer-cell.answered { background: var(--blue); color: #fff; border-color: var(--blue); } .answer-cell.current { outline: 2px solid var(--gold); outline-offset: 1px; z-index: 1; }
+    .answer-cell.marked::after { content: ""; position: absolute; right: -1px; top: -1px; border-top: 9px solid var(--red); border-left: 9px solid transparent; } .answer-cell.guessed { box-shadow: inset 0 -3px #f2b94b; }
+    .legend { display: flex; flex-wrap: wrap; gap: 9px 13px; margin: 15px 0; color: var(--muted); font-size: 12px; } .legend span { display: flex; align-items: center; gap: 5px; }
+    .legend i { width: 15px; height: 15px; display: inline-block; border: 1px solid #b9c4d1; background: #fff; } .legend .done { background: var(--blue); border-color: var(--blue); } .legend .now { outline: 2px solid var(--gold); outline-offset: 1px; } .legend .mark { position: relative; }
+    .legend .mark::after { content: ""; position: absolute; right: -1px; top: -1px; border-top: 7px solid var(--red); border-left: 7px solid transparent; }
+    .nav-summary { border-top: 1px solid var(--line); padding-top: 13px; font-size: 13px; color: #536174; } .nav-summary strong { color: var(--ink); } .submit-wide { width: 100%; margin-top: 13px; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 29, 44, .56); display: grid; place-items: center; padding: 20px; z-index: 20; }
+    .modal { width: min(560px, 100%); background: #fff; border-top: 6px solid var(--blue); box-shadow: 0 22px 60px rgba(0,0,0,.26); padding: 26px; }
+    .modal h2 { margin: 0 0 8px; font-family: "Songti SC", STSong, serif; color: var(--blue-deep); } .modal p { color: var(--muted); }
+    .modal-alert { padding: 12px 14px; margin: 14px 0; background: var(--red-soft); border: 1px solid #efbdc2; color: #8f2630; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+    .report-page { min-height: calc(100vh - 72px); padding: 28px 22px 55px; } .report { max-width: 1080px; margin: 0 auto; }
+    .score-banner { display: grid; grid-template-columns: 220px 1fr; background: #fff; border: 1px solid #cbd5e1; box-shadow: var(--shadow); }
+    .score-block { padding: 29px; color: #fff; background: linear-gradient(145deg, var(--blue-deep), var(--blue)); text-align: center; }
+    .score-number { font-family: Georgia, serif; font-size: 68px; font-weight: 700; line-height: 1; } .score-number small { font-size: 20px; color: #c4d9ea; }
+    .score-detail { padding: 26px 30px; } .score-detail h1 { margin: 0 0 8px; font-family: "Songti SC", STSong, serif; font-size: 27px; }
+    .status-badge { display: inline-block; border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 700; } .status-badge.pass { color: var(--green); background: var(--green-soft); } .status-badge.fail { color: var(--red); background: var(--red-soft); }
+    .benchmark { margin-top: 17px; display: flex; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 13px; } .benchmark strong { color: var(--ink); }
+    .report-card { background: #fff; border: 1px solid #cbd5e1; margin-top: 16px; padding: 23px 26px; } .report-card h2 { margin: 0 0 15px; font-family: "Songti SC", STSong, serif; font-size: 20px; color: var(--blue-deep); }
+    .topic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; } .topic-stat { border: 1px solid var(--line); padding: 12px; background: #fafbfd; }
+    .topic-stat b { display: block; color: var(--blue); font-family: Georgia, serif; font-size: 22px; } .topic-stat span { color: var(--muted); font-size: 12px; }
+    .review-item { border-top: 1px dashed #cbd5e1; padding: 18px 0; } .review-item:first-of-type { border-top: 0; padding-top: 0; }
+    .review-title { display: flex; justify-content: space-between; gap: 12px; font-weight: 700; } .wrong-label { color: var(--red); } .fragile-label { color: var(--gold); }
+    .explanation { margin: 10px 0; padding: 12px 14px; color: #445366; background: #f4f7fa; border-left: 4px solid #8ba7bf; }
+    .reason-select { width: min(420px, 100%); padding: 9px; border: 1px solid #aebaca; background: #fff; color: var(--ink); }
+    .receipt { padding: 15px 17px; background: var(--green-soft); border: 1px solid #b8ddcd; color: #245b49; }
+    .report-actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 16px; } .error-box { max-width: 700px; margin: 70px auto; padding: 30px; background: #fff; border-top: 5px solid var(--red); box-shadow: var(--shadow); }
+    @media (max-width: 920px) {
+      .candidate-grid { grid-template-columns: repeat(2, 1fr); } .candidate-cell:nth-child(2) { border-right: 0; } .candidate-cell:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .instruction-wrap { grid-template-columns: 1fr; } .workspace { grid-template-columns: 1fr; } .question-panel, .navigator { grid-column: auto; grid-row: auto; } .navigator { min-height: auto; order: -1; } .answer-grid { grid-template-columns: repeat(15, 1fr); }
+      .question-panel { min-height: 620px; } .score-banner { grid-template-columns: 170px 1fr; }
+    }
+    @media (max-width: 600px) {
+      .exam-header { padding: 0 14px; } .brand-subtitle, .local-seal { display: none; } .intro-page, .report-page { padding: 16px 10px 35px; }
+      .admission-title, .instruction-wrap { padding-left: 22px; padding-right: 18px; } .candidate-grid { grid-template-columns: 1fr; } .candidate-cell { border-right: 0; border-bottom: 1px solid var(--line); }
+      .exam-toolbar { padding: 0 12px; } .exam-meta span:not(:first-child) { display: none; } .workspace { padding: 7px; } .answer-grid { grid-template-columns: repeat(10, 1fr); }
+      .question-scroll { padding: 20px 17px; } .question-actions { align-items: stretch; flex-direction: column; } .action-cluster { width: 100%; } .action-cluster button { flex: 1; }
+      .score-banner { grid-template-columns: 1fr; } .score-block { padding: 20px; } .score-number { font-size: 54px; } .topic-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="loading">正在连接本地考试服务…</div>
+  <script>
+  'use strict';
+  const STORAGE_KEY = 'senior-architect-mock-session-v3';
+  const app = document.getElementById('app');
+  let paper = null, profile = null, profileReady = false, session = loadSession(), submitDialog = false, busy = false, timerHandle = null;
+  function loadSession() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch (_) { return null; } }
+  function saveSession() { if (session) localStorage.setItem(STORAGE_KEY, JSON.stringify(session)); else localStorage.removeItem(STORAGE_KEY); }
+  function escapeHtml(value) { return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;'); }
+  function formatInline(value) { return escapeHtml(value).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/`(.+?)`/g, '<code>$1</code>'); }
+  function formatTime(seconds) { const safe = Math.max(0, Math.floor(seconds)); return `${String(Math.floor(safe / 60)).padStart(2, '0')}:${String(safe % 60).padStart(2, '0')}`; }
+  function elapsedSeconds() { return session?.startedAt ? Math.max(1, Math.round((Date.now() - session.startedAt) / 1000)) : 0; }
+  function remainingSeconds() { return Math.max(0, paper.duration_seconds - elapsedSeconds()); }
+  function answerPayload() { return Object.fromEntries(paper.items.map(item => [String(item.number), session.answers[String(item.number)] || ''])); }
+  function commitQuestionTime() {
+    if (session?.phase !== 'taking' || !session.questionEnteredAt) return;
+    const key = String(session.current);
+    const seconds = Math.max(1, Math.round((Date.now() - session.questionEnteredAt) / 1000));
+    session.durations[key] = (session.durations[key] || 0) + seconds;
+    session.questionEnteredAt = Date.now();
+  }
+  function makeSessionId() { const token = crypto.randomUUID ? crypto.randomUUID() : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`; return `web-${paper.paper_id}-${token}`; }
+  function pageHeader() { return `<header class="exam-header"><div class="brand"><div class="brand-mark">软</div><div><div class="brand-title">计算机技术与软件专业技术资格考试</div><div class="brand-subtitle">系统架构设计师 · 本地高频模拟</div></div></div><div class="local-seal">本地 Agent 已连接 · 数据不离开本机</div></header>`; }
+  function render() {
+    if (!paper) return;
+    if (!session) app.innerHTML = pageHeader() + renderIntro();
+    else if (session.phase === 'taking') app.innerHTML = renderWorkstation();
+    else app.innerHTML = pageHeader() + renderReport();
+    bindEvents(); updateTimer();
+  }
+  function renderIntro() {
+    const examDate = profile?.exam_date || '未设置';
+    return `<main class="intro-page"><section class="admission-card"><div class="admission-title"><div class="eyebrow">Computer-based mock examination</div><h1>${escapeHtml(paper.title)}</h1><p>仿机考工作台 · 高频过线导向 · 模拟题</p></div><div class="candidate-grid"><div class="candidate-cell"><div class="field-label">考试科目</div><div class="field-value">综合知识</div></div><div class="candidate-cell"><div class="field-label">试题数量</div><div class="field-value">${paper.question_count} 题</div></div><div class="candidate-cell"><div class="field-label">考试时长</div><div class="field-value">150 分钟</div></div><div class="candidate-cell"><div class="field-label">你的考期</div><div class="field-value">${escapeHtml(examDate)}</div></div></div><div class="instruction-wrap"><div><h2>考生须知</h2><ol class="instructions"><li>每题只有一个最符合题意的选项；答题过程中不显示答案和解析。</li><li>左侧答题卡显示未答、已答、标记和“拿不准”状态，可随时跳转。</li><li>交卷后立即确定性判分并自动保存原始答卷；错因作为考后补充反馈。</li><li>本卷满分 75 分，45 分为合格线；日常训练以 52 分作为安全目标。</li></ol></div><aside class="privacy-box"><strong>${profileReady ? '本地闭环已就绪' : '需要先由 Agent 建档'}</strong><p>${profileReady ? '题目、作答、用时和错因只提交给当前 127.0.0.1 服务，最终保存在仓库根目录的 .study/ 中。' : '考试页不负责创建私人身份。请回到当前 Agent 先执行建档与诊断，再刷新页面。'}</p><button class="primary-btn" data-action="start" ${profileReady ? '' : 'disabled'}>开始考试</button></aside></div></section></main>`;
+  }
+  function currentQuestion() { return paper.items[session.current - 1]; }
+  function passageFor(number) { return (paper.passages || []).find(item => number >= item.start && number <= item.end); }
+  function renderWorkstation() {
+    const question = currentQuestion(), selected = session.answers[String(question.number)] || '', marked = Boolean(session.marked[String(question.number)]), guessed = session.confidences[String(question.number)] === 'guess';
+    const answered = Object.values(session.answers).filter(Boolean).length, passage = passageFor(question.number);
+    return `<main class="workstation">${pageHeader()}<div class="exam-toolbar"><div class="exam-meta"><span>考生：<strong>本地考生</strong></span><span>科目：<strong>综合知识</strong></span><span>进度：<strong>${answered}/${paper.question_count}</strong></span></div><div>剩余时间 <span class="timer" data-timer aria-label="剩余考试时间">${formatTime(remainingSeconds())}</span></div></div><div class="workspace"><section class="question-panel"><div class="question-head"><div><div class="question-index">第 ${question.number} 题</div><div class="question-type">单项选择题 · 1 分</div></div><div class="question-type">可使用键盘 A-D 作答，← → 切题</div></div><div class="question-scroll">${passage ? `<article class="passage">${passage.text.split(/\n\n+/).map(paragraph => `<p>${formatInline(paragraph)}</p>`).join('')}</article>` : ''}<div class="question-stem">${formatInline(question.stem)}</div><div>${question.options.map(option => `<button class="option ${selected === option.key ? 'selected' : ''}" data-choice="${option.key}" aria-pressed="${selected === option.key}" aria-label="选项 ${option.key}"><span class="option-key">${option.key}</span><span>${formatInline(option.text)}</span></button>`).join('')}</div></div><div class="question-actions"><div class="action-cluster"><button class="flag-btn ${marked ? 'active' : ''}" data-action="mark" aria-pressed="${marked}">${marked ? '已标记' : '标记此题'}</button><button class="guess-btn ${guessed ? 'active' : ''}" data-action="guess" aria-pressed="${guessed}">${guessed ? '已标记拿不准' : '这题拿不准'}</button></div><div class="action-cluster"><button class="plain-btn" data-action="previous" ${question.number === 1 ? 'disabled' : ''}>上一题</button><button class="primary-btn" data-action="next">${question.number === paper.question_count ? '回到第 1 题' : '下一题'}</button></div></div></section><aside class="navigator" aria-label="答题卡"><h2>答题卡</h2><div class="progress-line"><span style="width:${answered / paper.question_count * 100}%"></span></div><div class="progress-copy"><span>已答 ${answered}</span><span>未答 ${paper.question_count - answered}</span></div><div class="answer-grid">${paper.items.map(item => { const key = String(item.number), state = [session.answers[key] ? '已答' : '未答', session.marked[key] ? '已标记' : '', session.confidences[key] === 'guess' ? '拿不准' : ''].filter(Boolean).join('，'); return `<button class="answer-cell ${session.answers[key] ? 'answered' : ''} ${item.number === question.number ? 'current' : ''} ${session.marked[key] ? 'marked' : ''} ${session.confidences[key] === 'guess' ? 'guessed' : ''}" data-jump="${item.number}" aria-label="第 ${item.number} 题，${state}" ${item.number === question.number ? 'aria-current="true"' : ''}>${item.number}</button>`; }).join('')}</div><div class="legend"><span><i class="done"></i>已答</span><span><i></i>未答</span><span><i class="now"></i>当前</span><span><i class="mark"></i>标记</span></div><div class="nav-summary">标记题 <strong>${Object.values(session.marked).filter(Boolean).length}</strong> 道 · 拿不准 <strong>${Object.values(session.confidences).filter(value => value === 'guess').length}</strong> 道</div><button class="danger-btn submit-wide" data-action="open-submit">交卷</button></aside></div>${submitDialog ? renderSubmitDialog(answered) : ''}</main>`;
+  }
+  function renderSubmitDialog(answered) {
+    const unanswered = paper.items.filter(item => !session.answers[String(item.number)]).map(item => item.number);
+    return `<div class="modal-backdrop"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="submit-title"><h2 id="submit-title">确认交卷</h2><p>提交后不能修改答案，系统将立即判分。</p>${unanswered.length ? `<div class="modal-alert">还有 ${unanswered.length} 题未作答：${unanswered.slice(0, 18).join('、')}${unanswered.length > 18 ? '…' : ''}。空题按 0 分计，但仍可作为完整限时模考记录。</div>` : '<div class="receipt">75 题均已作答，可以交卷。</div>'}<div class="modal-actions"><button class="secondary-btn" data-action="close-submit">继续检查</button><button class="danger-btn" data-action="confirm-submit" ${busy ? 'disabled' : ''}>${busy ? '正在判分…' : '确认交卷'}</button></div></section></div>`;
+  }
+  function topicSummary(results) { const groups = {}; results.forEach(result => { const key = result.topic_name; groups[key] ||= { total: 0, correct: 0 }; groups[key].total += 1; groups[key].correct += Number(result.correct); }); return Object.entries(groups).sort((left, right) => left[1].correct / left[1].total - right[1].correct / right[1].total); }
+  function wrongAndFragile() { return (session.results || []).filter(result => !result.correct || session.confidences[String(result.number)] === 'guess'); }
+  function renderReport() {
+    const passed = session.score >= paper.pass_line, feedbackItems = wrongAndFragile(), groups = topicSummary(session.results || []), comprehensive = session.receipt?.status?.subjects?.comprehensive;
+    const rawStatus = session.receipt ? `<div class="receipt">原始答卷已自动写入 .study/。${session.receipt.retest ? '这是同卷复测，只更新逐题复习证据，不重复抬高完整模考证据等级。' : '已记录 75 条逐题证据与 1 条完整模考。'}</div>` : `<div class="modal-alert">${escapeHtml(session.recordError || '原始答卷尚未写入本地。')} <button class="secondary-btn" data-action="retry-record">重试保存</button></div>`;
+    return `<main class="report-page"><div class="report"><section class="score-banner"><div class="score-block"><div class="score-number">${session.score}<small>/75</small></div><div>综合知识</div></div><div class="score-detail"><h1>${session.phase === 'saved' ? '学习证据与错因已写入本地' : '模拟考试完成'}</h1><span class="status-badge ${passed ? 'pass' : 'fail'}">${passed ? '达到 45 分合格线' : '未达到 45 分合格线'}</span><div class="benchmark"><span>用时 <strong>${formatTime(session.durationSeconds)}</strong></span><span>安全目标 <strong>52 分</strong></span><span>错题 <strong>${session.results.filter(item => !item.correct).length}</strong></span><span>猜对/拿不准 <strong>${session.results.filter(item => item.correct && session.confidences[String(item.number)] === 'guess').length}</strong></span></div></div></section><section class="report-card">${rawStatus}</section><section class="report-card"><h2>板块表现（由弱到强）</h2><div class="topic-grid">${groups.map(([name, stat]) => `<div class="topic-stat"><b>${stat.correct}/${stat.total}</b><span>${escapeHtml(name)}</span></div>`).join('')}</div></section><section class="report-card"><h2>错题与脆弱题反馈</h2>${feedbackItems.length ? feedbackItems.map(result => { const fragile = result.correct, reason = session.wrongReasons[String(result.number)] || ''; return `<article class="review-item"><div class="review-title"><span>第 ${result.number} 题 · ${escapeHtml(result.topic_name)}</span><span class="${fragile ? 'fragile-label' : 'wrong-label'}">${fragile ? `答对但拿不准（${escapeHtml(result.selected)}）` : `你的答案 ${escapeHtml(result.selected || '未答')} · 正确答案 ${escapeHtml(result.correct_answer)}`}</span></div><div class="explanation">${formatInline(result.explanation || '请回到该考点进行复测。')}</div>${session.phase === 'saved' || fragile ? '' : `<select class="reason-select" data-reason="${result.number}"><option value="">请选择这道错题的主要错因</option>${reasonOptions(reason)}</select>`}</article>`; }).join('') : '<div class="receipt">本卷全对。按照进度协议，仍需跨日独立复测后才能判定稳定掌握。</div>'}${session.phase === 'saved' ? `<div class="receipt">错因补充已保存。${comprehensive ? `当前综合科证据等级：${escapeHtml(comprehensive.evidence_level)}；保守下界：${escapeHtml(comprehensive.lower_bound_score)} 分。` : ''} 回到 Agent 后直接说“读取我的最新模考结果”。</div>` : `<div class="report-actions"><button class="primary-btn" data-action="save-feedback" ${busy ? 'disabled' : ''}>${busy ? '正在写入…' : '保存错因补充'}</button><button class="secondary-btn" data-action="return-result">稍后再填</button></div>`}</section>${session.phase === 'saved' ? '<div class="report-actions"><button class="secondary-btn" data-action="new-exam">开始同卷复测</button></div>' : ''}</div></main>`;
+  }
+  function reasonOptions(selected) { const options = [['knowledge_gap','知识盲区'],['recall_failure','记忆提取失败'],['concept_confusion','概念混淆'],['misread','审题失误'],['calculation','计算失误'],['careless','粗心']]; return options.map(([value, label]) => `<option value="${value}" ${selected === value ? 'selected' : ''}>${label}</option>`).join(''); }
+  function bindEvents() {
+    app.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => handleAction(button.dataset.action)));
+    app.querySelectorAll('[data-choice]').forEach(button => button.addEventListener('click', () => choose(button.dataset.choice)));
+    app.querySelectorAll('[data-jump]').forEach(button => button.addEventListener('click', () => jump(Number(button.dataset.jump))));
+    app.querySelectorAll('[data-reason]').forEach(select => select.addEventListener('change', () => { session.wrongReasons[String(select.dataset.reason)] = select.value; saveSession(); }));
+  }
+  function handleAction(action) {
+    if (action === 'start') startExam();
+    if (action === 'previous') jump(Math.max(1, session.current - 1));
+    if (action === 'next') jump(session.current === paper.question_count ? 1 : session.current + 1);
+    if (action === 'mark') { const key = String(session.current); session.marked[key] = !session.marked[key]; saveSession(); render(); }
+    if (action === 'guess') { const key = String(session.current); session.confidences[key] = session.confidences[key] === 'guess' ? 'sure' : 'guess'; saveSession(); render(); }
+    if (action === 'open-submit') { submitDialog = true; render(); }
+    if (action === 'close-submit') { submitDialog = false; render(); }
+    if (action === 'confirm-submit') gradeExam();
+    if (action === 'retry-record') retryRecord();
+    if (action === 'save-feedback') saveFeedback();
+    if (action === 'return-result') window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (action === 'new-exam') { session = null; saveSession(); render(); }
+  }
+  function startExam() { session = { id: makeSessionId(), paperId: paper.paper_id, phase: 'taking', startedAt: Date.now(), questionEnteredAt: Date.now(), current: 1, answers: {}, marked: {}, confidences: {}, durations: {}, wrongReasons: {}, results: null, score: null, durationSeconds: null, receipt: null }; saveSession(); render(); startTimer(); }
+  function choose(key) { if (session.phase !== 'taking') return; session.answers[String(session.current)] = key; if (!session.confidences[String(session.current)]) session.confidences[String(session.current)] = 'sure'; saveSession(); render(); }
+  function jump(number) { commitQuestionTime(); session.current = Math.min(paper.question_count, Math.max(1, number)); session.questionEnteredAt = Date.now(); saveSession(); render(); }
+  async function gradeExam(auto = false) {
+    if (busy || session.phase !== 'taking') return; commitQuestionTime(); busy = true; submitDialog = !auto; render();
+    try { const response = await fetch('/api/mock-grade', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers: answerPayload() }) }); const payload = await response.json(); if (!response.ok || !payload.ok) throw new Error(payload.error || '评分失败'); session.phase = 'feedback'; session.score = payload.data.score; session.results = payload.data.results; session.durationSeconds = Math.min(paper.duration_seconds, elapsedSeconds()); session.wrongReasons ||= {}; submitDialog = false; saveSession(); await recordExamEvidence(); window.scrollTo(0, 0); }
+    catch (error) { alert(`交卷失败：${error.message}`); } finally { busy = false; render(); }
+  }
+  async function recordExamEvidence() {
+    const response = await fetch('/api/mock-record', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: session.id, answers: answerPayload(), confidences: session.confidences, durations: session.durations, duration_seconds: session.durationSeconds }) });
+    const payload = await response.json();
+    if (!response.ok || !payload.ok) { session.recordError = payload.error || '原始答卷自动保存失败'; saveSession(); return false; }
+    session.receipt = payload.data; session.recordError = null; saveSession(); return true;
+  }
+  async function retryRecord() { if (busy) return; busy = true; render(); try { await recordExamEvidence(); } finally { busy = false; render(); } }
+  async function saveFeedback() {
+    if (busy) return; const wrongs = session.results.filter(item => !item.correct), missing = wrongs.filter(item => !session.wrongReasons[String(item.number)]).map(item => item.number);
+    if (missing.length) { alert(`请先为这些错题选择主要错因：${missing.join('、')}`); return; }
+    busy = true; render(); const wrongReasons = Object.fromEntries(wrongs.map(item => [String(item.number), [session.wrongReasons[String(item.number)]]]));
+    try { if (!session.receipt && !(await recordExamEvidence())) throw new Error(session.recordError || '原始答卷尚未保存'); const response = await fetch('/api/mock-feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: session.id, answers: answerPayload(), wrong_reasons: wrongReasons }) }); const payload = await response.json(); if (!response.ok || !payload.ok) throw new Error(payload.error || '保存失败'); session.phase = 'saved'; session.feedbackReceipt = payload.data; saveSession(); }
+    catch (error) { alert(`写入失败：${error.message}`); } finally { busy = false; render(); }
+  }
+  function updateTimer() { const timer = app.querySelector('[data-timer]'); if (!timer || session?.phase !== 'taking') return; const remaining = remainingSeconds(); timer.textContent = formatTime(remaining); timer.classList.toggle('warning', remaining <= 300); }
+  function startTimer() { if (timerHandle) clearInterval(timerHandle); timerHandle = setInterval(() => { if (session?.phase !== 'taking') return; updateTimer(); if (remainingSeconds() <= 0) gradeExam(true); }, 1000); }
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && submitDialog) { submitDialog = false; render(); return; } if (session?.phase !== 'taking' || submitDialog) return; if (/^[a-dA-D]$/.test(event.key)) { event.preventDefault(); choose(event.key.toUpperCase()); } if (event.key === 'ArrowRight') { event.preventDefault(); jump(session.current === paper.question_count ? 1 : session.current + 1); } if (event.key === 'ArrowLeft') { event.preventDefault(); jump(Math.max(1, session.current - 1)); } });
+  document.addEventListener('visibilitychange', () => { if (session?.phase !== 'taking') return; if (document.hidden) { commitQuestionTime(); saveSession(); } else { session.questionEnteredAt = Date.now(); saveSession(); } });
+  window.addEventListener('pagehide', () => { if (session?.phase === 'taking') { commitQuestionTime(); saveSession(); } });
+  async function boot() {
+    try { const [paperResponse, statusResponse] = await Promise.all([fetch('/api/mock-paper'), fetch('/api/status')]); const paperPayload = await paperResponse.json(), statusPayload = await statusResponse.json(); if (!paperResponse.ok || !paperPayload.ok) throw new Error(paperPayload.error || '本地试卷加载失败'); paper = paperPayload.data; profileReady = Boolean(statusPayload.ok); if (statusPayload.ok) profile = statusPayload.data.profile; if (session && session.paperId && session.paperId !== paper.paper_id) { session = null; saveSession(); } if (session) { session.paperId ||= paper.paper_id; session.marked ||= {}; session.confidences ||= {}; session.durations ||= {}; session.wrongReasons ||= {}; if (session.phase === 'taking') session.questionEnteredAt = Date.now(); } render(); startTimer(); }
+    catch (error) { app.className = ''; app.innerHTML = `<section class="error-box"><h1>本地考试服务未就绪</h1><p>${escapeHtml(error.message)}</p><p>请由当前 Agent 启动 <code>python3 scripts/serve.py</code>，再刷新此页面。</p></section>`; }
+  }
+  if (window.location.protocol === 'file:') {
+    window.location.replace('http://localhost:8420/');
+  } else {
+    boot();
+  }
+  </script>
+</body>
+</html>
