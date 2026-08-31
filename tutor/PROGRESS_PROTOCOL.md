@@ -18,6 +18,7 @@
 | `profile.json` | 考期、每日时间、匿名技术背景 |
 | `state.json` | 可重建的当前状态与三科证据摘要 |
 | `attempts.jsonl` | 只追加的原始作答事件 |
+| `postmortems.jsonl` | 只追加的考后错因补充，与可信交卷记录关联 |
 | `dashboard.md` | 便于人阅读的进度面板 |
 | `paper-project.md` | 论文项目素材，可能含敏感信息 |
 
@@ -91,6 +92,7 @@ unseen → learning → fragile → pass_ready
 - `source_type` 只能明确标记为 `official_outline`、`real`、`recalled_real`、`self_authored` 或 `simulation`，不得把模拟题称为真题。
 - 用户输入无效、尚未回答或只阅读讲解时，不写掌握证据。
 - 案例和论文记录得分点与 AI 估分，不能冒充官方成绩。
+- 机考页面必须先保存原始答卷，再把考生选择的错因追加到 `postmortems.jsonl`；错因补充不得反向改写原始得分。
 
 推荐错因枚举：
 
