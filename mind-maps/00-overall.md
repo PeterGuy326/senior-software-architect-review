@@ -68,6 +68,13 @@ mindmap
 
 ## 备考优先级矩阵
 
+<!--
+  维护提示：quadrantChart 的坐标严格保持在 (0, 1) 开区间。
+  GitHub 当前的 Mermaid 渲染器在遇到边界值 1.0 时会抛
+  `Lexical error ... Unrecognized text`（见 issue #7 截图），
+  修改数据点时请勿把任一分量写成 0 或 1，最靠边取 0.02 / 0.98。
+-->
+
 ```mermaid
 quadrantChart
     title 考点优先级矩阵
@@ -86,5 +93,5 @@ quadrantChart
     "区块链": [0.7, 0.5]
     "嵌入式": [0.8, 0.4]
     "软件可靠性": [0.5, 0.75]
-    "论文写作": [0.8, 1.0]
+    "论文写作": [0.8, 0.98]
 ```
