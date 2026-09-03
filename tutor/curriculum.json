@@ -7,11 +7,11 @@
     "historical_sample_years": "2018-2025（7 份可用综合卷，部分年份题目不完整）",
     "source": "past-papers/HIGH_FREQ.md",
     "comprehensive_cold_start_groups": [
-      ["K08.SOFTWARE_PROCESS_MODELS", "K16.REQUIREMENTS_MANAGEMENT", "K03.SOFTWARE_DESIGN_UML", "K06.DESIGN_DATA_VIEWS", "K05.TEST_CMMI_PATTERNS", "K15.STRUCTURED_ANALYSIS_DFD"],
-      ["K04.ARCH_STYLES_ABSD", "K11.COMPONENTS_4PLUS1", "K12.PATTERNS_SOA_MICROSERVICES", "K13.VIEWS_SOA_LAYERING", "K21.MESSAGING_CACHE"],
-      ["K01.OS_MEMORY_KERNEL", "K18.COMPUTER_ARCH_STORAGE", "K02.NETWORK_PROTOCOLS", "K14.OS_SCHEDULING_FILES", "K07.REALTIME_EMBEDDED"],
-      ["K09.QUALITY_SCENARIOS", "K19.ATAM_TACTICS"],
-      ["K17.IP_COPYRIGHT", "K22.ENGLISH_READING", "K10.DATABASE_MODELING", "K20.SECURITY_FOUNDATIONS"]
+      ["K08.SOFTWARE_PROCESS_MODELS", "K16.REQUIREMENTS_MANAGEMENT", "K03.SOFTWARE_DESIGN_UML", "K06.DESIGN_DATA_VIEWS", "K05.TEST_CMMI_PATTERNS", "K15.STRUCTURED_ANALYSIS_DFD", "K23.PROJECT_MANAGEMENT_METRICS"],
+      ["K04.ARCH_STYLES_ABSD", "K11.COMPONENTS_4PLUS1", "K12.PATTERNS_SOA_MICROSERVICES", "K13.VIEWS_SOA_LAYERING", "K21.MESSAGING_CACHE", "K26.ARCH_EVOLUTION"],
+      ["K01.OS_MEMORY_KERNEL", "K18.COMPUTER_ARCH_STORAGE", "K02.NETWORK_PROTOCOLS", "K14.OS_SCHEDULING_FILES", "K07.REALTIME_EMBEDDED", "K24.INFORMATION_SYSTEMS"],
+      ["K09.QUALITY_SCENARIOS", "K19.ATAM_TACTICS", "K25.RELIABILITY_ENGINEERING"],
+      ["K17.IP_COPYRIGHT", "K22.ENGLISH_READING", "K10.DATABASE_MODELING", "K20.SECURITY_FOUNDATIONS", "K27.EMERGING_TECH", "K28.MATH_OPERATIONS"]
     ]
   },
   "topics": [
@@ -326,6 +326,91 @@
       "estimated_minutes": 75,
       "raw_tags": ["§13"],
       "resources": ["exam-bank/23-english-reading.md", "cheatsheets/english-reading.md", "past-papers/HIGH_FREQ.md"]
+    },
+    {
+      "id": "K23.PROJECT_MANAGEMENT_METRICS",
+      "name": "项目管理、配置管理与软件度量",
+      "subjects": ["comprehensive"],
+      "skills": ["recognition"],
+      "facets": ["project_management", "software_metrics"],
+      "frequency_count": 8,
+      "frequency_confidence": "medium",
+      "priority_weight": 0.82,
+      "quick_win": 0.74,
+      "cross_subject_value": 0.35,
+      "estimated_minutes": 120,
+      "raw_tags": ["§4.6", "§4.8", "§12.1"],
+      "resources": ["exam-bank/08-project-management.md", "exam-bank/09-software-metrics.md", "knowledge-index/08-project-management.md", "knowledge-index/09-software-metrics.md", "cheatsheets/project-management-calculations.md", "cheatsheets/software-metrics.md"]
+    },
+    {
+      "id": "K24.INFORMATION_SYSTEMS",
+      "name": "信息系统、ERP 与电子政务",
+      "subjects": ["comprehensive"],
+      "skills": ["recognition"],
+      "frequency_count": 6,
+      "frequency_confidence": "medium",
+      "priority_weight": 0.76,
+      "quick_win": 0.88,
+      "cross_subject_value": 0.55,
+      "estimated_minutes": 75,
+      "raw_tags": ["§2"],
+      "resources": ["exam-bank/27-information-systems.md", "notes/02-information-systems/README.md", "past-papers/SURVIVAL_CARD.md", "past-papers/comprehensive-by-year/2025上.md"]
+    },
+    {
+      "id": "K25.RELIABILITY_ENGINEERING",
+      "name": "软件可靠性工程、容错与评估",
+      "subjects": ["comprehensive", "case"],
+      "skills": ["recognition", "application"],
+      "frequency_count": 5,
+      "frequency_confidence": "medium",
+      "priority_weight": 0.9,
+      "quick_win": 0.68,
+      "cross_subject_value": 0.9,
+      "estimated_minutes": 120,
+      "raw_tags": ["§8"],
+      "resources": ["exam-bank/20-reliability.md", "knowledge-index/20-reliability.md", "notes/08-software-reliability/README.md", "past-papers/case-types/13-reliability-design.md", "past-papers/paper-topics/03-reliability-design.md"]
+    },
+    {
+      "id": "K26.ARCH_EVOLUTION",
+      "name": "软件架构演化、迁移与维护",
+      "subjects": ["comprehensive", "case"],
+      "skills": ["recognition", "application"],
+      "frequency_count": 5,
+      "frequency_confidence": "medium",
+      "priority_weight": 0.88,
+      "quick_win": 0.62,
+      "cross_subject_value": 0.85,
+      "estimated_minutes": 120,
+      "raw_tags": ["§9"],
+      "resources": ["exam-bank/26-soa-evolution.md", "notes/09-architecture-evolution/README.md", "past-papers/case-types/11-architecture-evolution.md", "past-papers/paper-topics/09-architecture-evolution.md"]
+    },
+    {
+      "id": "K27.EMERGING_TECH",
+      "name": "CPS、AI、边缘计算与数字孪生",
+      "subjects": ["comprehensive"],
+      "skills": ["recognition"],
+      "frequency_count": 12,
+      "frequency_confidence": "medium",
+      "priority_weight": 0.9,
+      "quick_win": 0.8,
+      "cross_subject_value": 0.65,
+      "estimated_minutes": 90,
+      "raw_tags": ["§10"],
+      "resources": ["exam-bank/28-emerging-tech.md", "notes/10-emerging-tech/README.md", "notes/23-frontier-tech/README.md", "past-papers/2026上-recall-signals.md", "past-papers/HIGH_FREQ.md", "past-papers/SURVIVAL_CARD.md"]
+    },
+    {
+      "id": "K28.MATH_OPERATIONS",
+      "name": "应用数学、图论与运筹学",
+      "subjects": ["comprehensive"],
+      "skills": ["recognition"],
+      "frequency_count": 15,
+      "frequency_confidence": "medium",
+      "priority_weight": 0.74,
+      "quick_win": 0.58,
+      "cross_subject_value": 0.2,
+      "estimated_minutes": 90,
+      "raw_tags": ["§12"],
+      "resources": ["exam-bank/29-applied-math.md", "notes/20-math-foundations/README.md", "past-papers/HIGH_FREQ.md", "past-papers/comprehensive-by-year/2019下.md", "past-papers/comprehensive-by-year/2025上.md"]
     },
     {
       "id": "C01.CASE_ATAM",

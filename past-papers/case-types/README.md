@@ -7,8 +7,8 @@
 - **5 大题任选 3 题作答**（每题 25 分，共 75 分）
 - **时长 90 分钟**
 - **合格线 45 分**
-- **必考题 1**：架构评估（ATAM / 质量属性场景，**几乎每年都考**）
-- **必考题 2**：数据库 / 建模（ER / 关系模式 / 规范化）
+- **第 1 题固定必做，但题型不固定**：2026 上半年回忆版为 IoT + 时序数据库 + MQTT
+- **高频核心**：架构评估 / 质量属性、数据库 / 建模仍需优先掌握，但不得绑定固定题号
 - **3–5 题**：从微服务、缓存、消息、安全、嵌入式、大数据中选 3 题
 
 ## 13 大题型索引（按考频排序）
@@ -17,8 +17,8 @@
 
 | # | 题型 | 出现频次 | 必考度 | 文件 |
 |---|---|---|---|---|
-| 01 | 架构评估（效用树 + 四类点） | ⭐⭐⭐⭐⭐ | **必考** | [01-architecture-evaluation.md](./01-architecture-evaluation.md) |
-| 02 | 数据库设计（ER + 规范化 + 缓存/NoSQL 混合） | ⭐⭐⭐⭐⭐ | **必考** | [02-database-design.md](./02-database-design.md) |
+| 01 | 架构评估（效用树 + 四类点） | ⭐⭐⭐⭐⭐ | 高频核心 | [01-architecture-evaluation.md](./01-architecture-evaluation.md) |
+| 02 | 数据库设计（ER + 规范化 + 缓存/NoSQL 混合） | ⭐⭐⭐⭐⭐ | 高频核心 | [02-database-design.md](./02-database-design.md) |
 | 03 | 架构风格对比与选型 | ⭐⭐⭐⭐ | 高频 | [03-style-comparison.md](./03-style-comparison.md) |
 | 04 | UML 建模与分析 | ⭐⭐⭐⭐ | 高频 | [04-uml-modeling.md](./04-uml-modeling.md) |
 | 05 | 微服务拆分与重构 | ⭐⭐⭐⭐ | 高频 | [05-microservice-refactor.md](./05-microservice-refactor.md) |
@@ -64,8 +64,8 @@
 
 ## 选题策略
 
-- **必做第 1 题**（架构评估）—— 套路最稳
-- **次选第 2 题**（数据库）—— 理论题得分稳
+- **必做第 1 题**—— 先识别题型，再按小问分值调用对应模板
+- **选做优先数据库 / 质量属性**—— 理论结构稳定，但仍以当场题目和个人证据为准
 - **第 3 题**从熟悉的技术栈挑一道（微服务 / 消息 / 缓存）
 
 ## 通用评分逻辑
@@ -93,6 +93,20 @@
 | **2024 上半年 T5** | Web 综合（缓存雪崩 + 读写分离） | [06-messaging-caching.md](./06-messaging-caching.md) |
 
 来源：公开真题回忆版（CSDN、博客园等），仅供学习参考。
+
+---
+
+## 2026 上半年回忆版归位索引
+
+> 来源不完整，以下只做主题归位，不提交原题全文或把参考答案当官方答案。详情见 [`../2026上-recall-signals.md`](../2026上-recall-signals.md)。
+
+| 题号 | 主题 | 归位文件 |
+|---|---|---|
+| **T1（必做）** | 智慧养老 IoT + 时序数据库 + MQTT QoS | [06-messaging-caching.md](./06-messaging-caching.md) / [08-embedded-components.md](./08-embedded-components.md) |
+| **T2** | 自适应学习 + 推荐冷启动 + 知识图谱 | [09-big-data-architecture.md](./09-big-data-architecture.md)（待继续专题化） |
+| **T3** | 秒杀并发控制 + Redis | [02-database-design.md](./02-database-design.md) |
+| **T4** | AIoT 四层架构 + 边缘 AI 权衡 | [08-embedded-components.md](./08-embedded-components.md) |
+| **T5** | 质量属性场景 + 管道-过滤器 | [01-architecture-evaluation.md](./01-architecture-evaluation.md) / [03-style-comparison.md](./03-style-comparison.md) |
 
 ---
 
