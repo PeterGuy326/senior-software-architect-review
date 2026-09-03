@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>学习航图 · 系统架构设计师</title>
+  <style>
+    :root {
+      --ink: #192b2d;
+      --ink-soft: #46605d;
+      --muted: #7c8d86;
+      --canvas: #f4f1e8;
+      --paper: #fffdf7;
+      --paper-strong: #fffefa;
+      --line: #d9dfd5;
+      --line-strong: #bfcbc0;
+      --navy: #17343a;
+      --navy-deep: #10282d;
+      --green: #23845c;
+      --green-soft: #c4e8ce;
+      --pale-yellow: #f8e8b4;
+      --yellow: #e9ba43;
+      --red: #c9554c;
+      --shadow: 0 18px 50px rgba(36, 63, 54, .10);
+      --shadow-small: 0 7px 22px rgba(36, 63, 54, .08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 82% 4%, rgba(203, 230, 199, .48), transparent 28rem),
+        linear-gradient(rgba(35, 80, 73, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(35, 80, 73, .035) 1px, transparent 1px),
+        var(--canvas);
+      background-size: auto, 28px 28px, 28px 28px, auto;
+      font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.55;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+      outline: 3px solid rgba(233, 186, 67, .75);
+      outline-offset: 3px;
+    }
+    a { color: inherit; }
+    .loading { min-height: 100vh; display: grid; place-items: center; color: var(--muted); }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 0 clamp(18px, 4vw, 62px);
+      color: #f8fffb;
+      background: rgba(16, 40, 45, .96);
+      border-bottom: 1px solid rgba(196, 232, 206, .26);
+      box-shadow: 0 8px 24px rgba(16, 40, 45, .12);
+      backdrop-filter: blur(14px);
+    }
+    .brand { display: flex; align-items: center; gap: 13px; min-width: 0; }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      color: var(--navy-deep);
+      background: var(--green-soft);
+      border-radius: 11px 11px 11px 2px;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      font-weight: 800;
+      transform: rotate(-4deg);
+    }
+    .brand-title {
+      overflow: hidden;
+      color: #f7fff9;
+      font-family: "Kaiti SC", "STKaiti", serif;
+      font-size: 18px;
+      letter-spacing: .08em;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .brand-subtitle { color: #a9c7bd; font-size: 11px; letter-spacing: .11em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; }
+    .nav-link {
+      padding: 8px 13px;
+      color: #cfe3d8;
+      border: 1px solid rgba(207, 227, 216, .22);
+      border-radius: 999px;
+      font-size: 12px;
+      text-decoration: none;
+      transition: background .18s, color .18s, border .18s;
+    }
+    .nav-link:hover { color: #fff; background: rgba(196, 232, 206, .13); border-color: rgba(196, 232, 206, .5); }
+
+    .shell { width: min(1440px, calc(100% - 36px)); margin: 0 auto; padding: 42px 0 70px; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 28px;
+      align-items: stretch;
+      margin-bottom: 24px;
+      animation: rise .55s ease both;
+    }
+    .eyebrow { color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: .19em; text-transform: uppercase; }
+    .hero h1 {
+      max-width: 780px;
+      margin: 10px 0 9px;
+      color: var(--navy-deep);
+      font-family: "Kaiti SC", "STKaiti", "Songti SC", serif;
+      font-size: clamp(35px, 5vw, 68px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: .025em;
+    }
+    .hero-copy { max-width: 720px; margin: 0; color: var(--ink-soft); font-size: 15px; }
+    .hero-note {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 178px;
+      padding: 24px;
+      color: #eaffef;
+      background: linear-gradient(145deg, #215b50, #173b40);
+      border-radius: 5px 26px 5px 26px;
+      box-shadow: var(--shadow);
+    }
+    .hero-note::after {
+      content: "";
+      position: absolute;
+      width: 145px;
+      height: 145px;
+      right: -53px;
+      bottom: -61px;
+      border: 1px solid rgba(196, 232, 206, .38);
+      border-radius: 50%;
+      box-shadow: 0 0 0 15px rgba(196, 232, 206, .06), 0 0 0 30px rgba(196, 232, 206, .045);
+    }
+    .hero-note-label { color: #b7d8c6; font-size: 12px; letter-spacing: .11em; }
+    .days-line { display: flex; align-items: baseline; gap: 8px; margin: 10px 0 3px; }
+    .days-line strong { font-family: Georgia, serif; font-size: 62px; line-height: 1; }
+    .days-line span { color: #cae7d2; font-size: 18px; }
+    .hero-note small { color: #b7d8c6; font-size: 12px; }
+
+    .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 26px; }
+    .score-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 140px;
+      padding: 21px 23px;
+      background: rgba(255, 253, 247, .88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-small);
+      animation: rise .55s ease both;
+    }
+    .score-card:nth-child(2) { animation-delay: .06s; }
+    .score-card:nth-child(3) { animation-delay: .12s; }
+    .score-card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--score-color, var(--red)); }
+    .score-card-head { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+    .score-subject { font-size: 13px; font-weight: 800; letter-spacing: .06em; }
+    .score-note { color: var(--muted); font-size: 11px; }
+    .score-number { margin-top: 14px; font-family: Georgia, serif; font-size: 37px; line-height: 1; }
+    .score-number small { color: var(--muted); font-family: inherit; font-size: 15px; }
+    .score-badge { padding: 4px 9px; color: var(--score-color, var(--red)); background: color-mix(in srgb, var(--score-color, var(--red)) 13%, white); border-radius: 999px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .score-footer { display: flex; justify-content: space-between; gap: 10px; margin-top: 12px; color: var(--muted); font-size: 11px; }
+    .score-footer strong { color: var(--ink-soft); }
+
+    .overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.22fr) minmax(290px, .78fr);
+      gap: 18px;
+      margin-bottom: 34px;
+    }
+    .panel { background: rgba(255, 253, 247, .91); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-small); }
+    .panel-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; padding: 22px 24px 16px; border-bottom: 1px solid var(--line); }
+    .panel-heading h2, .section-title h2 { margin: 4px 0 0; color: var(--navy-deep); font-family: "Kaiti SC", "STKaiti", serif; font-size: 25px; letter-spacing: .04em; }
+    .panel-heading p { margin: 0; color: var(--muted); font-size: 12px; }
+    .stage-summary { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 21px 24px 24px; }
+    .stage-summary-item { min-width: 0; }
+    .stage-summary-count { display: block; color: var(--stage); font-family: Georgia, serif; font-size: 28px; line-height: 1; }
+    .stage-summary-label { display: block; overflow: hidden; margin-top: 7px; color: var(--ink-soft); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .stage-summary-bar { height: 5px; margin-top: 11px; background: #edf0e9; border-radius: 999px; overflow: hidden; }
+    .stage-summary-bar span { display: block; height: 100%; background: var(--stage); border-radius: inherit; }
+    .focus-panel { padding-bottom: 17px; }
+    .focus-list { padding: 3px 24px 0; }
+    .focus-item { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; align-items: center; gap: 11px; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+    .focus-item:last-child { border-bottom: 0; }
+    .focus-dot { width: 9px; height: 9px; background: var(--stage); border-radius: 50%; box-shadow: 0 0 0 4px color-mix(in srgb, var(--stage) 15%, transparent); }
+    .focus-name { overflow: hidden; font-size: 13px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+    .focus-meta { color: var(--muted); font-size: 11px; }
+    .focus-level { color: var(--stage); font-size: 11px; font-weight: 800; white-space: nowrap; }
+
+    .syllabus-section { animation: rise .6s .14s ease both; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 16px; }
+    .section-title p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+    .legend { display: flex; flex-wrap: wrap; justify-content: end; gap: 7px 13px; max-width: 670px; }
+    .legend-item { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-soft); font-size: 11px; white-space: nowrap; }
+    .legend-swatch { width: 10px; height: 10px; background: var(--stage); border-radius: 3px; }
+    .controls { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
+    .filter-tabs { display: flex; flex-wrap: wrap; gap: 7px; }
+    .filter-tab, .sort-select, .search-input {
+      color: var(--ink-soft);
+      background: rgba(255, 253, 247, .8);
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      font-size: 12px;
+    }
+    .filter-tab { padding: 8px 14px; transition: color .18s, background .18s, border .18s, transform .18s; }
+    .filter-tab:hover { transform: translateY(-1px); border-color: var(--green); }
+    .filter-tab.active { color: #fff; background: var(--navy); border-color: var(--navy); }
+    .control-right { display: flex; align-items: center; gap: 8px; }
+    .search-input { width: 175px; padding: 8px 13px; border-radius: 999px; }
+    .sort-select { padding: 8px 11px; }
+    .topic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .topic-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 258px;
+      padding: 19px 20px 18px;
+      background: var(--paper-strong);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      box-shadow: 0 4px 13px rgba(36, 63, 54, .045);
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s, border .2s;
+      animation: card-in .4s ease both;
+    }
+    .topic-card:hover { transform: translateY(-4px); border-color: var(--stage); box-shadow: 0 12px 28px rgba(36, 63, 54, .11); }
+    .topic-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--stage); }
+    .topic-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .node-code { color: var(--green); font-family: Georgia, serif; font-size: 11px; font-weight: 800; letter-spacing: .11em; }
+    .stage-pill { color: var(--stage); background: color-mix(in srgb, var(--stage) 16%, white); border-radius: 999px; padding: 4px 8px; font-size: 10px; font-weight: 800; white-space: nowrap; }
+    .topic-card h3 { min-height: 49px; margin: 13px 0 4px; color: var(--navy-deep); font-family: "Kaiti SC", "STKaiti", serif; font-size: 20px; line-height: 1.3; }
+    .topic-domain { min-height: 22px; color: var(--muted); font-size: 11px; }
+    .mastery-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 15px; }
+    .mastery-row span { color: var(--ink-soft); font-size: 11px; }
+    .mastery-row strong { color: var(--stage); font-family: Georgia, serif; font-size: 21px; }
+    .mastery-bar { height: 7px; margin-top: 8px; background: #edf0e9; border-radius: 999px; overflow: hidden; }
+    .mastery-bar span { display: block; height: 100%; background: var(--stage); border-radius: inherit; transition: width .7s cubic-bezier(.2,.8,.2,1); }
+    .topic-meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 12px; color: var(--muted); font-size: 10px; }
+    .topic-meta strong { color: var(--ink-soft); font-weight: 800; }
+    .skill-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; padding-top: 15px; }
+    .skill-chip { padding: 4px 7px; color: var(--ink-soft); background: #f0f4ed; border: 1px solid #dce6db; border-radius: 5px; font-size: 10px; }
+    .empty-state { grid-column: 1 / -1; padding: 45px; color: var(--muted); background: rgba(255, 253, 247, .75); border: 1px dashed var(--line-strong); border-radius: var(--radius); text-align: center; }
+
+    .footnote { margin-top: 28px; color: var(--muted); font-size: 11px; text-align: center; }
+    .error-box { max-width: 680px; margin: 80px auto; padding: 30px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-top: 5px solid var(--red); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .error-box h1 { margin-top: 0; font-family: "Kaiti SC", "STKaiti", serif; }
+    @keyframes rise { from { opacity: 0; transform: translateY(11px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes card-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 1080px) {
+      .topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .overview { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .topbar { min-height: 67px; padding: 0 16px; }
+      .brand-subtitle, .nav-link.secondary { display: none; }
+      .shell { width: min(100% - 22px, 680px); padding-top: 27px; }
+      .hero { grid-template-columns: 1fr; gap: 16px; }
+      .hero h1 { font-size: clamp(36px, 12vw, 58px); }
+      .hero-note { min-height: 135px; border-radius: 5px 22px 5px 22px; }
+      .score-grid { grid-template-columns: 1fr; }
+      .score-card { min-height: 125px; }
+      .section-heading, .controls { align-items: stretch; flex-direction: column; }
+      .legend { justify-content: start; }
+      .control-right { width: 100%; }
+      .search-input { flex: 1; width: auto; }
+    }
+    @media (max-width: 520px) {
+      .topic-grid { grid-template-columns: 1fr; }
+      .stage-summary { gap: 6px; padding-left: 17px; padding-right: 17px; }
+      .stage-summary-count { font-size: 22px; }
+      .stage-summary-label { font-size: 10px; }
+      .panel-heading { padding-left: 18px; padding-right: 18px; }
+      .focus-list { padding-left: 18px; padding-right: 18px; }
+      .score-card { padding-left: 19px; }
+    }
+
+    /* Keep the progress view visually inside the same exam workstation. */
+    :root {
+      --ink: #182536;
+      --ink-soft: #435268;
+      --muted: #68778a;
+      --canvas: #e9edf3;
+      --paper: #fff;
+      --paper-strong: #fff;
+      --line: #d7dee8;
+      --line-strong: #b9c4d1;
+      --navy: #0d4f8b;
+      --navy-deep: #07365f;
+      --green: #176b50;
+      --green-soft: #eaf7f1;
+      --shadow: 0 14px 35px rgba(26, 46, 69, .12);
+      --shadow-small: 0 6px 20px rgba(34, 52, 74, .07);
+      --radius: 4px;
+    }
+    body {
+      background: radial-gradient(circle at 76% 10%, rgba(13, 79, 139, .11), transparent 26%), var(--canvas);
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.62;
+    }
+    .topbar {
+      position: static;
+      min-height: 72px;
+      height: 72px;
+      padding: 0 26px;
+      background: linear-gradient(110deg, var(--navy-deep), var(--navy) 64%, #1767a8);
+      border-bottom: 4px solid #d8a339;
+      box-shadow: 0 3px 18px rgba(1, 28, 53, .25);
+      backdrop-filter: none;
+    }
+    .brand { gap: 14px; }
+    .brand-mark {
+      width: 39px;
+      height: 39px;
+      color: #fff;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, .82);
+      border-radius: 50%;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      box-shadow: inset 0 0 0 4px rgba(255, 255, 255, .12);
+      transform: none;
+    }
+    .brand-title { color: #fff; font-family: "Songti SC", STSong, serif; font-size: 18px; letter-spacing: .06em; }
+    .brand-subtitle { color: #c9dcef; font-size: 12px; letter-spacing: .05em; }
+    .nav-links { gap: 8px; }
+    .nav-link { padding: 8px 12px; color: #dceaf6; border-color: rgba(220, 234, 246, .4); border-radius: 4px; }
+    .nav-link:hover { color: #fff; background: rgba(255, 255, 255, .1); border-color: #fff; }
+    .shell { width: min(1180px, calc(100% - 48px)); padding: 34px 0 55px; }
+    .hero {
+      gap: 28px;
+      padding: 30px 34px 34px;
+      background: var(--paper);
+      border: 1px solid #cbd5e1;
+      border-left: 7px solid var(--navy);
+      box-shadow: var(--shadow);
+    }
+    .eyebrow { color: var(--navy); letter-spacing: .14em; }
+    .hero h1 { max-width: 780px; margin: 7px 0 5px; color: var(--navy-deep); font-family: "Songti SC", STSong, serif; font-size: clamp(28px, 4vw, 42px); font-weight: 650; line-height: 1.2; letter-spacing: .03em; }
+    .hero-copy { color: var(--muted); font-size: 14px; }
+    .hero-note { min-height: 166px; padding: 22px; color: var(--ink); background: #f2f7fb; border: 1px solid #cfe0ee; border-top: 4px solid var(--green); border-radius: 0; box-shadow: none; }
+    .hero-note::after { display: none; }
+    .hero-note-label { color: var(--muted); font-size: 12px; letter-spacing: .05em; }
+    .days-line strong { color: var(--navy-deep); font-size: 56px; }
+    .days-line span { color: var(--navy); font-size: 17px; }
+    .hero-note small { color: var(--muted); }
+    .score-grid { gap: 14px; margin-bottom: 18px; }
+    .score-card { min-height: 136px; padding: 20px 22px; background: var(--paper); border-radius: 4px; box-shadow: var(--shadow-small); }
+    .score-badge { border-radius: 999px; }
+    .overview { gap: 14px; margin-bottom: 28px; }
+    .panel { background: var(--paper); border-radius: 4px; box-shadow: var(--shadow-small); }
+    .panel-heading { padding: 18px 22px 14px; }
+    .panel-heading h2, .section-title h2 { color: var(--navy-deep); font-family: "Songti SC", STSong, serif; font-size: 21px; }
+    .stage-summary { padding: 19px 22px 21px; }
+    .stage-summary-bar, .mastery-bar { border-radius: 0; }
+    .focus-list { padding-left: 22px; padding-right: 22px; }
+    .focus-item { padding: 10px 0; }
+    .section-heading { margin-bottom: 13px; }
+    .section-title p { font-size: 12px; }
+    .legend { gap: 7px 12px; }
+    .filter-tabs { gap: 6px; }
+    .filter-tab, .sort-select, .search-input { background: #fff; border-radius: 4px; }
+    .filter-tab { padding: 8px 13px; }
+    .filter-tab:hover { transform: none; border-color: #6997bd; background: #f8fbfe; }
+    .filter-tab.active { background: var(--navy); border-color: var(--navy); }
+    .search-input { width: 180px; padding: 8px 11px; }
+    .topic-grid { gap: 11px; }
+    .topic-card { min-height: 248px; padding: 17px 18px 16px; background: var(--paper); border-radius: 3px; box-shadow: var(--shadow-small); }
+    .topic-card:hover { transform: translateY(-2px); box-shadow: 0 9px 24px rgba(34, 52, 74, .11); }
+    .node-code { color: var(--navy); }
+    .topic-card h3 { margin-top: 11px; color: var(--navy-deep); font-family: "Songti SC", STSong, serif; font-size: 18px; }
+    .mastery-row { margin-top: 13px; }
+    .skill-chip { color: var(--ink-soft); background: #f3f6f9; border-color: var(--line); border-radius: 3px; }
+    .empty-state { background: #fff; border-radius: 3px; }
+    .footnote { margin-top: 22px; }
+    .error-box { background: #fff; border-radius: 4px; }
+    @media (max-width: 760px) {
+      .topbar { min-height: 72px; height: 72px; padding: 0 14px; }
+      .shell { width: min(100% - 20px, 680px); padding-top: 20px; }
+      .hero { padding: 23px 22px 24px; }
+      .hero h1 { font-size: clamp(27px, 8vw, 36px); }
+      .hero-note { min-height: 136px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="loading">正在读取学习航图…</div>
+  <script>
+  'use strict';
+
+  const LEVELS = [
+    { key: 'green', label: '稳定掌握', note: '已达到稳定证据', color: '#23845c' },
+    { key: 'mint', label: '接近稳定', note: '表现不错，仍需跨日复测', color: '#76b982' },
+    { key: 'pale', label: '学习中', note: '已有证据，还需要补题', color: '#d8a946' },
+    { key: 'yellow', label: '薄弱待复习', note: '近期表现不够稳定', color: '#e9ba43' },
+    { key: 'red', label: '未测量 / 待开始', note: '尚无有效掌握证据', color: '#c9554c' },
+  ];
+  const SKILL_LABELS = { recognition: '识别', application: '应用', production: '论证' };
+  const SUBJECT_LABELS = { comprehensive: '综合知识', case: '案例分析', essay: '论文' };
+  const SUBJECT_ORDER = ['comprehensive', 'case', 'essay'];
+  const app = document.getElementById('app');
+  let curriculum = [], status = null, activeSubject = 'all', searchTerm = '', sortMode = 'weak';
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+  }
+  function formatDate(value) { return value ? String(value).slice(0, 10).replace(/-/g, '.') : '尚未练习'; }
+  function formatNumber(value) { return Number.isInteger(value) ? String(value) : Number(value).toFixed(1); }
+  function daysUntil(dateString) {
+    if (!dateString) return null;
+    const target = new Date(`${dateString}T00:00:00+08:00`);
+    return Math.max(0, Math.ceil((target.getTime() - Date.now()) / 86400000));
+  }
+  function topicState(topic) { return status?.topics?.[topic.id] || {}; }
+  function progressFor(topic) {
+    const current = topicState(topic);
+    const mastery = current.mastery || {};
+    const entries = topic.skills.map(skill => mastery[skill]).filter(Boolean);
+    const evidence = entries.reduce((sum, item) => sum + Number(item.attempt_count || 0), 0);
+    const covered = entries.length;
+    const average = topic.skills.length ? entries.reduce((sum, item) => sum + Number(item.mastery || 0), 0) / topic.skills.length : 0;
+    const stateStatus = current.status || 'unseen';
+    let levelIndex = 4;
+    if (evidence > 0) {
+      if (stateStatus === 'pass_ready' || (covered === topic.skills.length && average >= .78)) levelIndex = 0;
+      else if (stateStatus === 'fragile' && average >= .68) levelIndex = 1;
+      else if (average >= .34) levelIndex = 2;
+      else levelIndex = 3;
+    }
+    const last = current.last_attempt_at || entries.map(item => item.last_attempt_at).filter(Boolean).sort().pop();
+    const next = current.next_review_at || entries.map(item => item.next_review_at).filter(Boolean).sort().shift();
+    const coveredSkills = topic.skills.filter(skill => mastery[skill]?.attempt_count).length;
+    return { current, evidence, coveredSkills, average, levelIndex, level: LEVELS[levelIndex], last, next, status: stateStatus };
+  }
+  function subjectScore(key) {
+    return status?.subjects?.[key] || {};
+  }
+  function scoreColor(key) {
+    const value = subjectScore(key).lower_bound_score;
+    if (value == null) return LEVELS[4].color;
+    if (value >= 52) return LEVELS[0].color;
+    if (value >= 45) return LEVELS[1].color;
+    if (value >= 35) return LEVELS[2].color;
+    if (value >= 25) return LEVELS[3].color;
+    return LEVELS[4].color;
+  }
+  function scoreStatus(value) {
+    if (value == null) return '未测量';
+    if (value >= 52) return '安全目标';
+    if (value >= 45) return '接近过线';
+    return '仍有缺口';
+  }
+  function filteredTopics() {
+    const normalized = searchTerm.trim().toLowerCase();
+    return curriculum
+      .map(topic => ({ topic, progress: progressFor(topic) }))
+      .filter(({ topic }) => activeSubject === 'all' || topic.subjects.includes(activeSubject))
+      .filter(({ topic }) => !normalized || `${topic.id} ${topic.name}`.toLowerCase().includes(normalized))
+      .sort((left, right) => {
+        if (sortMode === 'frequency') return Number(right.topic.frequency_count || 0) - Number(left.topic.frequency_count || 0);
+        if (sortMode === 'name') return left.topic.name.localeCompare(right.topic.name, 'zh-CN');
+        return right.progress.levelIndex - left.progress.levelIndex || left.progress.average - right.progress.average || Number(right.topic.frequency_count || 0) - Number(left.topic.frequency_count || 0);
+      });
+  }
+  function renderTopbar() {
+    return `<header class="topbar"><div class="brand"><div class="brand-mark">航</div><div><div class="brand-title">系统架构设计师 · 学习航图</div><div class="brand-subtitle">PASS-FIRST KNOWLEDGE MAP</div></div></div><nav class="nav-links"><a class="nav-link secondary" href="/">返回模拟考试</a><a class="nav-link" href="#syllabus">知识点全景</a></nav></header>`;
+  }
+  function renderHero() {
+    const profile = status?.profile || {};
+    const days = daysUntil(profile.exam_date);
+    return `<section class="hero"><div><div class="eyebrow">A learner's architecture atlas</div><h1>把缺口变成<br>过线路线。</h1><p class="hero-copy">这里展示课程表中的全部知识节点。颜色只表达当前证据强弱：先处理红色与黄色，再用跨日复测把浅绿推成绿色。</p></div><aside class="hero-note"><div class="hero-note-label">距离下一次考试</div><div class="days-line"><strong>${days == null ? '—' : days}</strong><span>${days == null ? '' : '天'}</span></div><small>${profile.exam_date ? `目标考期 ${escapeHtml(profile.exam_date)}` : '尚未设置考期'} · 每日预算 ${formatNumber(profile.daily_minutes || 0)} 分钟</small></aside></section>`;
+  }
+  function renderScoreCard(key) {
+    const score = subjectScore(key);
+    const lower = score.lower_bound_score;
+    const latest = score.latest_mock_score;
+    const color = scoreColor(key);
+    return `<article class="score-card" style="--score-color:${color}"><div class="score-card-head"><div><div class="score-subject">${SUBJECT_LABELS[key]}</div><div class="score-note">保守下界 / 最近完整成绩</div></div><span class="score-badge">${scoreStatus(lower)}</span></div><div class="score-number">${lower == null ? '—' : formatNumber(lower)}<small> / 75</small></div><div class="score-footer"><span>最近：<strong>${latest == null ? '—' : formatNumber(latest)}</strong></span><span>证据：<strong>${score.evidence_count || 0} 条</strong></span></div></article>`;
+  }
+  function renderScores() { return `<section class="score-grid">${SUBJECT_ORDER.map(renderScoreCard).join('')}</section>`; }
+  function renderStageSummary() {
+    const counts = LEVELS.map((_, index) => curriculum.filter(topic => progressFor(topic).levelIndex === index).length);
+    const total = curriculum.length || 1;
+    return `<section class="panel"><div class="panel-heading"><div><div class="eyebrow">Five-stage signal</div><h2>掌握程度分布</h2></div><p>${curriculum.length} 个知识节点</p></div><div class="stage-summary">${LEVELS.map((level, index) => `<div class="stage-summary-item" style="--stage:${level.color}"><span class="stage-summary-count">${counts[index]}</span><span class="stage-summary-label">${level.label}</span><div class="stage-summary-bar"><span style="width:${Math.round(counts[index] / total * 100)}%"></span></div></div>`).join('')}</div></section>`;
+  }
+  function renderFocus() {
+    const focus = curriculum.map(topic => ({ topic, progress: progressFor(topic) })).sort((left, right) => right.progress.levelIndex - left.progress.levelIndex || left.progress.average - right.progress.average || Number(right.topic.frequency_count || 0) - Number(left.topic.frequency_count || 0)).slice(0, 5);
+    return `<section class="panel focus-panel"><div class="panel-heading"><div><div class="eyebrow">Next useful moves</div><h2>当前优先补齐</h2></div><p>红 → 黄 → 浅黄</p></div><div class="focus-list">${focus.map(({ topic, progress }) => `<div class="focus-item" style="--stage:${progress.level.color}"><span class="focus-dot"></span><div><div class="focus-name">${escapeHtml(topic.name)}</div><div class="focus-meta">${progress.evidence ? `证据 ${progress.evidence} 条 · ${progress.coveredSkills}/${topic.skills.length} 个能力维度` : '尚无有效证据'}</div></div><span class="focus-level">${progress.level.label}</span></div>`).join('')}</div></section>`;
+  }
+  function renderOverview() { return `<section class="overview">${renderStageSummary()}${renderFocus()}</section>`; }
+  function renderLegend() { return `<div class="legend" aria-label="掌握程度颜色图例">${LEVELS.map(level => `<span class="legend-item"><i class="legend-swatch" style="--stage:${level.color}"></i>${level.label}</span>`).join('')}</div>`; }
+  function renderFilters() {
+    const tabs = [['all', '全部知识点'], ...SUBJECT_ORDER.map(key => [key, SUBJECT_LABELS[key]])];
+    return `<div class="controls"><div class="filter-tabs" role="tablist" aria-label="科目筛选">${tabs.map(([key, label]) => `<button class="filter-tab ${activeSubject === key ? 'active' : ''}" data-subject="${key}" role="tab" aria-selected="${activeSubject === key}">${label}</button>`).join('')}</div><div class="control-right"><input class="search-input" type="search" placeholder="搜索知识点…" aria-label="搜索知识点" value="${escapeHtml(searchTerm)}"><select class="sort-select" aria-label="排序方式"><option value="weak" ${sortMode === 'weak' ? 'selected' : ''}>按薄弱优先</option><option value="frequency" ${sortMode === 'frequency' ? 'selected' : ''}>按历年频率</option><option value="name" ${sortMode === 'name' ? 'selected' : ''}>按名称</option></select></div></div>`;
+  }
+  function renderTopicCard({ topic, progress }, index) {
+    const subjectNames = topic.subjects.map(subject => SUBJECT_LABELS[subject]).join(' · ');
+    const masteryPercent = progress.evidence ? Math.round(progress.average * 100) : 0;
+    const meta = progress.evidence ? `证据 <strong>${progress.evidence}</strong> 条` : '<strong>待开始</strong>';
+    const next = progress.next ? `复习 ${formatDate(progress.next)}` : (progress.evidence ? '等待排课' : '尚未安排');
+    const chips = topic.skills.map(skill => `<span class="skill-chip">${SKILL_LABELS[skill] || skill}${progress.current.mastery?.[skill] ? ` · ${Math.round(Number(progress.current.mastery[skill].mastery || 0) * 100)}%` : ''}</span>`).join('');
+    return `<article class="topic-card" style="--stage:${progress.level.color}; animation-delay:${Math.min(index, 18) * 24}ms"><div class="topic-top"><span class="node-code">${escapeHtml(topic.id)}</span><span class="stage-pill">${progress.level.label}</span></div><h3>${escapeHtml(topic.name)}</h3><div class="topic-domain">${subjectNames}</div><div class="mastery-row"><span>掌握估计</span><strong>${progress.evidence ? `${masteryPercent}%` : '—'}</strong></div><div class="mastery-bar" aria-label="掌握估计 ${progress.evidence ? masteryPercent : 0}%"><span style="width:${masteryPercent}%"></span></div><div class="topic-meta"><span>${meta}</span><span>${next}</span></div><div class="skill-row">${chips}</div></article>`;
+  }
+  function renderSyllabus() {
+    const topics = filteredTopics();
+    return `<section id="syllabus" class="syllabus-section"><div class="section-heading"><div class="section-title"><div class="eyebrow">Syllabus / ${curriculum.length} nodes</div><h2>知识点全景</h2><p>每张卡片只看证据：识别、应用、论证分别核算，不用平均分掩盖短板。</p></div>${renderLegend()}</div>${renderFilters()}<div class="topic-grid">${topics.length ? topics.map(renderTopicCard).join('') : '<div class="empty-state">没有找到匹配的知识点，换一个关键词试试。</div>'}</div></section>`;
+  }
+  function render() { app.innerHTML = renderTopbar() + `<main class="shell">${renderHero()}${renderScores()}${renderOverview()}${renderSyllabus()}<p class="footnote">状态来自本机 .study/ 的有效证据。红色表示“还没有足够证据”，不等于能力被否定；答题记录会在下次刷新后更新。</p></main>`; bindEvents(); }
+  function bindEvents() {
+    app.querySelectorAll('[data-subject]').forEach(button => button.addEventListener('click', () => { activeSubject = button.dataset.subject; render(); }));
+    const search = app.querySelector('.search-input');
+    search?.addEventListener('input', event => { searchTerm = event.target.value; render(); const next = app.querySelector('.search-input'); next?.focus(); next?.setSelectionRange(searchTerm.length, searchTerm.length); });
+    app.querySelector('.sort-select')?.addEventListener('change', event => { sortMode = event.target.value; render(); });
+  }
+  async function boot() {
+    try {
+      const [statusResponse, curriculumResponse] = await Promise.all([fetch('/api/status'), fetch('/api/curriculum')]);
+      const statusPayload = await statusResponse.json();
+      const curriculumPayload = await curriculumResponse.json();
+      if (!statusResponse.ok || !statusPayload.ok) throw new Error(statusPayload.error || '学习状态尚未初始化');
+      if (!curriculumResponse.ok || !curriculumPayload.ok) throw new Error(curriculumPayload.error || '课程目录加载失败');
+      status = statusPayload.data;
+      curriculum = curriculumPayload.data.topics || [];
+      render();
+    } catch (error) {
+      app.className = '';
+      app.innerHTML = `<section class="error-box"><h1>学习航图暂时无法打开</h1><p>${escapeHtml(error.message)}</p><p>请先确认本地考试服务已启动，再刷新 <code>/dashboard.html</code>。</p></section>`;
+    }
+  }
+  if (window.location.protocol === 'file:') window.location.replace('http://localhost:8420/dashboard.html'); else boot();
+  </script>
+</body>
+</html>
