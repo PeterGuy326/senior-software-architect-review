@@ -83,6 +83,32 @@ def validate_session_id(value: Any) -> str:
     return value
 
 
+def public_curriculum() -> dict[str, Any]:
+    """Return only the syllabus metadata needed by the local dashboard."""
+    curriculum = tutor.load_curriculum()
+    fields = (
+        "id",
+        "name",
+        "subjects",
+        "skills",
+        "facets",
+        "frequency_count",
+        "frequency_confidence",
+        "priority_weight",
+        "quick_win",
+        "cross_subject_value",
+        "estimated_minutes",
+        "strategy_rank",
+    )
+    return {
+        "schema_version": curriculum.get("schema_version"),
+        "topics": [
+            {field: topic[field] for field in fields if field in topic}
+            for topic in curriculum["topics"]
+        ],
+    }
+
+
 def grade_mock(answers: dict[str, str]) -> tuple[list[dict[str, Any]], int]:
     """Grade on the local server; answers are absent from the pre-exam payload."""
     results: list[dict[str, Any]] = []
@@ -304,6 +330,8 @@ class ExamHandler(SimpleHTTPRequestHandler):
             return
         if path == "/api/status":
             self._handle_status()
+        elif path == "/api/curriculum":
+            self._handle_curriculum()
         elif path == "/api/mock-paper":
             self._handle_mock_paper()
         elif path in {"/questions.json", "/api/questions"}:
@@ -337,6 +365,12 @@ class ExamHandler(SimpleHTTPRequestHandler):
             json_response(self, {"ok": True, "data": tutor.status_payload(profile, state)})
         except tutor.TutorError as error:
             json_response(self, {"ok": False, "error": str(error), "needs_init": True}, 409)
+
+    def _handle_curriculum(self) -> None:
+        try:
+            json_response(self, {"ok": True, "data": public_curriculum()})
+        except tutor.TutorError as error:
+            json_response(self, {"ok": False, "error": str(error)}, 500)
 
     def _handle_mock_paper(self) -> None:
         try:
