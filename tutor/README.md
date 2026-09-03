@@ -52,6 +52,16 @@ python3 scripts/serve.py
 
 整个 `.study/` 已被 Git 忽略。不要使用 `git add -f .study`，不要把真实公司、客户、系统或个人信息写入公共仓库、Issue 或 PR。
 
+## 教师 & 运行时文档
+
+- [`.claude/agents/senior-architect-pass-coach.md`](../.claude/agents/senior-architect-pass-coach.md) — 教师人格与决策规则（诊断 / 案例 / 论文全流程）
+- [`PROGRESS_PROTOCOL.md`](./PROGRESS_PROTOCOL.md) — 记档规则、证据分级、隐私边界
+- [`quiz-loop-sop.md`](./quiz-loop-sop.md) — 客观题一轮"出题→作答→判分→记档"的运行时管道
+- [`topic-map.md`](./topic-map.md) — 考点↔资源↔facet 映射表（脚本自动生成，请勿手改）
+- [`../scripts/tutor.py`](../scripts/tutor.py) — 私人进度 CLI（`init` / `status` / `recommend` / `record` / `doctor`）
+- [`../scripts/sanitize_bank.py`](../scripts/sanitize_bank.py) — exam-bank 答案脱敏器
+- [`../scripts/gen_topic_map.py`](../scripts/gen_topic_map.py) — 由 `curriculum.json` 重新生成 `topic-map.md`
+
 ## 常用说法
 
 | 你说 | 私教会做 |
