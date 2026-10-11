@@ -63,7 +63,7 @@ python3 scripts/serve.py
 ├── mind-maps/                  # 核心知识域 Mermaid 脑图
 ├── past-papers/
 │   ├── paper-topics/           # ⭐ 论文 13 大主题分类（万能提纲 + 21 道仿真模拟题）
-│   ├── paper-samples/          # ⭐ 18 篇真实项目改编范文（13 主题全覆盖 + 5 篇高频变体，3000+ 字）
+│   ├── paper-samples/          # ⭐ 19 篇项目场景范文（13 主题全覆盖 + 6 篇高频变体，含公开模拟教学版）
 │   ├── case-types/             # ⭐ 案例 9 大题型分类（答题套路 + 26 道完整模拟题）
 │   ├── essay-questions-by-year.md  # ⭐ 2009-2024 历年论文真题清单 + 主题映射 + 选题决策树
 │   ├── analysis-template.md    # 历年真题解析模板
@@ -82,7 +82,7 @@ python3 scripts/serve.py
 | 综合知识 | 选择题题库（自主命题 + 解析） | **320+** | [`exam-bank/`](./exam-bank/) |
 | 案例分析 | 完整模拟题（题干+答案+评分） | **26** | [`past-papers/case-types/`](./past-papers/case-types/) |
 | 论文 | 仿真模拟论文题（题目+提纲答案） | **21** | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
-| 论文 | 完整范文（3000+ 字/篇，13 主题全覆盖 + 5 高频变体） | **18** | [`past-papers/paper-samples/`](./past-papers/paper-samples/) |
+| 论文 | 完整范文（13 主题全覆盖 + 6 高频变体，含模拟题答题覆盖点） | **19** | [`past-papers/paper-samples/`](./past-papers/paper-samples/) |
 | 论文 | 历年真题清单（2009-2024，64+ 题）+ 主题映射 + 选题决策树 | **1 份** | [`past-papers/essay-questions-by-year.md`](./past-papers/essay-questions-by-year.md) |
 
 > 需要历年真题原卷 PDF？从公开源 [xiaomabenten/system_architect](https://github.com/xiaomabenten/system_architect/tree/main/03、历年真题(2009年-2025年)%2B答案解析) 自行下载（含 2018-2025 完整卷 + 答案详解）。本仓库不重复存放大 PDF 二进制文件。
@@ -95,7 +95,7 @@ python3 scripts/serve.py
 |---|---|---|
 | 📚 综合知识（45/75） | [`SURVIVAL_CARD.md`](./past-papers/SURVIVAL_CARD.md) 272 条核心考点 + [`HIGH_FREQ.md`](./past-papers/HIGH_FREQ.md) 高频统计 | [`comprehensive-by-year/`](./past-papers/comprehensive-by-year/) 7 年 431 题 |
 | 🎯 案例分析（45/75） | [`CASE_SURVIVAL.md`](./past-papers/CASE_SURVIVAL.md) 90 分钟战术 + 高频题型套路 | [`case-types/`](./past-papers/case-types/) 13 题型完整答题套路 |
-| ✍️ 论文（45/75） | [`PAPER_SURVIVAL.md`](./past-papers/PAPER_SURVIVAL.md) 万能项目 + 5 主题万能段落 | [`paper-samples/`](./past-papers/paper-samples/) 18 篇范文 + [`paper-topics/`](./past-papers/paper-topics/) 13 主题提纲 |
+| ✍️ 论文（45/75） | [`PAPER_SURVIVAL.md`](./past-papers/PAPER_SURVIVAL.md) 万能项目 + 5 主题万能段落 | [`paper-samples/`](./past-papers/paper-samples/) 19 篇范文 + [`paper-topics/`](./past-papers/paper-topics/) 13 主题提纲 |
 
 **综合过线策略**（数据来自 7 年真题）：只抓 §4 软件工程（21.8%）+ §6 系统架构（17.6%）+ §1 计算机系统（13.7%）+ §7 质量属性（10.0%）= **63% ≈ 47 题**。这 4 板块打到 85% 正确 = 40 题稳过，其他 28 题蒙对 7 题即可达到 47/75 保过。
 
