@@ -28,13 +28,14 @@
 | 12 | 软件测试与质量保证 | 证券公司金融自动化测试平台 | 2020 缺陷管理 / 2017 质量保证 / 2024 单元测试 | ~4570 | [12-testing-qa.md](./12-testing-qa.md) |
 | 13 | DevOps + Serverless | 互联网研发效能平台 | 2024 云原生 DevOps / 2017 Serverless | ~5170 | [13-devops-serverless.md](./13-devops-serverless.md) |
 
-## 范文目录 — 高频主题变体（5 篇）
+## 范文目录 — 高频主题变体（6 篇）
 
-主题 01-05 各加 1 篇变体，与主范文从**子主题/行业场景**两个维度区分，便于不同真题切换适配。
+主题 01-05 包含行业场景变体；主题 01 另提供一篇标出教材知识与答题覆盖点的公开模拟范文，便于理解同主题的选型与应用。
 
 | # | 论文主题（变体） | 改编案例 | 对标真题 | 字数 | 文件 |
 |---|---|---|---|---|---|
 | 01b | 架构风格选型 | 物流公司智慧调度系统 | 2017 架构风格 / 2015 架构风格 / 2013 分层风格 | ~3000 | [01b-architecture-style.md](./01b-architecture-style.md) |
+| 01c | 架构风格与答题覆盖点 | 企业客户经营平台（通用模拟） | 自编模拟题 | ~3000 | [01c-architecture-style-customer-operations.md](./01c-architecture-style-customer-operations.md) |
 | 02b | 架构评估 ATAM 政务 | 省级政务大数据交换平台 | 2019 架构评估 / 2016 架构评估 | ~3000 | [02b-architecture-evaluation-government.md](./02b-architecture-evaluation-government.md) |
 | 03b | 软件可靠性评价模型 | 电信运营商计费系统 | 2010 可靠性评价 / 2023 可靠性模型 | ~3000 | [03b-reliability-evaluation.md](./03b-reliability-evaluation.md) |
 | 04b | 网络安全 + 零信任 | 三甲医院 HIS 等保升级 | 2014 网络安全 / 2021 安全架构 | ~3000 | [04b-network-security.md](./04b-network-security.md) |
