@@ -108,7 +108,7 @@ python3 scripts/serve.py
 | 科目 | 主用目录 |
 |---|---|
 | 📚 **综合知识**（75 选 1） | [`past-papers/comprehensive-by-year/`](./past-papers/comprehensive-by-year/) 历年真题 + [`past-papers/SURVIVAL_CARD.md`](./past-papers/SURVIVAL_CARD.md) 保命卡 + [`cheatsheets/`](./cheatsheets/) 速查表 |
-| 🎯 **案例分析**（5 选 3） | [`past-papers/case-types/`](./past-papers/case-types/) |
+| 🎯 **案例分析**（必选 + 四选二） | [`case-types/`](./past-papers/case-types/) 答题套路；[`案例精选 PDF`](./past-papers/case-selected/) 数据库 / Redis / Web 方向，含无答案版与参考答案版 |
 | ✍️ **论文**（4 选 1） | [`past-papers/paper-topics/`](./past-papers/paper-topics/) |
 
 ## 按知识点索引例题（强烈推荐）
