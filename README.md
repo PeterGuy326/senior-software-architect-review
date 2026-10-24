@@ -18,6 +18,18 @@
 
 30 秒开始、支持的说法和隐私说明见 [`tutor/README.md`](./tutor/README.md)。
 
+### 📦 分发给其他考生（Skill 安装）
+
+本仓库同时是一个可安装的 Skill：别人把它装进自己的 AI 助手，就获得同一套「体系化学习路径 + 个人进度跟踪」，私人数据只留在对方本机。
+
+| 环境 | 安装方式 |
+|---|---|
+| WorkBuddy | 克隆到 `~/.workbuddy/skills/senior-architect-coach/`（个人级）或 `<工作区>/.workbuddy/skills/`（项目级），然后说「开始私教，我只求考过」 |
+| Claude Code / Codex | 克隆后在编辑器打开仓库目录，直接说「开始私教」 |
+| 其他 AI | 使用 `tutor/prompts/generic-chat.md` 通用启动提示词 |
+
+Skill 入口为仓库根目录 [`SKILL.md`](./SKILL.md)；完整接入指南（含隐私说明、迁移、FAQ）见 [`docs/INSTALL.md`](./docs/INSTALL.md)。
+
 ### 🖥️ 做一场正式感更强的综合模拟考试
 
 先让当前 Agent 完成建档，然后直接说“启动综合模拟考试”；也可以在仓库根目录手动运行：

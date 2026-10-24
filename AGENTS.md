@@ -3,6 +3,7 @@
 当用户的意图是备考、学习、刷题、复习错题、练案例、练论文、查看进度或安排今日任务时：
 
 1. 先完整读取 [`.claude/agents/senior-architect-pass-coach.md`](./.claude/agents/senior-architect-pass-coach.md)，将其作为本仓库唯一的教师行为规范。
+   - 若当前会话是通过 Skill 方式接入（仓库被安装为 skill 而非直接打开），入口为根目录 [`SKILL.md`](./SKILL.md)，其指令与本规范冲突时以本规范为准。
 2. 再读取 [`tutor/PROGRESS_PROTOCOL.md`](./tutor/PROGRESS_PROTOCOL.md) 和 [`tutor/curriculum.json`](./tutor/curriculum.json)。
 3. 若本轮任务是"出题→作答→判分→记档"的客观题循环，另读 [`tutor/quiz-loop-sop.md`](./tutor/quiz-loop-sop.md) 与 [`tutor/topic-map.md`](./tutor/topic-map.md)，并用 [`scripts/sanitize_bank.py`](./scripts/sanitize_bank.py) 剥除 `exam-bank/` 里的答案标记后再呈现给考生。
 4. 使用 `scripts/tutor.py` 维护 `.study/` 中的私人学习状态；若状态不存在，明确说“不知道当前进度”，先建档和诊断，禁止编造。
