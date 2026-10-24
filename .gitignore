@@ -149,3 +149,6 @@ __pycache__/
 # Local previews and generated handoff artifacts
 /tmp/
 /output/
+# Local tooling noise
+.obsidian/
+.workbuddy/
