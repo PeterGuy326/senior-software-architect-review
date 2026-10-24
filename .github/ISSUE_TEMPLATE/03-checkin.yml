@@ -1,0 +1,38 @@
+name: 备考打卡
+description: 学习小组每日打卡：记录今天学了什么、卡在哪里，互相督促
+title: "打卡 YYYY-MM-DD · "
+labels: ["学习小组", "打卡"]
+body:
+  - type: input
+    id: exam-date
+    attributes:
+      label: 你的考试日期
+      placeholder: 例：2026-11-07
+    validations:
+      required: true
+  - type: textarea
+    id: today
+    attributes:
+      label: 今天完成了什么
+      description: 做了几套题/写了多少字论文/看了哪章；有量化更好
+      placeholder: 例：综合 1 套（52/75）；论文提纲 1 篇；ATAM 九步复背
+    validations:
+      required: true
+  - type: textarea
+    id: blocker
+    attributes:
+      label: 卡点（可选）
+      description: 哪个考点/题型一直错，需要讨论
+    validations:
+      required: false
+  - type: textarea
+    id: tomorrow
+    attributes:
+      label: 明天计划（可选）
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        打卡协调帖：[#16 学习小组](https://github.com/PeterGuy326/senior-software-architect-review/issues/16)。
+        > 隐私提醒：打卡只写学习行为与量化结果，**不要**粘贴 `.study/` 中的答题明细或论文正文。

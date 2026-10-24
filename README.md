@@ -30,7 +30,7 @@
 
 Skill 入口为仓库根目录 [`SKILL.md`](./SKILL.md)；完整接入指南（含隐私说明、迁移、FAQ）见 [`docs/INSTALL.md`](./docs/INSTALL.md)。
 
-### 🖥️ 做一场正式感更强的综合模拟考试
+### 🖥️ 做一场正式感更强的综合模拟考试（内置卷 + 导入的历年真题）
 
 先让当前 Agent 完成建档，然后直接说“启动综合模拟考试”；也可以在仓库根目录手动运行：
 
@@ -39,6 +39,21 @@ python3 scripts/serve.py
 ```
 
 浏览器打开 <http://localhost:8420>，即可使用 75 题、150 分钟的高频模拟卷。页面只负责机考交互和确定性判分，不包装或代理任何模型，也不接收 API Key；交卷后把逐题答案、真实用时和考后错因写入本机 `.study/`，再由 Codex、Claude Code、Qwen Code 等当前 Agent 读取并安排个性化复习。
+
+**导入历年真题**（两步，均只写私人目录）：
+
+```bash
+# 1. 抓取开源真题 Markdown 语料（混合许可，仅个人学习）
+python3 scripts/fetch_corpus.py --data-dir .study
+# 2. 导入语料中的综合知识试卷（已支持 2016–2025 共 12 套）
+python3 scripts/import_paper.py --data-dir .study --all
+```
+
+重启 `serve.py` 后，考试页左上方出现**试卷选择器**：内置模拟卷走「逐题证据 + 考点掌握度」链路；导入的真题卷走「原始答卷 + 整卷成绩」链路（真题无考点映射，不伪造逐题归属）。
+
+### 🤝 学习小组
+
+想找考友互相督促：到 Issue [#16 学习小组](https://github.com/PeterGuy326/senior-software-architect-review/issues/16) 报到，之后用「备考打卡」Issue 模板每日打卡（只写学习行为与量化结果，勿贴私人答题数据）。
 
 考试页默认只监听 `127.0.0.1`，不访问外网。完整说明见 [`tutor/README.md`](./tutor/README.md#本地考试终端)。
 

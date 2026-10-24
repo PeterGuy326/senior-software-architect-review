@@ -1,0 +1,31 @@
+name: 资料纠错
+description: 报告题库、范文、提纲、思维导图中的错误（答案错误、解析错误、错别字、渲染问题等）
+title: "[纠错] "
+labels: ["bug", "资料纠错"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: 位置
+      description: 文件路径 + 题号/章节，越具体越好
+      placeholder: 例：exam-bank/03-database.md 第 12 题
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题描述
+      description: 哪里错了，正确的应该是什么
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 依据（可选）
+      description: 教材页码、官方大纲、可靠来源链接
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        > 隐私提醒：请勿在 Issue 中粘贴你的 `.study/` 私人学习数据。

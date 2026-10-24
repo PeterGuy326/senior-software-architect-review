@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 学习小组协调帖
+    url: https://github.com/PeterGuy326/senior-software-architect-review/issues/16
+    about: 想加入备考小组、找考友互相督促，去 #16 报到
+  - name: 本地考试终端使用问题
+    url: https://github.com/PeterGuy326/senior-software-architect-review/blob/master/docs/INSTALL.md
+    about: 先看接入指南；仍无法解决再提 Issue

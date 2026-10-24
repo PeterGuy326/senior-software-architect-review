@@ -1,0 +1,35 @@
+name: 功能建议
+description: 对私教引擎、考试终端、题库组织的新功能建议
+title: "[建议] "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: 涉及模块
+      options:
+        - 过线私教（tutor/、scripts/tutor.py）
+        - 本地考试终端（scripts/serve.py、tutor/app/）
+        - 题库（exam-bank/）
+        - 论文资料（past-papers/）
+        - 案例资料（past-papers/case-types/）
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 想解决什么问题
+      description: 现在的做法卡在哪里
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议的做法
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        > 隐私提醒：请勿在 Issue 中粘贴你的 `.study/` 私人学习数据。

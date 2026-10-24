@@ -38,13 +38,21 @@
 - 换机器 / 重装：拷贝 `.study/` 目录即可完整迁移进度。
 - 状态损坏时 agent 会停止写入并尝试从备份恢复，不会静默覆盖。
 
-## 可选：接入历年真题语料
+## 可选：接入历年真题语料与试卷
 
 ```bash
+# 1. 抓取开源真题 Markdown 语料（只写 .study/corpus/，混合许可，仅个人学习）
 python3 scripts/fetch_corpus.py --data-dir .study
+# 2. 导入综合知识试卷到本地考试终端（.study/papers/，已支持 2016–2025 共 12 套）
+python3 scripts/import_paper.py --data-dir .study --all
 ```
 
-把开源真题 Markdown 知识库克隆到 `.study/corpus/`（私有）。之后问「XX 考点哪年考过」，agent 可以定位到具体试卷。该语料为混合许可，仅限个人学习使用。
+之后有两个用法：
+
+- **问 agent**：「XX 考点哪年考过」——它会先读语料 INDEX，再定位到具体试卷；
+- **考试页刷真题**：`python3 scripts/serve.py` 后在试卷选择器切换。导入的真题卷只记录原始答卷与整卷成绩，不生成逐题错因反馈（真题没有本仓库的考点映射，不伪造归属）。
+
+案例分析的真题导入与模考已在路线图上，见 Issue #19 的后续跟进。
 
 ## 常见问题
 
@@ -53,4 +61,5 @@ python3 scripts/fetch_corpus.py --data-dir .study
 | 进度会泄露吗？ | 不会。`.study/` 被 git 忽略，且 agent 有隐私红线约束 |
 | 三科要同时学吗？ | agent 按「离安全线最远 + 到期复习 + 复用价值」排序，通常案例/论文优先 |
 | 可以只用题库不私教吗？ | 可以，`exam-bank/` 是普通 Markdown，但出题前应自行用 `scripts/sanitize_bank.py` 脱敏 |
-| 二开 / 提需求 | 直接提 Issue 或 PR；私人数据请不要带进 PR |
+| 二开 / 提需求 | 直接提 Issue 或 PR（仓库内置「资料纠错 / 功能建议 / 备考打卡」三种模板）；私人数据请不要带进 PR |
+| 找考友 | 到 Issue #16 学习小组报到，用「备考打卡」模板每日打卡 |

@@ -69,10 +69,13 @@ class ExamServerTest(unittest.TestCase):
         with urllib.request.urlopen(request, timeout=3) as response:
             return response.status, json.loads(response.read())
 
+    def builtin_paper_id(self) -> str:
+        return exam_server.load_paper(None, self.data_dir).paper_id
+
     def correct_answers(self):
         return {
             str(item["number"]): item["question"]["answer"]
-            for item in exam_server.private_items()
+            for item in exam_server.load_paper(None, self.data_dir).private_items()
         }
 
     def test_public_paper_withholds_answers_and_places_english_last(self) -> None:
@@ -115,7 +118,7 @@ class ExamServerTest(unittest.TestCase):
             "durations": {},
             "duration_seconds": 9000,
         }
-        first_id = f"web-{exam_server.PAPER_ID}-12345678"
+        first_id = f"web-{self.builtin_paper_id()}-12345678"
         _, first = self.request("/api/mock-record", payload={"session_id": first_id, **common})
         self.assertFalse(first["data"]["retest"])
         self.assertEqual(first["data"]["score"], 75)
@@ -124,7 +127,7 @@ class ExamServerTest(unittest.TestCase):
         self.assertFalse(replay["data"]["retest"])
         self.assertTrue(replay["data"]["already_recorded"])
 
-        second_id = f"web-{exam_server.PAPER_ID}-abcdefgh"
+        second_id = f"web-{self.builtin_paper_id()}-abcdefgh"
         _, second = self.request("/api/mock-record", payload={"session_id": second_id, **common})
         self.assertTrue(second["data"]["retest"])
 
@@ -172,7 +175,7 @@ class ExamServerTest(unittest.TestCase):
             "duration_seconds": 9000,
         }
         payloads = [
-            {"session_id": f"web-{exam_server.PAPER_ID}-concurrent{i}", **common}
+            {"session_id": f"web-{self.builtin_paper_id()}-concurrent{i}", **common}
             for i in (1, 2)
         ]
         with ThreadPoolExecutor(max_workers=2) as executor:
