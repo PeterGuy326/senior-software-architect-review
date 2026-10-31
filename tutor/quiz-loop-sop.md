@@ -192,12 +192,26 @@ record 完再跑 `python3 scripts/tutor.py status` 确认落盘。
 
 全部打勾才进入下一轮 `recommend`。
 
+## 主观题（案例/论文）判分
+
+客观题按上方流程比对答案键；案例与论文的"逐项估分"一律走确定性判分：
+
+1. 取该题 rubric；没有就起模板并补全踩分点：
+   `python3 scripts/grade.py scaffold --ref <题目ID> --subject case --max 25`
+2. LLM 阅读考生答案 + rubric，**只**输出 verdict JSON（各踩分点命中与否 + 原文证据引用），不算分；
+3. `python3 scripts/grade.py grade --rubric <rubric> --verdict <verdict>` 得到确定性分数与报告（人类可读表格，加 `--json` 输出机器可读）；
+4. 用 report 的 `final_score` 走 `tutor.py record` 记档，verdict 与 report 归档到 `.study/verdicts/`（已被 git 忽略，勿提交真实作答）。
+
+schema、校验规则与隐私边界见 [`GRADING_SCHEMA.md`](./GRADING_SCHEMA.md)。分数必须是
+grade.py 复算的结果，不得由模型口算填充。
+
 ## 相关工具
 
 | 工具 | 位置 | 作用 |
 |---|---|---|
 | CLI | [`scripts/tutor.py`](../scripts/tutor.py) | init / status / recommend / record / doctor |
 | 脱敏器 | [`scripts/sanitize_bank.py`](../scripts/sanitize_bank.py) | 剥 exam-bank 答案，输出结构化 JSON |
+| 判分引擎 | [`scripts/grade.py`](../scripts/grade.py) | 案例/论文 rubric/verdict 校验与确定性算分 |
 | 考点表生成 | [`scripts/gen_topic_map.py`](../scripts/gen_topic_map.py) | 由 `curriculum.json` 生成 `topic-map.md` |
 | 教师人格 | [`.claude/agents/senior-architect-pass-coach.md`](../.claude/agents/senior-architect-pass-coach.md) | 覆盖诊断 / 案例 / 论文全流程决策 |
 | 记档协议 | [`PROGRESS_PROTOCOL.md`](./PROGRESS_PROTOCOL.md) | 证据分级、掌握度定义、私隐边界 |
