@@ -1400,10 +1400,10 @@ def cmd_configure(args: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_recommend(args: argparse.Namespace) -> int:
-    curriculum = load_curriculum()
-    profile, state = load_profile_and_state(args.data_dir)
-    today = parse_date(args.today) if args.today else datetime.now().astimezone().date()
+def recommend_payload(profile, state, curriculum, *, today=None, subject=None, limit=5):
+    """Pure recommendation entrypoint shared by the local CLI and cloud adapter."""
+    args = argparse.Namespace(subject=subject, limit=limit)
+    today = today or datetime.now().astimezone().date()
     exam_date = parse_date(profile["exam_date"]) if profile.get("exam_date") else None
     days_to_exam = (exam_date - today).days if exam_date else None
     crunch_mode = days_to_exam is not None and 0 <= days_to_exam <= 3
@@ -1587,10 +1587,24 @@ def cmd_recommend(args: argparse.Namespace) -> int:
             "daily_minutes": profile.get("daily_minutes"),
         },
     }
+    return payload
+
+
+def cmd_recommend(args: argparse.Namespace) -> int:
+    curriculum = load_curriculum()
+    profile, state = load_profile_and_state(args.data_dir)
+    payload = recommend_payload(
+        profile, state, curriculum,
+        today=parse_date(args.today) if args.today else None,
+        subject=args.subject, limit=args.limit,
+    )
     if args.json:
         print(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
 
+    target_subject = payload["target_subject"]
+    allocations = payload["subject_allocation"]
+    recommendations = payload["recommendations"]
     print(f"当前优先科目：{target_subject}")
     print(
         "时间分配："

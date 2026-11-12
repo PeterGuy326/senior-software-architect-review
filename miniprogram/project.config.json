@@ -1,0 +1,44 @@
+{
+  "description": "无极私教 · 系统架构设计师首期",
+  "projectname": "无极私教",
+  "miniprogramRoot": "",
+  "compileType": "miniprogram",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "minified": true,
+    "urlCheck": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "condition": false,
+    "ignoreUploadUnusedFiles": true,
+    "packNpmRelationList": []
+  },
+  "packOptions": {
+    "ignore": [
+      {
+        "value": "config.local.example.js",
+        "type": "file"
+      },
+      {
+        "value": "assets/tdesign-icons.woff",
+        "type": "file"
+      },
+      {
+        "value": "package-lock.json",
+        "type": "file"
+      }
+    ],
+    "include": []
+  },
+  "libVersion": "3.17.6",
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "appid": "wx3aca13bf5b0544a6"
+}

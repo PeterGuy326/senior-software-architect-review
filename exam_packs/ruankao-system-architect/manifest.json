@@ -1,0 +1,16 @@
+{
+  "id": "ruankao.senior.system_architect",
+  "version": "0.1.0",
+  "name": "系统架构设计师",
+  "category_path": ["职业资格", "软考", "高级"],
+  "adapter": "legacy_architect_v1",
+  "curriculum": "tutor/curriculum.json",
+  "subjects": [
+    {"id":"comprehensive","name":"综合知识","max_score":75,"pass_score":45},
+    {"id":"case","name":"案例分析","max_score":75,"pass_score":45},
+    {"id":"essay","name":"论文","max_score":75,"pass_score":45}
+  ],
+  "capabilities": {"choice":true,"case_voice":false,"essay_upload":false},
+  "content_policy": "仅发布仓库内自编题；不导入 .study 或外部真题语料",
+  "notice": "首期仅开放综合知识练习，案例语音与论文评分尚未接入"
+}

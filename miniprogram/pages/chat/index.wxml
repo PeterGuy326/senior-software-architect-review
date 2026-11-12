@@ -1,0 +1,94 @@
+<view class="app {{theme}}" style="height:{{viewportHeight}}px">
+  <view style="height:{{navTop}}px"></view>
+  <view class="nav" style="height:{{navHeight}}px">
+    <t-button variant="text" shape="square" icon="view-list" aria-label="打开菜单" bindtap="menu" disabled="{{voiceActive}}" t-class="nav-menu"/>
+    <t-button variant="text" bindtap="home" t-class="brand" aria-label="无极私教首页"><view class="inline-content"><image class="brand-avatar" src="/assets/wuji-avatar.png"/><text>无极私教</text></view></t-button>
+  </view>
+  <view class="body"><scroll-view scroll-y class="content" scroll-into-view="{{scrollTarget}}" scroll-with-animation>
+    <view wx:if="{{screen === 'home' && showWelcome}}" class="welcome">
+      <image class="welcome-mark" src="/assets/wuji-avatar.png"/>
+      <view class="eyebrow">你的专属学习私教</view>
+      <view class="headline">今天，轻松练一点。</view>
+      <view class="intro">不用想从哪开始。<view>一道题，一点收获，按你的节奏来。</view></view>
+      <t-button variant="text" icon="education" size="small" bindtap="goals" t-class="goal">系统架构设计师<t-icon slot="suffix" name="chevron-down" size="28rpx"/></t-button>
+      <view class="start-card">
+        <view class="start-caption"><t-icon name="task" size="36rpx"/><text>今天，从一道题开始</text><t-tag size="small" variant="light" theme="primary" shape="round" t-class="estimate">约 1 分钟</t-tag></view>
+        <view class="start-copy">我来选题，你只需迈出一小步。</view>
+        <t-button theme="primary" size="large" block="{{true}}" shape="round" bindtap="startOne" loading="{{busy}}" disabled="{{voiceActive}}" t-class="start-button">先练一道<t-icon slot="suffix" name="arrow-right" size="36rpx"/></t-button>
+      </view>
+      <view class="welcome-links"><t-button variant="text" icon="chart-bar" size="small" bindtap="progress">学习进展</t-button><t-button wx:if="{{messages.length}}" variant="text" icon="chat" size="small" bindtap="resumeChat">继续上次对话</t-button></view>
+    </view>
+    <view wx:elif="{{screen === 'home'}}" class="chat-list">
+      <view class="chat-heading">系统架构设计师<t-tag size="small" variant="light" shape="round">学习对话</t-tag></view>
+      <view wx:for="{{messages}}" wx:key="id" id="{{item.id}}" class="chat-turn {{item.role}}">
+        <view wx:if="{{item.role === 'assistant'}}" class="coach"><image class="coach-avatar" src="/assets/wuji-avatar.png"/><text>无极</text><text class="coach-label">学习私教</text></view>
+        <view wx:if="{{item.kind === 'case_task'}}" class="case-card">
+          <view class="case-meta"><t-tag variant="light" theme="primary" shape="round" size="small">案例分析</t-tag><text>自编短案例 · 25 分</text></view>
+          <view class="case-title">{{item.case.title}}</view><text class="case-prompt" user-select>{{item.case.prompt}}</text>
+          <view class="case-tip">可以分段说，转写后再确认提交。</view>
+          <t-button theme="primary" variant="outline" shape="round" size="small" icon="{{item.case.completed ? 'task' : 'microphone'}}" data-index="{{index}}" bindtap="caseReply" disabled="{{busy || voiceActive}}" t-class="case-reply">{{item.case.completed ? '再练一道案例' : '开始说答案'}}</t-button>
+        </view>
+        <view wx:elif="{{item.kind === 'review_report'}}" class="review-card">
+          <view class="case-meta"><t-tag variant="light" theme="primary" shape="round" size="small">{{item.review_kind === 'case' ? '案例反馈' : '论文批改'}}</t-tag><text>AI 估分 · 练习参考</text></view>
+          <view class="review-score"><text class="review-number">{{item.report.final_score}}</text><text> / {{item.report.max_score}}</text></view>
+          <view wx:if="{{item.filename}}" class="review-filename">{{item.filename}}</view>
+          <view wx:if="{{item.review_kind === 'essay'}}" class="review-count">已读 {{item.report.word_count}} 字 · 按文稿主题及补充题目批改</view>
+          <view class="review-comment">{{item.report.comment}}</view>
+          <view class="review-next" wx:if="{{item.report.next_step}}"><view class="review-next-label">下一步，只补这一点</view>{{item.report.next_step}}</view>
+          <t-button variant="text" size="small" data-index="{{index}}" bindtap="toggleReview" t-class="review-toggle">{{item.reviewOpen ? '收起评分明细' : '查看得分点与原文依据'}}<t-icon slot="suffix" name="{{item.reviewOpen ? 'chevron-up' : 'chevron-down'}}" size="26rpx"/></t-button>
+          <view wx:if="{{item.reviewOpen}}" class="review-details"><view wx:for="{{item.report.points}}" wx:for-item="point" wx:key="id" class="review-point"><view class="review-point-head {{point.hit ? 'point-hit' : ''}}"><t-icon name="{{point.hit ? 'check-circle' : 'add-circle'}}" size="28rpx"/><text>{{point.hit ? '已覆盖' : '可补充'}} · {{point.hit ? point.weight : 0}} / {{point.weight}}</text></view><view>{{point.desc}}</view><view wx:if="{{point.hit}}" class="review-evidence">原文：{{point.evidence}}</view></view></view>
+          <view class="review-notice">{{item.report.notice}}</view>
+          <t-button variant="outline" shape="round" size="small" icon="{{item.review_kind === 'case' ? 'task' : 'file-paste'}}" data-type="{{item.review_kind}}" bindtap="practiceAction" disabled="{{busy}}">{{item.review_kind === 'case' ? '换一道练练' : '再批改一篇'}}</t-button>
+        </view>
+        <view wx:else class="chat-bubble"><text class="chat-text" user-select>{{item.text}}</text></view>
+        <view wx:if="{{item.sources.length}}" class="sources"><t-button variant="text" size="extra-small" icon="book-open" data-index="{{index}}" bindtap="toggleSources" t-class="source-toggle">参考 {{item.sources.length}} 条学习笔记<t-icon slot="suffix" name="{{item.sourcesOpen ? 'chevron-up' : 'chevron-down'}}" size="26rpx"/></t-button><view wx:if="{{item.sourcesOpen}}" class="source-list"><view wx:for="{{item.sources}}" wx:for-item="source" wx:key="id">{{source.title}}</view></view></view>
+        <block wx:for="{{item.actions}}" wx:for-item="action" wx:key="type"><t-button variant="outline" theme="primary" shape="round" size="small" data-type="{{action.type}}" bindtap="practiceAction" disabled="{{busy}}" t-class="chat-action">{{action.label}}<t-icon slot="suffix" name="arrow-right" size="28rpx"/></t-button></block>
+      </view>
+    </view>
+    <view wx:else class="conversation">
+      <view class="quiz-meta"><t-tag theme="primary" variant="light" shape="round">综合知识</t-tag><text>单项选择 · 自编题</text></view>
+      <view class="topic">{{question.topic_name}}</view>
+      <view class="question">{{question.stem}}</view>
+      <view class="answer-hint">{{report ? '已完成这道练习' : answerLocked ? '正在确认答案，重试会保留原选择' : '选好后确认，确认前可以改选'}}</view>
+      <t-radio-group value="{{selected}}" bindchange="choose" disabled="{{busy || !!report || answerLocked}}" placement="right" borderless="{{true}}">
+        <view wx:for="{{question.options}}" wx:key="label" class="option-row {{selected === item.label ? 'chosen' : ''}}">
+          <t-radio value="{{item.label}}" checked="{{selected === item.label}}" readonly="{{!!report || answerLocked}}" placement="right" icon="circle" max-label-row="20" borderless="{{true}}" t-class="option-radio" t-class-label="option-label"><view class="option-content"><text class="option-key">{{item.label}}</text><text class="option-text">{{item.text}}</text></view></t-radio>
+        </view>
+      </t-radio-group>
+      <t-button wx:if="{{!report}}" variant="{{uncertain ? 'base' : 'text'}}" theme="{{uncertain ? 'light' : 'default'}}" icon="{{uncertain ? 'check-circle' : 'help-circle'}}" size="small" shape="round" bindtap="toggleUnsure" disabled="{{busy || answerLocked}}" t-class="uncertain">{{uncertain ? '已记下：这题拿不准' : '这题有点拿不准'}}</t-button>
+      <view wx:if="{{report}}" class="feedback"><view class="feedback-title"><t-icon name="{{report.correct ? 'check-circle' : 'lightbulb'}}" size="36rpx"/>{{report.message}}</view><view wx:if="{{!report.correct}}" class="answer-result">这道题选 {{report.correct_answer}}。</view><view class="explanation">{{report.explanation}}</view><view class="review"><t-icon name="cloud-upload" size="26rpx"/>学习记录已保存，复习会自然穿插进来。</view></view>
+    </view>
+    <view wx:if="{{error}}" class="error"><t-icon name="info-circle" size="32rpx"/><view class="error-body"><text>{{error}}</text><view wx:if="{{reviewFailed}}" class="review-retry"><t-button variant="text" theme="primary" size="small" bindtap="retryReview" disabled="{{busy}}">重试批改</t-button><t-button variant="text" size="small" bindtap="dismissReview" disabled="{{busy}}">先放下</t-button></view><t-button variant="text" theme="primary" size="small" wx:elif="{{screen === 'quiz'}}" bindtap="retry" disabled="{{busy}}">重试</t-button><t-button variant="text" theme="primary" size="small" wx:elif="{{chatFailed}}" bindtap="deliverChat" disabled="{{busy}}">重试发送这句话</t-button></view></view>
+    <view wx:if="{{busy}}" class="waiting"><t-loading size="32rpx" theme="dots" text="{{reviewPending ? '正在逐点评阅，完成后会保留在对话里…' : screen === 'quiz' ? '正在准备…' : '私教正在思考…'}}"/></view>
+    <view class="spacer"></view>
+  </scroll-view></view>
+  <view class="footer">
+    <block wx:if="{{screen === 'home'}}">
+      <view wx:if="{{voiceStatus === 'recording'}}" class="voice-panel"><view class="voice-meter"><t-icon name="microphone" size="36rpx"/><text>正在听你说</text><text class="voice-time">{{voiceSeconds}} / 60 秒</text></view><t-progress percentage="{{voiceSeconds / 60 * 100}}" label="{{false}}" stroke-width="3"/><view class="voice-actions"><t-button variant="text" size="small" bindtap="cancelVoice">取消</t-button><t-button theme="primary" shape="round" size="small" icon="check" bindtap="toggleVoice">说完了，转文字</t-button></view></view>
+      <view wx:elif="{{voiceActive}}" class="hint"><t-loading size="28rpx" text="{{voiceStatus === 'authorizing' ? '请确认麦克风授权' : '正在转成文字…'}}"/></view>
+      <view wx:elif="{{voiceStatus === 'ready'}}" class="hint"><t-icon name="check-circle" size="26rpx"/>文字已就绪，确认或修改后再发送</view>
+      <view wx:elif="{{replyMode === 'chat'}}" class="quick-actions"><t-button variant="outline" size="extra-small" shape="round" icon="task" bindtap="startOne" disabled="{{busy}}">选择题</t-button><t-button variant="outline" size="extra-small" shape="round" icon="microphone" bindtap="startCase" disabled="{{busy}}">案例</t-button><t-button variant="outline" size="extra-small" shape="round" icon="file-paste" bindtap="chooseEssay" disabled="{{busy}}">论文</t-button></view>
+      <view wx:if="{{replyMode === 'case'}}" class="reply-context"><t-icon name="microphone" size="30rpx"/><view class="reply-label"><view class="reply-title">案例作答</view><text class="reply-sub">{{caseTask.title}}</text></view><t-button variant="text" shape="circle" size="small" icon="close" bindtap="exitReply" disabled="{{busy || voiceActive}}" aria-label="暂时收起案例作答" t-class="context-close"/></view>
+      <view wx:elif="{{replyMode === 'essay' && essayFile}}" class="reply-context"><t-icon name="file-paste" size="36rpx"/><view class="reply-label"><view class="reply-title">{{essayFile.name}}</view><text class="reply-sub">选好了 · 确认后上传批改</text></view><t-button variant="text" size="extra-small" bindtap="chooseEssay" disabled="{{busy || voiceActive}}">更换</t-button><t-button variant="text" shape="circle" size="small" icon="close" bindtap="exitReply" disabled="{{busy || voiceActive}}" aria-label="取消论文上传" t-class="context-close"/></view>
+      <view wx:if="{{voiceError}}" class="voice-error"><text>{{voiceError}}</text><view class="voice-actions"><t-button variant="text" size="small" bindtap="retryVoice" wx:if="{{voiceCanRetry}}">重试转写</t-button><t-button variant="text" size="small" bindtap="voiceSettings" wx:else>麦克风设置</t-button><t-button variant="text" size="small" bindtap="cancelVoice">先打字</t-button></view></view>
+      <view class="composer"><t-button variant="text" shape="circle" icon="{{voiceStatus === 'recording' ? 'stop-circle' : 'microphone'}}" bindtap="toggleVoice" disabled="{{busy || chatFailed || (voiceActive && voiceStatus !== 'recording')}}" aria-label="语音转文字" t-class="composer-mic"/><t-textarea value="{{input}}" autosize="{{ {minHeight:24,maxHeight:112} }}" placeholder="{{replyMode === 'case' ? '说出你的分析，可分段录音' : replyMode === 'essay' ? '可补充论文题目（选填）' : '说说今天想学什么'}}" maxlength="{{replyMode === 'case' ? 6000 : replyMode === 'essay' ? 600 : 2000}}" indicator="{{false}}" disabled="{{busy || chatFailed || voiceActive}}" bindchange="type" bindenter="send" confirm-type="send" show-confirm-bar="{{false}}" t-class="composer-input"/><t-button theme="primary" shape="{{replyMode === 'chat' ? 'circle' : 'round'}}" icon="{{replyMode === 'chat' ? 'arrow-up' : ''}}" bindtap="send" disabled="{{busy || chatFailed || voiceActive || (replyMode === 'essay' ? !essayFile : !input)}}" aria-label="{{replyMode === 'case' ? '提交案例评分' : replyMode === 'essay' ? '开始论文批改' : '发送'}}" t-class="composer-send {{replyMode !== 'chat' ? 'composer-submit' : ''}}">{{replyMode === 'case' ? '评分' : replyMode === 'essay' ? '批改' : ''}}</t-button></view>
+    </block>
+    <view wx:else><view class="selection-hint">{{report ? '进度已保存，按自己的节奏继续' : answerLocked ? '原选择已锁定，重试不会重复记分' : selected ? '已选 ' + selected + ' · 确认前可以改选' : '选一个最合适的答案'}}</view><view class="actions"><t-button variant="outline" shape="round" bindtap="home" disabled="{{busy}}" t-class="pause-button">先到这</t-button><t-button theme="primary" block="{{true}}" shape="round" bindtap="primaryAction" loading="{{busy}}" disabled="{{busy || (!report && !selected)}}" class="answer-primary">{{report ? (justOne ? '完成练习' : '下一题') : answerLocked ? '重试提交' : '确认答案'}}</t-button></view></view>
+    <view class="disclosure">AI 生成建议供参考 · 以实际考试要求为准</view>
+  </view>
+  <t-popup visible="{{!!sheet}}" placement="bottom" bindvisible-change="sheetChange" close-on-overlay-click="{{true}}" t-class-content="sheet-surface"><view class="sheet"><view class="sheet-handle"></view><view class="sheet-heading"><text>{{sheetTitle}}</text><t-button variant="text" shape="circle" icon="close" size="small" bindtap="closeSheet" aria-label="关闭" t-class="sheet-close"/></view><scroll-view scroll-y class="sheet-scroll">
+    <block wx:if="{{sheet === 'menu'}}"><view class="sheet-brand"><image class="sheet-brand-image" src="/assets/wuji-avatar.png"/><view><view>无极私教</view><text class="sheet-brand-sub">每一小步，都算数。</text></view></view><t-cell-group theme="card" bordered="{{false}}"><t-cell title="今天只练一道" left-icon="task" arrow="{{true}}" bindtap="startOne"/><t-cell title="学习进展" left-icon="chart-bar" arrow="{{true}}" bindtap="progress"/><t-cell title="学习目标" left-icon="education" note="系统架构设计师" arrow="{{true}}" bindtap="goals"/></t-cell-group><t-cell-group theme="card" bordered="{{false}}"><t-cell title="外观" left-icon="contrast" note="{{appearance === 'system' ? '跟随系统' : appearance === 'dark' ? '深色' : '浅色'}}" arrow="{{true}}" bindtap="appearance"/><t-cell title="关于与帮助" left-icon="help-circle" arrow="{{true}}" bindtap="help"/></t-cell-group><view class="sheet-section">更多练习</view><t-cell-group theme="card" bordered="{{false}}"><t-cell title="案例语音评分" left-icon="microphone" arrow="{{true}}" data-kind="case" bindtap="pendingFeature"/><t-cell title="论文上传批改" left-icon="file-paste" arrow="{{true}}" data-kind="essay" bindtap="pendingFeature"/></t-cell-group></block>
+    <block wx:elif="{{sheet === 'appearance'}}"><view class="sheet-description">选择你舒服的阅读方式。</view><t-cell-group theme="card" bordered="{{false}}"><t-cell wx:for="{{appearances}}" wx:key="value" title="{{item.label}}" left-icon="{{item.icon}}" right-icon="{{appearance === item.value ? 'check' : ''}}" data-value="{{item.value}}" bindtap="selectAppearance"/></t-cell-group></block>
+    <block wx:elif="{{sheet === 'goals'}}"><view class="sheet-description">先把一个目标，稳稳向前推进。</view><t-cell-group theme="card" bordered="{{false}}"><t-cell title="系统架构设计师" description="软考高级 · 当前学习目标" left-icon="education" right-icon="check"/></t-cell-group><view class="sheet-section">后续开放</view><t-cell-group theme="card" bordered="{{false}}"><t-cell title="公务员考试" note="规划中" left-icon="institution"/><t-cell title="事业单位考试" note="规划中" left-icon="city"/><t-cell title="留学" note="规划中" left-icon="earth"/></t-cell-group></block>
+    <block wx:elif="{{sheet === 'progress' && progressData}}"><view class="progress-summary"><text class="progress-number">{{progressData.total_count}}</text><text>次练习已完成</text><view class="progress-note">每一小步，都算数。</view></view><t-cell-group theme="card" bordered="{{false}}"><t-cell wx:for="{{subjects}}" wx:key="key" title="{{item.name}}" description="{{progressData.counts[item.key]}} 次练习记录" note="{{progressData.subjects[item.key].status === 'unmeasured' ? '待诊断' : '已有练习记录'}}"/></t-cell-group><view class="sheet-footnote">进度来自你的真实练习记录。短练习不能直接预测完整考试成绩。</view><view class="sheet-cta"><t-button theme="primary" block="{{true}}" shape="round" bindtap="startOne" t-class="wide-button">再向前一步</t-button></view></block>
+  </scroll-view></view></t-popup>
+  <t-dialog visible="{{dialogOpen}}" title="{{dialogTitle}}" content="{{dialogContent}}" confirm-btn="知道了" bindconfirm="closeDialog"/>
+  <t-dialog visible="{{privacyOpen}}" title="{{privacyPurpose === 'essay' ? '使用文件上传' : '开启语音输入'}}" confirm-btn="{{null}}"><view slot="content" class="privacy-copy">{{privacyPurpose === 'essay' ? '你选择的文件仅在确认提交后上传，文稿文字将用于 AI 批改并保存为你的学习记录，原始文件不保存。' : '需要使用麦克风，并将录音经云端发送至硅基流动转成文字。本小程序不保存原始音频，文字由你确认后再提交。'}}<t-button variant="text" theme="primary" size="small" bindtap="openPrivacy">阅读《{{privacyName}}》</t-button></view><view slot="actions" class="privacy-actions"><t-button variant="outline" shape="round" bindtap="rejectPrivacy">暂不开启</t-button><button id="voice-privacy-agree" class="privacy-agree" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="agreePrivacy">同意并继续</button></view></t-dialog>
+</view>
+
+
+
+
+
+
+

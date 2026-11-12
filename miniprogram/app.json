@@ -1,0 +1,8 @@
+{
+  "lazyCodeLoading": "requiredComponents",
+  "pages": ["pages/chat/index"],
+  "window": {"navigationStyle":"custom","backgroundTextStyle":"light"},
+  "darkmode": true,
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

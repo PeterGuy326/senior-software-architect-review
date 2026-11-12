@@ -1,0 +1,18 @@
+{
+  "navigationStyle":"custom","disableScroll":true,
+  "usingComponents":{
+    "t-button":"/miniprogram_npm/tdesign-miniprogram/button/button",
+    "t-icon":"/miniprogram_npm/tdesign-miniprogram/icon/icon",
+    "t-tag":"/miniprogram_npm/tdesign-miniprogram/tag/tag",
+    "t-textarea":"/miniprogram_npm/tdesign-miniprogram/textarea/textarea",
+    "t-radio":"/miniprogram_npm/tdesign-miniprogram/radio/radio",
+    "t-radio-group":"/miniprogram_npm/tdesign-miniprogram/radio-group/radio-group",
+    "t-popup":"/miniprogram_npm/tdesign-miniprogram/popup/popup",
+    "t-dialog":"/miniprogram_npm/tdesign-miniprogram/dialog/dialog",
+    "t-cell":"/miniprogram_npm/tdesign-miniprogram/cell/cell",
+    "t-cell-group":"/miniprogram_npm/tdesign-miniprogram/cell-group/cell-group",
+    "t-loading":"/miniprogram_npm/tdesign-miniprogram/loading/loading",
+    "t-progress":"/miniprogram_npm/tdesign-miniprogram/progress/progress"
+  }
+}
+

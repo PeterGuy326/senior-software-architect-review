@@ -1,0 +1,30 @@
+{
+  "name": "wuji-coach",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "mini:build-ui": "node scripts/build_mini_ui.mjs",
+    "check": "node scripts/platform.mjs check",
+    "test": "uv run python -m unittest discover -s tests -v",
+    "api:dev": "uv run uvicorn apps.api.main:app --host 127.0.0.1 --port 8421",
+    "content:publish": "uv run python -m apps.api.content",
+    "content:cloud-publish": "uv run python -m scripts.publish_cloud_content",
+    "content:cloud-verify": "uv run python -m scripts.verify_cloud_content",
+    "cloud:login": "tcb login",
+    "cloud:status": "tcb env list",
+    "deploy:dev": "node scripts/platform.mjs deploy",
+    "deploy:stage": "node scripts/platform.mjs stage",
+    "test:mini": "node tests/miniapp.cjs && node tests/mini-transport.cjs && node tests/mini-chat.cjs && node tests/mini-voice.cjs && node tests/mini-reviews.cjs && node tests/mini-uploads.cjs",
+    "cloud:smoke": "uv run python -m scripts.verify_managed_cloud",
+    "mini:preview": "node scripts/platform.mjs preview",
+    "mini:configure": "node scripts/platform.mjs configure-mini",
+    "wechat:credentials": "uv run python -m scripts.import_wechat_config",
+    "model:credentials": "uv run python -m scripts.import_model_config",
+    "knowledge:publish": "uv run python -m scripts.publish_knowledge",
+    "mini:upload": "node scripts/platform.mjs upload"
+  },
+  "devDependencies": {
+    "@cloudbase/cli": "3.8.11",
+    "miniprogram-ci": "2.1.31"
+  }
+}
