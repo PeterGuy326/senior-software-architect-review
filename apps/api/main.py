@@ -48,7 +48,7 @@ def create_app(engine=None, environment=None):
             publish(engine)
         yield
 
-    app = FastAPI(title='无极私教 API', version='0.1.0', lifespan=lifespan,
+    app = FastAPI(title='无极架构笔记 API', version='0.1.0', lifespan=lifespan,
                   docs_url='/docs' if environment == 'local' else None,
                   redoc_url=None, openapi_url='/openapi.json' if environment == 'local' else None)
     app.state.engine = engine

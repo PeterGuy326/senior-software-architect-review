@@ -3,6 +3,7 @@ let calls=[],selectedFile={name:'paper.docx',path:'temp-file',size:100},reads=0,
 const task={issue_id:'a'.repeat(32),title:'短案例',prompt:'请说明方案',kind:'case'};
 const api={goal:async()=> 'goal',request:async(url,method,data)=>{
   calls.push({url,method,data});if(url.endsWith('/case'))return {text:task.prompt,kind:'case_task',case:task};
+  if(url.endsWith('/essay-topics'))return {topics:[{id:'essay-eda-v1',title:'论事件驱动架构及其应用',direction:'仿真方向：事件驱动架构',topic_id:'P01.ESSAY_ARCHITECTURE'}]};
   if(url.endsWith('/dismiss'))return {status:'abandoned'};return {};
 },review:async(goal,body)=>{calls.push({review:body});if(fail)throw Error('network interrupted');return {
   kind:'review_report',review_kind:typeof body==='string'?'essay':body.kind,
@@ -33,5 +34,19 @@ const make=()=>({...definition,data:JSON.parse(JSON.stringify(definition.data)),
   page=make();selectedFile=null;await page.chooseEssay();assert.equal(page.data.replyMode,'chat');
   page.data.input='原聊天草稿';selectedFile={name:'paper.docx',path:'temp-file',size:100};await page.chooseEssay();page.exitReply();
   assert.equal(page.data.input,'原聊天草稿');assert.equal(page.data.essayFile,null);
-  console.log('Subjective UI: voice-answer submission boundary, fixed retry, document consent, no upload before confirm, cancellation and report rendering state passed.');
+  page=make();await page.chooseEssay();await page.openEssayTopics();
+  assert.equal(page.data.sheet,'essayTopics');assert.equal(page.data.essayTopics.length,1);
+  page.pickEssayTopic({currentTarget:{dataset:{id:'essay-eda-v1'}}});
+  assert.equal(page.data.essayTopic.id,'essay-eda-v1');assert.equal(page.data.sheet,'');assert.equal(page.data.input,'');
+  await page.send();
+  const topicReview=calls.filter(c=>c.review).at(-1).review;
+  assert.equal(topicReview.topic_ref,'essay-eda-v1');assert.equal(topicReview.prompt,'');
+  assert.ok(page.data.messages.find(m=>m.role==='user'&&m.text.includes('论事件驱动架构及其应用')));
+  assert.equal(page.data.essayTopic,null);
+  page=make();await page.chooseEssay();await page.openEssayTopics();
+  page.pickEssayTopic({currentTarget:{dataset:{id:'essay-eda-v1'}}});
+  page.type({detail:{value:'自拟题目'}});assert.equal(page.data.essayTopic,null);
+  await page.openEssayTopics();page.pickEssayTopic({currentTarget:{dataset:{id:'essay-eda-v1'}}});
+  page.exitReply();assert.equal(page.data.essayTopic,null);
+  console.log('Subjective UI: voice-answer submission boundary, fixed retry, document consent, no upload before confirm, cancellation, report rendering state and essay topic selection passed.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

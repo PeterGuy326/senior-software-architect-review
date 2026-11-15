@@ -62,6 +62,46 @@ class SubjectiveUnitTest(unittest.TestCase):
         state,event=apply_review({'state':tutor.new_state(curriculum,tutor.now_iso())},task,'essay',uuid.uuid4().hex,report,0,curriculum)
         self.assertIsNone(state['subjects']['essay'].get('predicted_score'))
 
+    def test_question_bank_expansion_stays_versioned_and_curriculum_aligned(self):
+        from apps.api.db import ROOT
+        content=load_pack()
+        curriculum=json.loads((ROOT/'tutor/curriculum.json').read_text())
+        topic_ids={t['id'] for t in curriculum['topics']}
+        self.assertEqual(len(content['cases']),12)
+        self.assertEqual(len(content['essay_topics']),12)
+        ids=[t['id'] for t in [*content['cases'],*content['essay_topics'],content['essay']]]
+        self.assertEqual(len(ids),len(set(ids)))
+        for task in [*content['cases'],*content['essay_topics']]:
+            self.assertIn(task['topic_id'],topic_ids)
+        for case in content['cases']:
+            self.assertEqual(rubric_for(case,'case')['max_score'],25)
+        self.assertEqual(rubric_for(content['essay'],'essay')['max_score'],75)
+
+    def test_bank_topic_review_uses_generic_rubric_and_own_topic_progress(self):
+        from apps.api.learning import tutor
+        from apps.api.db import ROOT
+        curriculum=json.loads((ROOT/'tutor/curriculum.json').read_text())
+        content=load_pack();topic=content['essay_topics'][0]
+        report=grade_submission(Grader(),content['essay'],'essay',TEXT,topic['prompt'])
+        self.assertEqual(report['final_score'],75)
+        state,event=apply_review({'state':tutor.new_state(curriculum,tutor.now_iso())},topic,'essay',uuid.uuid4().hex,report,0,curriculum)
+        self.assertEqual(event['topic_id'],topic['topic_id'])
+        self.assertEqual(event['item_id'],topic['id'])
+        self.assertEqual(event['evidence_scope'],'untimed_review')
+
+    def test_invalid_essay_topic_config_is_rejected(self):
+        import apps.api.subjective as subjective
+        from apps.api.db import ROOT
+        path=ROOT/'exam_packs/ruankao-system-architect/subjective.json'
+        original=path.read_text()
+        try:
+            bad=json.loads(original);bad['essay_topics'][1]['id']=bad['essay_topics'][0]['id']
+            path.write_text(json.dumps(bad,ensure_ascii=False))
+            subjective.load_pack.cache_clear()
+            with self.assertRaises(HTTPException):subjective.load_pack()
+        finally:
+            path.write_text(original);subjective.load_pack.cache_clear()
+
     def test_only_deterministic_engine_assigns_score(self):
         content=load_pack();provider=Grader()
         for kind,task,expected in [('case',content['cases'][0],25),('essay',content['essay'],75)]:
@@ -173,6 +213,60 @@ class ReviewIntegrationTest(unittest.TestCase):
             stored=c.execute(text('SELECT input FROM coach.subjective_reviews WHERE goal_id=:g'),{'g':self.goal}).scalar_one()
         self.assertNotIn('file_base64',stored)
         self.assertEqual(stored['answer'],TEXT)
+
+    def test_essay_topic_list_is_owned_and_hides_rubric(self):
+        result=self.client.get(self.url+'/essay-topics',headers=self.auth[0])
+        self.assertEqual(result.status_code,200,result.text)
+        topics=result.json()['topics']
+        self.assertEqual(len(topics),12)
+        self.assertEqual(set(topics[0]),{'id','title','direction','topic_id'})
+        self.assertNotIn('points',result.text)
+        self.assertEqual(self.client.get(self.url+'/essay-topics',headers=self.auth[1]).status_code,404)
+        self.assertEqual(self.client.get(self.url+'/essay-topics').status_code,401)
+
+    def test_essay_bank_topic_grades_with_topic_prompt_and_records_topic_progress(self):
+        topic=self.client.get(self.url+'/essay-topics',headers=self.auth[0]).json()['topics'][0]
+        body={'request_id':uuid.uuid4().hex,'kind':'essay','filename':'synthetic.docx',
+              'file_base64':base64.b64encode(docx_bytes()).decode(),'topic_ref':topic['id']}
+        sent=self.client.post(self.url+'/reviews',headers=self.auth[0],json=body)
+        self.assertEqual(sent.status_code,202,sent.text)
+        result=self.client.get(self.url+'/reviews/'+body['request_id'],headers=self.auth[0]).json()
+        self.assertEqual(result['status'],'complete')
+        self.assertEqual(result['response']['topic_title'],topic['title'])
+        self.assertEqual(result['response']['report']['topic_ref'],topic['id'])
+        prompt=next(t['prompt'] for t in load_pack()['essay_topics'] if t['id']==topic['id'])
+        with self.engine.connect() as c:
+            stored=c.execute(text('SELECT input,event FROM coach.subjective_reviews WHERE goal_id=:g'),{'g':self.goal}).one()
+        self.assertEqual(stored.input['prompt'],prompt)
+        self.assertEqual(stored.event['topic_id'],topic['topic_id'])
+        self.assertEqual(stored.event['item_id'],topic['id'])
+        history=self.client.get(self.url+'/chat',headers=self.auth[0]).json()['items']
+        self.assertIn(topic['title'],history[-1]['user'])
+
+    def test_topic_selection_conflicts_and_unknown_refs_are_rejected(self):
+        base={'kind':'essay','request_id':uuid.uuid4().hex,'filename':'synthetic.docx',
+              'file_base64':base64.b64encode(docx_bytes()).decode()}
+        conflict=self.client.post(self.url+'/reviews',headers=self.auth[0],json={**base,'topic_ref':'essay-eda-v1','prompt':'自拟题目'})
+        self.assertEqual(conflict.status_code,422)
+        unknown=self.client.post(self.url+'/reviews',headers=self.auth[0],json={**base,'topic_ref':'essay-not-exist-v1'})
+        self.assertEqual(unknown.status_code,422)
+        case=self.client.post(self.url+'/case',headers=self.auth[0]).json()
+        rejected=self.client.post(self.url+'/reviews',headers=self.auth[0],json={'request_id':uuid.uuid4().hex,'kind':'case',
+            'issue_id':case['case']['issue_id'],'answer':TEXT,'topic_ref':'essay-eda-v1'})
+        self.assertEqual(rejected.status_code,422)
+
+    def test_topic_review_retry_keeps_selected_topic(self):
+        topic=self.client.get(self.url+'/essay-topics',headers=self.auth[0]).json()['topics'][0]
+        self.grader.fail=True
+        body={'request_id':uuid.uuid4().hex,'kind':'essay','filename':'synthetic.docx',
+              'file_base64':base64.b64encode(docx_bytes()).decode(),'topic_ref':topic['id']}
+        self.assertEqual(self.client.post(self.url+'/reviews',headers=self.auth[0],json=body).status_code,202)
+        self.assertEqual(self.client.get(self.url+'/reviews/'+body['request_id'],headers=self.auth[0]).json()['status'],'failed')
+        self.grader.fail=False
+        self.assertEqual(self.client.post(self.url+'/reviews/'+body['request_id']+'/retry',headers=self.auth[0]).status_code,202)
+        result=self.client.get(self.url+'/reviews/'+body['request_id'],headers=self.auth[0]).json()
+        self.assertEqual(result['status'],'complete')
+        self.assertEqual(result['response']['topic_title'],topic['title'])
 
     def test_failed_grade_is_recoverable_and_dismiss_does_not_count(self):
         self.grader.fail=True;body=self.submit()

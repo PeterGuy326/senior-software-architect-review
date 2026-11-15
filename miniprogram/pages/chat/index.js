@@ -10,7 +10,7 @@ Page({
     showWelcome:true, sheet:'', sheetTitle:'', dialogOpen:false, dialogTitle:'', dialogContent:'', progressData:null,
     appearances:[{value:'system',label:'跟随系统',icon:'desktop'},{value:'light',label:'浅色',icon:'sunny'},{value:'dark',label:'深色',icon:'moon'}],
     subjects:[{key:'comprehensive',name:'综合知识'},{key:'case',name:'案例分析'},{key:'essay',name:'论文'}],
-    replyMode:'chat',caseTask:null,essayFile:null,reviewPending:false,reviewFailed:false,privacyPurpose:'voice' },
+    replyMode:'chat',caseTask:null,essayFile:null,essayTopic:null,essayTopics:[],reviewPending:false,reviewFailed:false,privacyPurpose:'voice' },
   onLoad() {
     const info = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
     const capsule = wx.getMenuButtonBoundingClientRect();
@@ -128,7 +128,8 @@ Page({
   pendingFeature(e) {
     return e.currentTarget.dataset.kind==='case'?this.startCase():this.chooseEssay();
   },
-  type(e) { this.setData({input:e.detail.value,voiceStatus:this.data.voiceStatus==='ready' ? 'idle' : this.data.voiceStatus}); },
+  type(e) { this.setData({input:e.detail.value,voiceStatus:this.data.voiceStatus==='ready' ? 'idle' : this.data.voiceStatus,
+    ...(this.data.replyMode==='essay' && this.data.essayTopic && e.detail.value ? {essayTopic:null} : {})}); },
   async loadConversation() {
     if (this.data.busy || this.pendingChat || this.data.voiceActive) return;
     this.setData({busy:true,error:''});
@@ -225,5 +226,5 @@ Page({
   openPrivacy() {if(wx.openPrivacyContract) wx.openPrivacyContract({fail:()=>wx.showToast({title:'暂时打不开，请稍后再试',icon:'none'})});},
   agreePrivacy() {if(this.privacyResolve)this.privacyResolve({buttonId:'voice-privacy-agree',event:'agree'});this.privacyResolve=null;this.setData({privacyOpen:false});},
   rejectPrivacy() {if(this.privacyResolve)this.privacyResolve({event:'disagree'});this.privacyResolve=null;this.setData({privacyOpen:false});},
-  help() {this.closeSheet();this.showDialog('关于无极私教','从每天一个小任务开始。选择题选好后确认；案例支持分段语音转写，确认文字后评分；论文选择 DOCX、文字版 PDF 或 TXT 后批改。AI 估分仅供练习参考，批改和学习记录保存在当前账号。');}
+  help() {this.closeSheet();this.showDialog('关于无极架构笔记','从每天一个小任务开始。选择题选好后确认；案例支持分段语音转写，确认文字后评分；论文选择 DOCX、文字版 PDF 或 TXT，可先选一道仿真题再批改。AI 估分仅供练习参考，批改和学习记录保存在当前账号。');}
 });

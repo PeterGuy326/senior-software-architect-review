@@ -41,6 +41,10 @@
 | `C02.CASE_DATABASE` | 案例主赛道：数据库设计 | case | 0 | 180 | ⚠️ 无 | `past-papers/CASE_SURVIVAL.md`, `past-papers/case-types/02-database-design.md` |
 | `C03.CASE_MESSAGING_CACHE` | 案例主赛道：消息与缓存 | case | 0 | 150 | ⚠️ 无 | `past-papers/CASE_SURVIVAL.md`, `past-papers/case-types/06-messaging-caching.md` |
 | `C04.CASE_MICROSERVICE` | 案例主赛道：微服务拆分与治理 | case | 0 | 180 | ⚠️ 无 | `past-papers/CASE_SURVIVAL.md`, `past-papers/case-types/05-microservice-refactor.md` |
+| `C05.CASE_SECURITY` | 案例扩展赛道：安全架构 | case | 0 | 120 | ⚠️ 无 | `past-papers/CASE_SURVIVAL.md`, `past-papers/case-types/07-security-architecture.md` |
+| `C06.CASE_HIGH_AVAILABILITY` | 案例扩展赛道：高可用与容灾 | case | 0 | 120 | ⚠️ 无 | `past-papers/CASE_SURVIVAL.md`, `past-papers/case-types/13-reliability-design.md` |
+| `C07.CASE_BIGDATA` | 案例扩展赛道：大数据架构 | case | 0 | 150 | ⚠️ 无 | `past-papers/CASE_SURVIVAL.md`, `past-papers/case-types/09-big-data-architecture.md` |
+| `C08.CASE_CLOUD_MIGRATION` | 案例扩展赛道：云迁移与部署 | case | 0 | 150 | ⚠️ 无 | `past-papers/CASE_SURVIVAL.md`, `past-papers/case-types/11-architecture-evolution.md`, `past-papers/case-types/12-devops-deployment.md` |
 | `P01.ESSAY_ARCHITECTURE` | 论文主题：软件架构设计 | essay | 10 | 300 | ⚠️ 无 | `past-papers/PAPER_SURVIVAL.md`, `past-papers/paper-topics/01-architecture-design.md`, `past-papers/paper-samples/01-architecture-design.md` |
 | `P02.ESSAY_BIG_DATA` | 论文主题：大数据与 NoSQL | essay | 10 | 300 | ⚠️ 无 | `past-papers/PAPER_SURVIVAL.md`, `past-papers/paper-topics/06-big-data-nosql.md`, `past-papers/paper-samples/06-big-data-nosql.md` |
 | `P03.ESSAY_RELIABILITY` | 论文主题：可靠性与高可用 | essay | 5 | 240 | ⚠️ 无 | `past-papers/PAPER_SURVIVAL.md`, `past-papers/paper-topics/03-reliability-design.md`, `past-papers/paper-samples/03-reliability-design.md` |
@@ -54,6 +58,10 @@
 - `C02.CASE_DATABASE` — 案例主赛道：数据库设计
 - `C03.CASE_MESSAGING_CACHE` — 案例主赛道：消息与缓存
 - `C04.CASE_MICROSERVICE` — 案例主赛道：微服务拆分与治理
+- `C05.CASE_SECURITY` — 案例扩展赛道：安全架构
+- `C06.CASE_HIGH_AVAILABILITY` — 案例扩展赛道：高可用与容灾
+- `C07.CASE_BIGDATA` — 案例扩展赛道：大数据架构
+- `C08.CASE_CLOUD_MIGRATION` — 案例扩展赛道：云迁移与部署
 - `P01.ESSAY_ARCHITECTURE` — 论文主题：软件架构设计
 - `P02.ESSAY_BIG_DATA` — 论文主题：大数据与 NoSQL
 - `P03.ESSAY_RELIABILITY` — 论文主题：可靠性与高可用

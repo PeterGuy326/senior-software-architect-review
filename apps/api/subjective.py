@@ -23,6 +23,12 @@ def load_pack(exam_id='ruankao.senior.system_architect'):
     for task in [*pack['cases'],pack['essay']]:
         rubric=rubric_for(task,'case' if task in pack['cases'] else 'essay')
         validate_rubric(rubric)
+    topics=pack.get('essay_topics',[])
+    ids=[t.get('id') for t in topics]
+    if len(ids)!=len(set(ids)) or any(
+            not all(isinstance(t.get(key),str) and t.get(key) for key in ('id','topic_id','title','prompt'))
+            for t in topics):
+        raise HTTPException(500,'论文题库配置无效。')
     return pack
 
 
@@ -36,6 +42,10 @@ def rubric_for(task,kind):
 def public_case(issue,task):
     return {'issue_id':issue['id'],'task_ref':task['id'],'title':task['title'],'prompt':task['prompt'],
             'kind':'case','max_score':25,'source_type':'self_authored','notice':'自编短案例 · 支持分段语音作答'}
+
+
+def public_essay_topic(topic):
+    return {'id':topic['id'],'title':topic['title'],'direction':topic.get('direction',''),'topic_id':topic['topic_id']}
 
 
 def normalize(value):

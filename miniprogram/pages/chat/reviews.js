@@ -47,14 +47,28 @@ module.exports={
       if(this.data.replyMode==='chat')this.chatDraft=this.data.input;
       else if(this.data.replyMode==='case' && this.data.caseTask)this.caseDraft={issue:this.data.caseTask.issue_id,text:this.data.input};
       if(this.pendingVoice)this.cancelVoice();
-      this.setData({screen:'home',showWelcome:false,replyMode:'essay',essayFile:file,caseTask:null,input:'',error:'',voiceStatus:'idle'});
+      this.setData({screen:'home',showWelcome:false,replyMode:'essay',essayFile:file,essayTopic:null,caseTask:null,input:'',error:'',voiceStatus:'idle'});
     }catch(e){this.setData({error:e.message});}
   },
+  async openEssayTopics() {
+    if(this.data.busy || this.data.voiceActive || this.pendingReview)return;
+    try {
+      const id=await api.goal(),result=await api.request(`/v1/goals/${id}/essay-topics`);
+      this.setData({essayTopics:result.topics || []});
+      this.openSheet('essayTopics','选择论文仿真题');
+    }catch(e){this.setData({error:e.message});}
+  },
+  pickEssayTopic(e) {
+    const topic=this.data.essayTopics.find(t=>t.id===e.currentTarget.dataset.id);
+    if(!topic)return;
+    this.closeSheet();this.setData({essayTopic:topic,input:''});
+  },
+  clearEssayTopic() {this.setData({essayTopic:null});},
   exitReply() {
     if(this.data.voiceActive)return;
     if(this.data.replyMode==='case' && this.data.caseTask)this.caseDraft={issue:this.data.caseTask.issue_id,text:this.data.input};
     if(this.pendingVoice)this.cancelVoice();
-    if(this.data.replyMode!=='chat')this.setData({replyMode:'chat',caseTask:null,essayFile:null,input:this.chatDraft || '',voiceStatus:'idle'});
+    if(this.data.replyMode!=='chat')this.setData({replyMode:'chat',caseTask:null,essayFile:null,essayTopic:null,input:this.chatDraft || '',voiceStatus:'idle'});
   },
   async submitReview() {
     if(this.data.busy || this.data.voiceActive || this.pendingReview || this.reviewPreparing)return;
@@ -74,12 +88,13 @@ module.exports={
       const body={request_id:requestId(),kind};
       if(kind==='case')Object.assign(body,{issue_id:this.data.caseTask.issue_id,answer,
         duration_seconds:Math.min(10800,Math.max(0,Math.floor((Date.now()-(this.caseStarted || Date.now()))/1000)))});
+      else if(this.data.essayTopic)Object.assign(body,{filename:file.name,file_base64:await documents.read(file),topic_ref:this.data.essayTopic.id,prompt:''});
       else Object.assign(body,{filename:file.name,file_base64:await documents.read(file),prompt:answer});
       if(this.reviewClosed)return;
-      this.reviewDraft={kind,answer,file,caseTask:this.data.caseTask};this.pendingReview=body;
-      const message=kind==='case'?answer:'上传论文：'+file.name;
+      this.reviewDraft={kind,answer,file,caseTask:this.data.caseTask,essayTopic:this.data.essayTopic};this.pendingReview=body;
+      const message=kind==='case'?answer:'上传论文：'+file.name+(this.data.essayTopic?' · '+this.data.essayTopic.title:'');
       const messages=this.data.messages.concat({id:'ureview_'+body.request_id,role:'user',text:message});
-      this.setData({messages,scrollTarget:'ureview_'+body.request_id,input:'',replyMode:'chat',caseTask:null,essayFile:null,
+      this.setData({messages,scrollTarget:'ureview_'+body.request_id,input:'',replyMode:'chat',caseTask:null,essayFile:null,essayTopic:null,
         reviewPending:true,reviewFailed:false,busy:false,voiceStatus:'idle',voiceError:''});
       await this.deliverReview();
     }catch(e){if(!this.reviewClosed)this.setData({error:e.message,busy:false});}
@@ -98,7 +113,7 @@ module.exports={
       if([413,422].includes(e.statusCode) && this.reviewDraft) {
         const draft=this.reviewDraft;this.pendingReview=null;this.reviewDraft=null;
         this.setData({messages:this.data.messages.filter(m=>m.id!=='ureview_'+id),replyMode:draft.kind,
-          caseTask:draft.caseTask,essayFile:draft.file,input:draft.answer,reviewPending:false,reviewFailed:false,error:e.message});
+          caseTask:draft.caseTask,essayFile:draft.file,essayTopic:draft.essayTopic || null,input:draft.answer,reviewPending:false,reviewFailed:false,error:e.message});
       }else this.setData({reviewPending:false,reviewFailed:true,error:e.message});
     }finally{if(!this.reviewClosed)this.setData({busy:false});}
   },
@@ -107,7 +122,7 @@ module.exports={
     let messages=this.data.messages.map(m=>m.case && m.case.issue_id===result.case_issue_id?{...m,case:{...m.case,completed:true}}:m);
     if(!messages.some(m=>m.id===key))messages=messages.concat({id:key,role:'assistant',...result});
     this.pendingReview=null;this.reviewDraft=null;this.caseDraft=null;
-    this.setData({messages,scrollTarget:key,reviewPending:false,reviewFailed:false,replyMode:'chat',caseTask:null,essayFile:null,error:''});
+    this.setData({messages,scrollTarget:key,reviewPending:false,reviewFailed:false,replyMode:'chat',caseTask:null,essayFile:null,essayTopic:null,error:''});
   },
   retryReview(){return this.deliverReview(false);},
   async dismissReview() {

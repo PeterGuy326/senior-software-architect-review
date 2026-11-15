@@ -47,4 +47,5 @@ class ReviewInput(Input):
     file_base64: str = Field(default='',max_length=2800000)
     upload_id: str | None = Field(default=None,pattern='^[a-f0-9]{32}$')
     prompt: str = Field(default='',max_length=600)
+    topic_ref: str | None = Field(default=None,max_length=60,pattern='^essay-[a-z0-9-]+$')
     duration_seconds: int = Field(default=0,ge=0,le=10800)

@@ -82,7 +82,7 @@ def create_managed_app(store=None, provider=None, speech=None):
     speech = speech or SpeechProvider()
     knowledge_cache = {}
     release = os.environ['CONTENT_RELEASE_ID']
-    app = FastAPI(title='无极私教 API',docs_url=None,redoc_url=None,openapi_url=None)
+    app = FastAPI(title='无极架构笔记 API',docs_url=None,redoc_url=None,openapi_url=None)
     uploads=EphemeralUploads()
     attempts = defaultdict(deque)
     rate_lock = threading.Lock()
