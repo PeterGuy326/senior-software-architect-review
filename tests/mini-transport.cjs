@@ -3,16 +3,16 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const source = fs.readFileSync(require('node:path').join(__dirname,'../miniprogram/services/api.js'),'utf8');
 function setup(config) {
-  const calls=[], storage={session:'test-session',goal:'test-goal'};
+  const calls=[], storage={session:'test-session',goal:'test-goal'}, routes={};
   const module={exports:{}};
   let response={statusCode:200,data:{ok:true}}, initialized=0;
-  function send(options) {calls.push(options);options.success(response);}
+  function send(options) {calls.push(options);options.success(routes[options.path]||response);}
   vm.runInNewContext(source,{module,require:()=>config,wx:{
     getStorageSync:k=>storage[k],setStorageSync:(k,v)=>storage[k]=v,removeStorageSync:k=>delete storage[k],
     login:o=>o.success({code:'real-temporary-code'}),request:send,
     cloud:{init:()=>initialized++,callContainer:send}
   },setTimeout:callback=>callback()});
-  return {api:module.exports,calls,storage,get initialized(){return initialized;},respond:r=>response=r};
+  return {api:module.exports,calls,storage,get initialized(){return initialized;},respond:r=>response=r,route:(p,r)=>routes[p]=r};
 }
 (async()=>{
   const cloud=setup({transport:'cloud',cloudEnv:'test-env',cloudService:'test-service'});
@@ -50,5 +50,20 @@ function setup(config) {
   assert.equal(polling.calls[0].path,'/v1/goals/test-goal/chat?async_mode=true');
   assert.ok(polling.calls.some(c=>c.path.endsWith('/chat/request123')));
   assert.ok(polling.calls.every(c=>c.timeout<=15000));
-  console.log('Mini Program transport: cloud routing, auth expiry and HTTPS fallback passed.');
+  const bank=setup({transport:'cloud',cloudEnv:'test-env',cloudService:'test-service'});
+  bank.route('/v1/exams',{statusCode:200,data:[{id:'ruankao.senior.system_architect',release_id:'release-a'}]});
+  bank.route('/v1/goals',{statusCode:200,data:{goal_id:'goal-a',release_id:'release-a'}});
+  assert.equal(await bank.api.goal(),'goal-a');
+  assert.equal(JSON.stringify(bank.storage.goal),JSON.stringify({id:'goal-a',release:'release-a'}));
+  const cachedCalls=bank.calls.length;
+  assert.equal(await bank.api.goal(),'goal-a');
+  assert.equal(bank.calls.length,cachedCalls+1);
+  assert.equal(bank.calls.at(-1).path,'/v1/exams');
+  bank.route('/v1/exams',{statusCode:200,data:[{id:'ruankao.senior.system_architect',release_id:'release-b'}]});
+  bank.route('/v1/goals',{statusCode:200,data:{goal_id:'goal-b',release_id:'release-b'}});
+  assert.equal(await bank.api.goal(),'goal-b');
+  assert.equal(JSON.stringify(bank.storage.goal),JSON.stringify({id:'goal-b',release:'release-b'}));
+  bank.storage.goal='legacy-string-goal';
+  assert.equal(await bank.api.goal(),'goal-b');
+  console.log('Mini Program transport: cloud routing, auth expiry, HTTPS fallback and release-aware goal cache passed.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

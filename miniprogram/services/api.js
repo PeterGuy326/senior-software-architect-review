@@ -53,15 +53,17 @@ async function login() {
 }
 async function goal() {
   await login();
-  const cached = wx.getStorageSync('goal');
-  if (cached) return cached;
   const exams = await request('/v1/exams', 'GET', {}, false);
   const pack = exams.find(x => x.id === 'ruankao.senior.system_architect');
   if (!pack) throw new Error('架构师题库尚未发布。');
+  const cached = wx.getStorageSync('goal');
+  // Goals are pinned to a content release; a new release starts a fresh goal.
+  // Legacy string caches carry no release and are refreshed once.
+  if (cached && cached.release === pack.release_id) return cached.id;
   const result = await request('/v1/goals', 'POST', {
     exam_id:pack.id, release_id:pack.release_id, daily_minutes:15
   });
-  wx.setStorageSync('goal', result.goal_id);
+  wx.setStorageSync('goal', {id:result.goal_id, release:pack.release_id});
   return result.goal_id;
 }
 async function chat(goalId, body) {

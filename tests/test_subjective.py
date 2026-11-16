@@ -89,6 +89,19 @@ class SubjectiveUnitTest(unittest.TestCase):
         self.assertEqual(event['item_id'],topic['id'])
         self.assertEqual(event['evidence_scope'],'untimed_review')
 
+    def test_new_track_case_events_pass_curriculum_validation(self):
+        from apps.api.learning import tutor
+        from apps.api.db import ROOT
+        curriculum=json.loads((ROOT/'tutor/curriculum.json').read_text())
+        content=load_pack()
+        new_tracks=[c for c in content['cases'] if c['topic_id'].startswith(('C05.','C06.','C07.','C08.'))]
+        self.assertEqual(len(new_tracks),8)
+        for task in new_tracks:
+            report=grade_submission(Grader(),task,'case',TEXT)
+            state,event=apply_review({'state':tutor.new_state(curriculum,tutor.now_iso())},task,'case',uuid.uuid4().hex,report,30,curriculum)
+            self.assertEqual(event['topic_id'],task['topic_id'])
+            self.assertTrue(event['timing_known'])
+
     def test_invalid_essay_topic_config_is_rejected(self):
         import apps.api.subjective as subjective
         from apps.api.db import ROOT
